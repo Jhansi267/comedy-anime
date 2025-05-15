@@ -38,7 +38,7 @@ const Signup = () => {
           </label>
           <button onClick={handleSubmit}>🤣 Sign Me Up!</button>
           <p>
-            Already laughing with us? <span className="login-link">Log In!</span>
+            Already     laughing with us? <span className="login-link">Log In!</span>
           </p>
         </div>
       </div>
