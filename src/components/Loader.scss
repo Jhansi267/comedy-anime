@@ -1,0 +1,35 @@
+.loader-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background: #fff0f0;
+  font-family: 'Comic Sans MS', cursive;
+  color: #ff4081;
+  text-align: center;
+  padding: 2rem;
+  user-select: none;
+
+  .loader-gif {
+    width: 150px;
+    height: 150px;
+    margin-bottom: 1rem;
+    filter: drop-shadow(0 0 5px #ff4081);
+  }
+
+  .app-name {
+    font-size: 2.5rem;
+    margin: 0;
+    font-weight: bold;
+    text-shadow: 1px 1px 0 #fff;
+  }
+
+  .loader-joke {
+    margin-top: 0.5rem;
+    font-size: 1.1rem;
+    font-style: italic;
+    opacity: 0.8;
+    max-width: 320px;
+  }
+}
