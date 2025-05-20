@@ -1,0 +1,60 @@
+// .episode-card {
+//   transition: transform 0.3s ease;
+  
+//   &:hover {
+//     transform: translateY(-5px);
+    
+//     .hover-overlay {
+//       opacity: .1;
+//     }
+    
+//   }
+// }
+
+// .image-container {
+//   position: relative;
+//   overflow: hidden;
+  
+//   .hover-overlay {
+//     opacity: 0;
+//     transition: opacity 0.3s ease;
+//     overflow-y: auto;
+//   }
+  
+//   &:hover .hover-overlay {
+//     opacity:1;
+//   }
+// }
+
+.episode-card {
+  position: relative;
+  transition: all 0.3s ease;
+
+  .image-container {
+    height: 370px;
+    overflow: hidden;
+  }
+
+  .normal-state {
+    transition: all 0.3s ease;
+  }
+
+  .hover-state {
+    opacity: 0;
+    transition: all 0.3s ease;
+    transform: translateY(20px);
+    pointer-events: none;
+  }
+
+  &:hover {
+    .normal-state {
+      opacity: 0;
+    }
+
+    .hover-state {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+  }
+}
