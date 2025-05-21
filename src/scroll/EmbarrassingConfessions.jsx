@@ -2,6 +2,29 @@ import React, { useRef, useState, useEffect } from "react";
 import { FaStar, FaPlay, FaBookmark } from "react-icons/fa";
 
 const styles = {
+  container: {
+    padding: '20px 0',
+    overflowX: 'hidden',
+    width: '100%'
+  },
+  row: {
+    display: 'flex',
+    flexWrap: 'nowrap',
+    overflowX: 'auto',
+    scrollbarWidth: 'none',  // For Firefox
+    msOverflowStyle: 'none', // For IE/Edge
+    '&::-webkit-scrollbar': {
+      display: 'none' // For Chrome/Safari
+    },
+    paddingBottom: '20px', // Space for cards
+    marginLeft: '-10px',
+    marginRight: '-10px'
+  },
+  episodeCardContainer: {
+    flex: '0 0 auto',
+    width: '300px',
+    padding: '0 10px'
+  },
   episodeCard: {
     position: 'relative',
     width: '100%',
@@ -73,134 +96,124 @@ const styles = {
   },
 };
 
-const PrankEpisodes = () => {
+const EmbarrassingConfessions = () => {
   const episodes = [
-    // ... (keep your existing episodes array)
-     {
+    {
       id: 1,
-      title: "Toilet Paper Samurai Toilet Paper Samuai",
+      title: "Office Chair Olympics",
       image: "/assets/images/comdey1.png",
-      description: "A legendary prank war begins in the dojo",
-      rating: 4.2,
-      episodes: 4,
-      season: 1,
-      votes: 356,
-      details:
-        "In the sacred dojo, there are two kinds of people. Those who respect the art, and those who turn it into toilet paper origami In the sacred dojo, there are two kinds of people. Those who respect the art, and those who turn it into toilet paper origami",
+      description: "Employees turn work chairs into racing machines",
+      rating: 4.7,
+      episodes: 3,
+      season: 2,
+      votes: 512,
+      details: "What started as a simple office prank turned into a full-blown racing tournament during lunch breaks. Employees customized their chairs with makeshift engines and competed in hallway races."
     },
     {
       id: 2,
-      title: "Slippery Banana Stairs SlipperyStairs",
+      title: "Keyboard Confetti",
       image: "/assets/images/comedy2.png",
-      description: "A hilarious hallway chase ensues after prank",
-      rating: 3.9,
-      episodes: 3,
-      season: 1,
-      votes: 289,
-      details:
-        "The school's main staircase became an impossible obstacle course when someone coated it with banana peels The school's main staircase became an impossible obstacle course when someone coated it with banana peels",
-    },
-    {
-      id: 3,
-      title: "Fake Spider Invasion Fake Spider Invasion Fake Spider Invasion",
-      image: "/assets/images/comedy3.png",
-      description: "Classroom chaos erupts from plastic creatures",
-      rating: 4.5,
-      episodes: 5,
-      season: 2,
-      votes: 421,
-      details:
-        "What started as a simple desk prank turned into mass hysteria when hundreds of rubber spiders appeared What started as a simple desk prank turned into mass hysteria when hundreds of rubber spiders appeared",
-    },
-    {
-      id: 4,
-      title: "Whoopee Cushion Symphony Whoopee Cushion Symphony Whoopee Cushion Symphony",
-      image: "/assets/images/comedy4.png",
-      description: "An entire orchestra falls victim to pranks",
-      rating: 4.0,
-      episodes: 6,
-      season: 1,
-      votes: 378,
-      details:
-        "The annual music recital turned chaotic when every chair had a hidden surprise The annual music recital turned chaotic when every chair had a hidden surprise",
-    },
-    {
-      id: 5,
-      title: "Invisible Ink Debacle Invisible Ink Debacle Invisible Ink Debacle",
-      image: "/assets/images/comedy5.png",
-      description: "Important documents disappear mysteriously",
-      rating: 3.7,
-      episodes: 4,
-      season: 2,
-      votes: 312,
-      details:
-        "The teacher's lesson plans vanished only to reappear at the worst possible moments The teacher's lesson plans vanished only to reappear at the worst possible moments",
-    },
-    {
-      id: 6,
-      title: "Fake Food Frenzy Fake Food Frenzy Fake Food Frenzy",
-      image: "/assets/images/comedy6.png",
-      description: "Cafeteria chaos with plastic meals",
+      description: "Surprise party in every keystroke",
       rating: 4.3,
       episodes: 5,
       season: 1,
-      votes: 402,
-      details:
-        "Students found their lunches replaced with realistic-looking fake versions Students found their lunches replaced with realistic-looking fake versions",
+      votes: 421,
+      details: "Someone replaced all the keycaps with confetti poppers. Every time employees typed, colorful paper explosions covered their desks. Productivity dropped but morale skyrocketed."
+    },
+    {
+      id: 3,
+      title: "The Great Coffee Swap",
+      image: "/assets/images/comedy3.png",
+      description: "Caffeine addicts get the ultimate surprise",
+      rating: 4.9,
+      episodes: 2,
+      season: 3,
+      votes: 687,
+      details: "All the coffee in the office was secretly replaced with decaf for a week. The reactions ranged from confusion to existential crisis as employees questioned their life choices."
+    },
+    {
+      id: 4,
+      title: "Mouse Mayhem",
+      image: "/assets/images/comedy4.png",
+      description: "Computer mice develop a mind of their own",
+      rating: 4.1,
+      episodes: 4,
+      season: 2,
+      votes: 389,
+      details: "Someone installed tiny motors in all the office mice, making them randomly move on their own. Employees thought their computers were haunted or they were working too hard."
+    },
+    {
+      id: 5,
+      title: "Desktop Inversion",
+      image: "/assets/images/comedy5.png",
+      description: "Screens flip upside down overnight",
+      rating: 3.9,
+      episodes: 6,
+      season: 1,
+      votes: 356,
+      details: "Every computer monitor in the office was set to display upside down. Some employees tried to work like this for hours before realizing they could just rotate the display settings."
+    },
+    {
+      id: 6,
+      title: "The Fake Fire Drill",
+      image: "/assets/images/comedy6.png",
+      description: "Panic ensues when alarms sound unexpectedly",
+      rating: 4.5,
+      episodes: 3,
+      season: 3,
+      votes: 498,
+      details: "Someone triggered a fake fire drill during the busiest work hour. The best part was watching executives in suits sprint down the emergency stairs clutching their laptops."
     },
     {
       id: 7,
-      title: "Glitter Bomb Explosion Glitter Bomb Explosion Glitter Bomb Explosion",
+      title: "Sticky Note Art Attack",
       image: "/assets/images/comedy7.png",
-      description: "The entire school sparkles after prank",
-      rating: 4.6,
-      episodes: 3,
+      description: "Office walls become colorful canvases",
+      rating: 4.8,
+      episodes: 5,
       season: 2,
-      votes: 457,
-      details:
-        "Someone rigged the ventilation system to shower everyone with glitter Someone rigged the ventilation system to shower everyone with glitter",
+      votes: 543,
+      details: "Overnight, someone covered every blank wall space with intricate sticky note mosaics depicting famous artworks and office inside jokes."
     },
     {
       id: 8,
-      title: "Fake Pop Quiz Mayhem Fake Pop Quiz Mayhem Fake Pop Quiz Mayhem",
+      title: "The Phantom Typist",
       image: "/assets/images/comedy8.png",
-      description: "Students panic over nonexistent test",
-      rating: 3.8,
+      description: "Mysterious messages appear in documents",
+      rating: 4.0,
       episodes: 4,
       season: 1,
-      votes: 324,
-      details:
-        "The class nearly revolted when they saw the impossible exam questions The class nearly revolted when they saw the impossible exam questions",
+      votes: 412,
+      details: "Employees kept finding strange comments and edits in their documents from an unknown collaborator. The messages ranged from helpful suggestions to absurd jokes."
     },
     {
       id: 9,
-      title: "Sticky Note Invasion Sticky Note Invasion Sticky Note Invasion",
+      title: "Chair Swap Chaos",
       image: "/assets/images/comedy9.png",
-      description: "Every surface covered in colorful notes",
-      rating: 4.1,
-      episodes: 6,
-      season: 2,
-      votes: 389,
-      details:
-        "Overnight, the entire school became a mosaic of handwritten messages Overnight, the entire school became a mosaic of handwritten messages",
+      description: "Everyone's seating gets rearranged",
+      rating: 4.2,
+      episodes: 7,
+      season: 3,
+      votes: 467,
+      details: "Someone stayed late and completely rearranged all the office furniture. The next morning, executives found themselves at interns' desks and vice versa."
     },
     {
       id: 10,
-      title: "Reverse Day Chaos Reverse Day Chaos Reverse Day Chaos",
+      title: "The Infinite Printer",
       image: "/assets/images/comedy10.png",
-      description: "Students and teachers switch roles",
-      rating: 4.4,
-      episodes: 5,
-      season: 1,
-      votes: 435,
-      details:
-        "What began as an April Fool's joke turned into genuine role reversal What began as an April Fool's joke turned into genuine role reversal",
-    },
+      description: "Print jobs never stop coming",
+      rating: 4.6,
+      episodes: 2,
+      season: 2,
+      votes: 521,
+      details: "A clever hack made the office printer spit out endless copies of ridiculous memes. The IT department still hasn't figured out how it was done."
+    }
   ];
 
   const audioRefs = useRef({});
   const [canPlayAudio, setCanPlayAudio] = useState(false);
   const [hoveredCard, setHoveredCard] = useState(null);
+  const rowRef = useRef(null);
 
   // Add keyframes to the document head
   useEffect(() => {
@@ -256,8 +269,14 @@ const PrankEpisodes = () => {
   };
 
   return (
-    <div className="container py-4">
-      <div className="row g-4">
+    <div style={styles.container}>
+      <div 
+        ref={rowRef}
+        style={{
+          ...styles.row,
+          '&::-webkit-scrollbar': { display: 'none' } // This won't work inline, see note below
+        }}
+      >
         {episodes.map((episode) => {
           const isHovered = hoveredCard === episode.id;
           const frontTransform = isHovered ? 'rotateY(180deg)' : 'rotateY(0deg)';
@@ -266,7 +285,7 @@ const PrankEpisodes = () => {
           return (
             <div
               key={episode.id}
-              className="col-12 col-sm-6 col-md-4 col-lg-3"
+              style={styles.episodeCardContainer}
               onMouseEnter={() => handleMouseEnter(episode.id)}
               onMouseLeave={handleMouseLeave}
             >
@@ -342,4 +361,4 @@ const PrankEpisodes = () => {
   );
 };
 
-export default PrankEpisodes;
+export default EmbarrassingConfessions;

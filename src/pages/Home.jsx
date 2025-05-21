@@ -3,6 +3,11 @@ import { Carousel } from 'react-bootstrap';
 import { Button, Typography, Box, keyframes } from '@mui/material';
 import { PlayArrow, BookmarkAdd } from '@mui/icons-material';
 import Navbar from '../components/Navbar';
+import PrankEpisodesScroll from '../scroll/PrankEpisodesScroll';
+import { FaChevronRight } from "react-icons/fa";
+import EmbarrassingConfessions from '../scroll/EmbarrassingConfessions';
+import SupernaturalShenanigans from '../scroll/SupernaturalShenanigans';
+import Footer from '../components/Footer';
 
 // Font definitions
 const comicFonts = {
@@ -91,7 +96,7 @@ const Home = () => {
   return (
     <>
       <Navbar/>
-       <div className="container" style={{ fontFamily: comicFonts.body }}>
+       <div className="container" style={{ fontFamily: comicFonts.body,marginTop:'97px'}}>
       <div className="row">
         <div className="col-12">
           <Box sx={{ position: 'relative', overflow: 'hidden' }}>
@@ -254,6 +259,46 @@ const Home = () => {
         </div>
       </div>
     </div>
+    <div className="container mt-4">
+      <div className="row">
+        <div className="col-12 d-flex">
+            <h2>Prank Episodes</h2>
+            <span className='ms-auto'><FaChevronRight/></span>
+        </div>
+      </div>
+      <div className="row">
+        <div className="col">
+          <PrankEpisodesScroll/>
+        </div>
+      </div>
+    </div>
+     <div className="container mt-4">
+      <div className="row">
+        <div className="col-12 d-flex">
+            <h2>Embarrassing Confessions</h2>
+            <span className='ms-auto'><FaChevronRight/></span>
+        </div>
+      </div>
+      <div className="row">
+        <div className="col">
+          <EmbarrassingConfessions/>
+        </div>
+      </div>
+    </div>
+    <div className="container mt-4">
+      <div className="row">
+        <div className="col-12 d-flex">
+            <h2> Supernatural Shenanigans</h2>
+            <span className='ms-auto'><FaChevronRight/></span>
+        </div>
+      </div>
+      <div className="row">
+        <div className="col">
+          <SupernaturalShenanigans/>
+        </div>
+      </div>
+    </div>
+    <Footer/>
     </>
    
   );
