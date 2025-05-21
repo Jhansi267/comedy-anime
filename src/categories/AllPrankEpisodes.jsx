@@ -1,5 +1,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import { FaStar, FaPlay, FaBookmark } from "react-icons/fa";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 
 const styles = {
   episodeCard: {
@@ -73,7 +75,7 @@ const styles = {
   },
 };
 
-const PrankEpisodes = () => {
+const AllPrankEpisodes = () => {
   const episodes = [
     // ... (keep your existing episodes array)
      {
@@ -256,7 +258,10 @@ const PrankEpisodes = () => {
   };
 
   return (
-    <div className="container py-4">
+    <>
+    <Navbar/>
+    <div className="container py-4" style={{marginTop:'97px'}}>
+        <h1 className="mb-4"> Prank Movies</h1>
       <div className="row g-4">
         {episodes.map((episode) => {
           const isHovered = hoveredCard === episode.id;
@@ -339,7 +344,9 @@ const PrankEpisodes = () => {
         })}
       </div>
     </div>
+    <Footer/>
+    </>
   );
 };
 
-export default PrankEpisodes;
+export default AllPrankEpisodes;
