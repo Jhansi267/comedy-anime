@@ -7,6 +7,10 @@ import PaymentOptions from './PaymentOptions';
 import Profile from './Profile';
 import Login from './Login';
 import FanRankings from "../pages/FanRankings";
+import PrankEpisodes from "../pages/PrankEpisodes";
+import History  from './History';
+import Downloads from './Downloads';
+import AccountSetting from './Accountsetting';
 import WatchEpisode from "../VideoPlayer/WatchEpisode";
 import  Home from '../pages/Home';
 import AllPrankEpisodes from '../categories/AllPrankEpisodes';
@@ -17,7 +21,7 @@ const App = () => {
   return (
     <Routes>
       <Route path="Subscription" element={<Subscription />} />
-      <Route path="/payment" element={<PaymentPage />} />
+      <Route path="payment" element={<PaymentPage />} />
       <Route path="payment-options" element={<PaymentOptions />} />
       <Route path="Profile" element={<Profile />} />
       <Route path="login" element={<Login />} />
@@ -26,6 +30,9 @@ const App = () => {
       <Route path='Embarrassing' element={<Embarrassing/>}/>
       <Route path='Supernatural' element={<Supernatural/>}/>
       <Route path='WatchEpisode' element={<WatchEpisode/>}/>
+      <Route path='History' element={<History/>}/>
+      <Route path='Downloads' element={<Downloads/>}/>
+      <Route path='Accountsetting' element={<AccountSetting/>}/>
       <Route path='home'element={<Home/>}/>
   
     </Routes>

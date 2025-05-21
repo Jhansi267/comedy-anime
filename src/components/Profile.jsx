@@ -76,47 +76,54 @@ const Profile = () => {
 
   const handleTabClick = (tab) => {
     if (tab === 'profiles') return;
-    navigate(`/${tab}`);
+
+    const routeMap = {
+      subscription: '/subscription',
+      history: '/history',
+      account: '/accountsetting',  // Navigate to Accountsetting component
+      downloads: '/downloads',
+    };
+
+    const path = routeMap[tab] || `/${tab}`;
+    navigate(path);
   };
 
   return (
     <div className="profile-page">
       <div className="emoji-background">
-  {[
-    { emoji: '😂', size: '5rem' },
-    { emoji: '🤣', size: '3rem' },
-    { emoji: '😹', size: '1.8rem' },
-    { emoji: '😆', size: '2.5rem' },
-    { emoji: '🙃', size: '3.2rem' },
-    { emoji: '😜', size: '2.2rem' },
-    { emoji: '😝', size: '1.5rem' },
-    { emoji: '🎭', size: '2.8rem' },
-  ].map((item, index) => (
-    <span
-      key={`emoji-${index}`}
-      className={`emoji emoji-${index}`}
-      style={{ fontSize: item.size }}
-    >
-      {item.emoji}
-    </span>
-  ))}
+        {[
+          { emoji: '😂', size: '5rem' },
+          { emoji: '🤣', size: '3rem' },
+          { emoji: '😹', size: '1.8rem' },
+          { emoji: '😆', size: '2.5rem' },
+          { emoji: '🙃', size: '3.2rem' },
+          { emoji: '😜', size: '2.2rem' },
+          { emoji: '😝', size: '1.5rem' },
+          { emoji: '🎭', size: '2.8rem' },
+        ].map((item, index) => (
+          <span
+            key={`emoji-${index}`}
+            className={`emoji emoji-${index}`}
+            style={{ fontSize: item.size }}
+          >
+            {item.emoji}
+          </span>
+        ))}
 
-  {/* 🖼️ Add floating images */}
-  {[
-    '/Avatars/Banana.png',
-    '/Avatars/confetti.png',
-    '/Avatars/exaggerated-clipart-20.jpg',
-    '/Avatars/speechbubles.png',
-  ].map((src, index) => (
-    <img
-      key={`img-${index}`}
-      src={src}
-      alt={`bg-${index}`}
-      className={`floating-img floating-img-${index}`}
-    />
-  ))}
-</div>
-
+        {[ // floating images
+          '/Avatars/Banana.png',
+          '/Avatars/confetti.png',
+          '/Avatars/exaggerated-clipart-20.jpg',
+          '/Avatars/speechbubles.png',
+        ].map((src, index) => (
+          <img
+            key={`img-${index}`}
+            src={src}
+            alt={`bg-${index}`}
+            className={`floating-img floating-img-${index}`}
+          />
+        ))}
+      </div>
 
       <h1>Comedy Anime Profiles</h1>
 
