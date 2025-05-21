@@ -11,7 +11,9 @@ const App = () => {
     <div>
       {/* <ComedyPlayer/> */}
       {/* <WatchEpisode/> */}
-      <FanRankings/>
+      {/* <FanRankings/> */}
+      {/* <Home/> */}
+      <PrankEpisodes/>
     </div>
   )
 }
