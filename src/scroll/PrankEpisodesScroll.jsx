@@ -2,6 +2,29 @@ import React, { useRef, useState, useEffect } from "react";
 import { FaStar, FaPlay, FaBookmark } from "react-icons/fa";
 
 const styles = {
+  container: {
+    padding: '20px 0',
+    overflowX: 'hidden',
+    width: '100%'
+  },
+  row: {
+    display: 'flex',
+    flexWrap: 'nowrap',
+    overflowX: 'auto',
+    scrollbarWidth: 'none',  // For Firefox
+    msOverflowStyle: 'none', // For IE/Edge
+    '&::-webkit-scrollbar': {
+      display: 'none' // For Chrome/Safari
+    },
+    paddingBottom: '20px', // Space for cards
+    marginLeft: '-10px',
+    marginRight: '-10px'
+  },
+  episodeCardContainer: {
+    flex: '0 0 auto',
+    width: '300px',
+    padding: '0 10px'
+  },
   episodeCard: {
     position: 'relative',
     width: '100%',
@@ -73,10 +96,9 @@ const styles = {
   },
 };
 
-const PrankEpisodes = () => {
+const PrankEpisodesScroll = () => {
   const episodes = [
-    // ... (keep your existing episodes array)
-     {
+    {
       id: 1,
       title: "Toilet Paper Samurai Toilet Paper Samuai",
       image: "/assets/images/comdey1.png",
@@ -201,6 +223,7 @@ const PrankEpisodes = () => {
   const audioRefs = useRef({});
   const [canPlayAudio, setCanPlayAudio] = useState(false);
   const [hoveredCard, setHoveredCard] = useState(null);
+  const rowRef = useRef(null);
 
   // Add keyframes to the document head
   useEffect(() => {
@@ -256,8 +279,14 @@ const PrankEpisodes = () => {
   };
 
   return (
-    <div className="container py-4">
-      <div className="row g-4">
+    <div style={styles.container}>
+      <div 
+        ref={rowRef}
+        style={{
+          ...styles.row,
+          '&::-webkit-scrollbar': { display: 'none' } // This won't work inline, see note below
+        }}
+      >
         {episodes.map((episode) => {
           const isHovered = hoveredCard === episode.id;
           const frontTransform = isHovered ? 'rotateY(180deg)' : 'rotateY(0deg)';
@@ -266,7 +295,7 @@ const PrankEpisodes = () => {
           return (
             <div
               key={episode.id}
-              className="col-12 col-sm-6 col-md-4 col-lg-3"
+              style={styles.episodeCardContainer}
               onMouseEnter={() => handleMouseEnter(episode.id)}
               onMouseLeave={handleMouseLeave}
             >
@@ -342,4 +371,4 @@ const PrankEpisodes = () => {
   );
 };
 
-export default PrankEpisodes;
+export default PrankEpisodesScroll;

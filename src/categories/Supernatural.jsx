@@ -1,5 +1,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import { FaStar, FaPlay, FaBookmark } from "react-icons/fa";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 
 const styles = {
   episodeCard: {
@@ -73,130 +75,119 @@ const styles = {
   },
 };
 
-const PrankEpisodes = () => {
-  const episodes = [
-    // ... (keep your existing episodes array)
-     {
+const Supernatural = () => {
+ const episodes = [
+    {
       id: 1,
-      title: "Toilet Paper Samurai Toilet Paper Samuai",
+      title: "The Flying Stapler Incident",
       image: "/assets/images/comdey1.png",
-      description: "A legendary prank war begins in the dojo",
-      rating: 4.2,
+      description: "Office supplies gain unexpected mobility",
+      rating: 4.5,
       episodes: 4,
       season: 1,
-      votes: 356,
-      details:
-        "In the sacred dojo, there are two kinds of people. Those who respect the art, and those who turn it into toilet paper origami In the sacred dojo, there are two kinds of people. Those who respect the art, and those who turn it into toilet paper origami",
+      votes: 387,
+      details: "Someone rigged the staplers with tiny rubber bands, making them 'fly' across the desk when pressed. The accounting department still finds staples in unexpected places."
     },
     {
       id: 2,
-      title: "Slippery Banana Stairs SlipperyStairs",
+      title: "The Great Plant Swap",
       image: "/assets/images/comedy2.png",
-      description: "A hilarious hallway chase ensues after prank",
-      rating: 3.9,
+      description: "Office greenery gets rearranged overnight",
+      rating: 4.1,
       episodes: 3,
-      season: 1,
-      votes: 289,
-      details:
-        "The school's main staircase became an impossible obstacle course when someone coated it with banana peels The school's main staircase became an impossible obstacle course when someone coated it with banana peels",
+      season: 2,
+      votes: 342,
+      details: "Every office plant was moved to a different desk. The cactus ended up with HR, while the sensitive fern found itself in the break room microwave."
     },
     {
       id: 3,
-      title: "Fake Spider Invasion Fake Spider Invasion Fake Spider Invasion",
+      title: "The Mystery Snack Bandit",
       image: "/assets/images/comedy3.png",
-      description: "Classroom chaos erupts from plastic creatures",
-      rating: 4.5,
+      description: "Lunch bags develop legs",
+      rating: 4.7,
       episodes: 5,
-      season: 2,
-      votes: 421,
-      details:
-        "What started as a simple desk prank turned into mass hysteria when hundreds of rubber spiders appeared What started as a simple desk prank turned into mass hysteria when hundreds of rubber spiders appeared",
+      season: 1,
+      votes: 456,
+      details: "Someone kept moving people's lunches just slightly - enough to make everyone question their memory. The tuna sandwich that kept appearing in different fridges became legendary."
     },
     {
       id: 4,
-      title: "Whoopee Cushion Symphony Whoopee Cushion Symphony Whoopee Cushion Symphony",
+      title: "The Elevator Surprise",
       image: "/assets/images/comedy4.png",
-      description: "An entire orchestra falls victim to pranks",
-      rating: 4.0,
-      episodes: 6,
-      season: 1,
-      votes: 378,
-      details:
-        "The annual music recital turned chaotic when every chair had a hidden surprise The annual music recital turned chaotic when every chair had a hidden surprise",
+      description: "Going up takes on new meaning",
+      rating: 4.9,
+      episodes: 2,
+      season: 3,
+      votes: 521,
+      details: "The elevator was transformed into a disco party every time it reached the 3rd floor. Complete with lights, music, and a tiny disco ball that dropped from the ceiling."
     },
     {
       id: 5,
-      title: "Invisible Ink Debacle Invisible Ink Debacle Invisible Ink Debacle",
+      title: "The Fake Promotion",
       image: "/assets/images/comedy5.png",
-      description: "Important documents disappear mysteriously",
-      rating: 3.7,
-      episodes: 4,
+      description: "Nameplates tell creative stories",
+      rating: 4.3,
+      episodes: 6,
       season: 2,
-      votes: 312,
-      details:
-        "The teacher's lesson plans vanished only to reappear at the worst possible moments The teacher's lesson plans vanished only to reappear at the worst possible moments",
+      votes: 398,
+      details: "Everyone's titles got creative upgrades overnight. Interns became 'Supreme Overlords', managers turned into 'Chief Fun Officers', and the CEO's plate read 'Head Janitor'."
     },
     {
       id: 6,
-      title: "Fake Food Frenzy Fake Food Frenzy Fake Food Frenzy",
+      title: "The Meeting Bingo Scandal",
       image: "/assets/images/comedy6.png",
-      description: "Cafeteria chaos with plastic meals",
-      rating: 4.3,
-      episodes: 5,
+      description: "Corporate jargon becomes a game",
+      rating: 4.6,
+      episodes: 4,
       season: 1,
-      votes: 402,
-      details:
-        "Students found their lunches replaced with realistic-looking fake versions Students found their lunches replaced with realistic-looking fake versions",
+      votes: 432,
+      details: "Someone distributed bingo cards with common meeting phrases. The first person to shout 'Bingo!' during the budget presentation nearly got fired (but got promoted instead)."
     },
     {
       id: 7,
-      title: "Glitter Bomb Explosion Glitter Bomb Explosion Glitter Bomb Explosion",
+      title: "The Parking Space Lottery",
       image: "/assets/images/comedy7.png",
-      description: "The entire school sparkles after prank",
-      rating: 4.6,
+      description: "Reserved spots become musical chairs",
+      rating: 4.2,
       episodes: 3,
-      season: 2,
-      votes: 457,
-      details:
-        "Someone rigged the ventilation system to shower everyone with glitter Someone rigged the ventilation system to shower everyone with glitter",
+      season: 3,
+      votes: 367,
+      details: "All the parking space name tags were randomly reassigned. The CEO ended up in spot #47 while the new intern parked in the VIP space for a glorious two hours."
     },
     {
       id: 8,
-      title: "Fake Pop Quiz Mayhem Fake Pop Quiz Mayhem Fake Pop Quiz Mayhem",
+      title: "The Haunted Restroom",
       image: "/assets/images/comedy8.png",
-      description: "Students panic over nonexistent test",
-      rating: 3.8,
-      episodes: 4,
-      season: 1,
-      votes: 324,
-      details:
-        "The class nearly revolted when they saw the impossible exam questions The class nearly revolted when they saw the impossible exam questions",
+      description: "Motion sensors get creative",
+      rating: 4.8,
+      episodes: 5,
+      season: 2,
+      votes: 489,
+      details: "The bathroom motion sensors were reprogrammed to play dramatic opera music whenever someone entered. The stall doors would 'applaud' when occupants left."
     },
     {
       id: 9,
-      title: "Sticky Note Invasion Sticky Note Invasion Sticky Note Invasion",
+      title: "The Fake Company Merger",
       image: "/assets/images/comedy9.png",
-      description: "Every surface covered in colorful notes",
-      rating: 4.1,
-      episodes: 6,
-      season: 2,
-      votes: 389,
-      details:
-        "Overnight, the entire school became a mosaic of handwritten messages Overnight, the entire school became a mosaic of handwritten messages",
+      description: "Office names get creative",
+      rating: 4.4,
+      episodes: 7,
+      season: 1,
+      votes: 412,
+      details: "All department names were changed to reflect a fake merger with a chocolate factory. Marketing became 'Wonka Vision', IT turned into 'Oompa Loompa Tech Support'."
     },
     {
       id: 10,
-      title: "Reverse Day Chaos Reverse Day Chaos Reverse Day Chaos",
+      title: "The Reverse Birthday",
       image: "/assets/images/comedy10.png",
-      description: "Students and teachers switch roles",
-      rating: 4.4,
-      episodes: 5,
-      season: 1,
-      votes: 435,
-      details:
-        "What began as an April Fool's joke turned into genuine role reversal What began as an April Fool's joke turned into genuine role reversal",
-    },
-  ];
+      description: "Everyone gets unexpected gifts",
+      rating: 4.9,
+      episodes: 2,
+      season: 3,
+      votes: 534,
+      details: "Someone declared it 'Reverse Birthday' where instead of receiving gifts, everyone had to give random items to coworkers. The CFO still has that half-eaten granola bar from accounting."
+    }
+];
 
   const audioRefs = useRef({});
   const [canPlayAudio, setCanPlayAudio] = useState(false);
@@ -256,7 +247,10 @@ const PrankEpisodes = () => {
   };
 
   return (
-    <div className="container py-4">
+    <>
+    <Navbar/>
+    <div className="container py-4" style={{marginTop:'97px'}}>
+        <h1 className="mb-4"> Supernatural Movies</h1>
       <div className="row g-4">
         {episodes.map((episode) => {
           const isHovered = hoveredCard === episode.id;
@@ -339,7 +333,9 @@ const PrankEpisodes = () => {
         })}
       </div>
     </div>
+    <Footer/>
+    </>
   );
 };
 
-export default PrankEpisodes;
+export default Supernatural;
