@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import ComedyPlayer from './ComedyPlayer';
 import {
-  PlayArrow, MoreVert, FiberManualRecord,
+   MoreVert, FiberManualRecord,
   PlayCircleOutline, CheckCircle
 } from '@mui/icons-material';
 import {
-  List, ListItem, ListItemIcon, ListItemText,
+  List, ListItem,ListItemText,
   Typography, Divider, IconButton, Box, Grid, 
-  Card, CardMedia, CardContent, Avatar, Stack
+  Card, CardMedia, CardContent, Avatar, Stack,
+  Chip, LinearProgress
 } from '@mui/material';
 import { Container, Row, Col } from 'react-bootstrap';
 import './WatchEpisode.scss';
@@ -28,10 +29,12 @@ const WatchEpisode = () => {
     active: true
   });
 
+  const [viewMode, setViewMode] = useState('list'); // 'list' or 'comic'
+
   const allEpisodes = [
     {
       id: 1,
-      title: "Toilet Paper Samurai Origins",
+      title: "Ultimate Prank War: Office Edition",
       videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
       thumbnail: "https://i.ytimg.com/vi/1L7EI0vKVuU/hqdefault.jpg",
       season: 1,
@@ -39,11 +42,13 @@ const WatchEpisode = () => {
       description: "The origin story of our bathroom hero",
       duration: "18:32",
       views: "2.5M views",
-      cast: ["John Smith", "Jane Doe"]
+      cast: ["John Smith", "Jane Doe"],
+      intensity: 95,
+      expressions: ["😐", "😲", "🤯"]
     },
     {
       id: 2,
-      title: "The Paper Cut Crisis",
+      title: "Dance-Off Disaster",
       videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
       thumbnail: "https://i.ytimg.com/vi/2L8E0vKVuU/hqdefault.jpg",
       season: 1,
@@ -51,7 +56,9 @@ const WatchEpisode = () => {
       description: "Facing the deadliest bathroom threat",
       duration: "20:15",
       views: "1.8M views",
-      cast: ["John Smith", "Jane Doe"]
+      cast: ["John Smith", "Jane Doe"],
+      intensity: 85,
+      expressions: ["😑", "🕺", "🤪"]
     },
     {
       id: 3,
@@ -63,7 +70,9 @@ const WatchEpisode = () => {
       description: "A mysterious new bathroom appliance appears",
       duration: "19:45",
       views: "1.5M views",
-      cast: ["John Smith", "Mike Johnson"]
+      cast: ["John Smith", "Mike Johnson"],
+      intensity: 75,
+      expressions: ["😊", "😳", "🤣"]
     },
     {
       id: 4,
@@ -75,7 +84,9 @@ const WatchEpisode = () => {
       description: "The toilet paper revolution begins",
       duration: "21:30",
       views: "1.3M views",
-      cast: ["John Smith", "Jane Doe"]
+      cast: ["John Smith", "Jane Doe"],
+      intensity: 80,
+      expressions: ["😐", "😠", "🤬"]
     },
     {
       id: 5,
@@ -89,7 +100,9 @@ const WatchEpisode = () => {
       cast: ["John Smith", "Jane Doe", "Mike Johnson"],
       duration: "22:45",
       views: "1.2M views",
-      active: true
+      active: true,
+      intensity: 90,
+      expressions: ["😊", "😲", "🤣"]
     },
     {
       id: 6,
@@ -101,7 +114,9 @@ const WatchEpisode = () => {
       description: "The epic bathroom conclusion",
       duration: "23:10",
       views: "950K views",
-      cast: ["John Smith", "Jane Doe"]
+      cast: ["John Smith", "Jane Doe"],
+      intensity: 88,
+      expressions: ["😐", "😨", "😱"]
     }
   ];
 
@@ -150,10 +165,17 @@ const WatchEpisode = () => {
   const handleVideoSelect = (video) => {
     setCurrentVideo({
       ...video,
-      cast: video.cast || ["Unknown Actor"], // Ensure cast always exists
+      cast: video.cast || ["Unknown Actor"],
       active: true
     });
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const getHighlightLabel = (title) => {
+    if (title.includes("Prank War")) return { text: "ULTIMATE PRANK WAR", color: "error.main" };
+    if (title.includes("Dance-Off")) return { text: "DANCE-OFF DISASTER", color: "secondary.main" };
+    if (title.includes("Samurai")) return { text: "SAMURAI RETURNS", color: "warning.main" };
+    return null;
   };
 
   return (
@@ -276,102 +298,236 @@ const WatchEpisode = () => {
 
             <Divider />
 
-            <List dense sx={{ width: '100%', bgcolor: 'background.paper', maxHeight: '60vh', overflowY: 'auto' }}>
-              {allEpisodes
-                .filter(episode => episode.season === currentVideo.season)
-                .map((episode) => (
-                  <React.Fragment key={episode.id}>
-                    <ListItem
-                      alignItems="flex-start"
-                      onClick={() => handleVideoSelect(episode)}
-                      sx={{
-                        bgcolor: episode.id === currentVideo.id ? 'action.selected' : 'inherit',
-                        '&:hover': { 
-                          bgcolor: episode.id === currentVideo.id ? 'action.selected' : 'action.hover',
-                          cursor: 'pointer'
-                        }
-                      }}
-                    >
-                      <Box sx={{ 
-                        position: 'relative',
-                        mr: 2,
-                        flexShrink: 0 
-                      }}>
-                        <Avatar
-                          variant="square"
-                          src={episode.thumbnail}
-                          sx={{ width: 120, height: 68 }}
-                        />
-                        <Box sx={{
-                          position: 'absolute',
-                          top: '50%',
-                          left: '50%',
-                          transform: 'translate(-50%, -50%)',
-                          color: 'white',
-                          fontSize: '2rem',
-                          opacity: 0.8
-                        }}>
-                          <PlayCircleOutline fontSize="inherit" />
-                        </Box>
-                        {episode.id === currentVideo.id && (
+            {/* View Mode Toggle */}
+            <Box sx={{ px: 2, py: 1, display: 'flex', gap: 1 }}>
+              <Chip 
+                label="List View" 
+                size="small" 
+                variant="outlined" 
+                onClick={() => setViewMode('list')}
+                color={viewMode === 'list' ? 'primary' : 'default'}
+              />
+              <Chip 
+                label="Comic View" 
+                size="small" 
+                variant="outlined" 
+                onClick={() => setViewMode('comic')}
+                color={viewMode === 'comic' ? 'primary' : 'default'}
+              />
+            </Box>
+
+            {viewMode === 'comic' ? (
+              /* COMIC STRIP VIEW */
+              <Box sx={{ p: 2, display: 'flex', overflowX: 'auto', gap: 2, pb: 3 }}>
+                {allEpisodes
+                  .filter(episode => episode.season === currentVideo.season)
+                  .map((episode) => {
+                    const highlight = getHighlightLabel(episode.title);
+                    return (
+                      <Card 
+                        key={episode.id}
+                        sx={{ 
+                          minWidth: 200,
+                          border: episode.id === currentVideo.id ? '3px solid' : '1px solid',
+                          borderColor: episode.id === currentVideo.id ? 'primary.main' : 'divider',
+                          transform: episode.id === currentVideo.id ? 'scale(1.02)' : 'none',
+                          transition: 'all 0.2s',
+                          position: 'relative'
+                        }}
+                        onClick={() => handleVideoSelect(episode)}
+                      >
+                        {/* SPECIAL HIGHLIGHT BANNERS */}
+                        {highlight && (
                           <Box sx={{
                             position: 'absolute',
-                            top: 0,
-                            left: 0,
-                            right: 0,
-                            height: 3,
-                            bgcolor: 'primary.main'
-                          }} />
+                            top: -10,
+                            left: 10,
+                            bgcolor: highlight.color,
+                            color: 'white',
+                            px: 1,
+                            borderRadius: 1,
+                            fontSize: '0.7rem',
+                            fontWeight: 'bold',
+                            zIndex: 1,
+                            textTransform: 'uppercase'
+                          }}>
+                            {highlight.text}
+                          </Box>
                         )}
-                      </Box>
-                      <ListItemText
-                        primary={
-                          <Typography 
-                            variant="body2" 
-                            sx={{ 
-                              fontWeight: episode.id === currentVideo.id ? 600 : 400,
-                              display: '-webkit-box',
-                              WebkitLineClamp: 2,
-                              WebkitBoxOrient: 'vertical',
-                              overflow: 'hidden'
-                            }}
-                          >
+
+                        <CardMedia
+                          component="img"
+                          height="140"
+                          image={episode.thumbnail}
+                          alt={episode.title}
+                          sx={{ 
+                            borderBottom: '1px solid',
+                            borderColor: 'divider',
+                            objectFit: 'cover'
+                          }}
+                        />
+                        
+                        <CardContent sx={{ p: 1.5 }}>
+                          <Typography variant="subtitle2" noWrap>
                             {episode.title}
                           </Typography>
-                        }
-                        secondary={
-                          <React.Fragment>
-                            <Typography
-                              component="span"
-                              variant="caption"
-                              color="text.secondary"
-                              sx={{ display: 'flex', alignItems: 'center' }}
-                            >
-                              <span>Episode {episode.episode}</span>
-                              <FiberManualRecord sx={{ fontSize: '0.5rem', mx: 1 }} />
-                              <span>{episode.duration}</span>
+                          
+                          {/* EXPRESSION METER */}
+                          <Box sx={{ 
+                            display: 'flex', 
+                            alignItems: 'center', 
+                            gap: 1,
+                            mt: 1,
+                            mb: 0.5
+                          }}>
+                            <Typography variant="caption" sx={{ flexShrink: 0 }}>
+                              Mood:
                             </Typography>
-                            <Typography
-                              component="span"
-                              variant="caption"
-                              color="text.secondary"
-                              sx={{ display: 'block' }}
-                            >
-                              {episode.views}
+                            <Box sx={{ 
+                              display: 'flex',
+                              gap: 0.5,
+                              flexGrow: 1 
+                            }}>
+                              {episode.expressions?.map((emoji, i) => (
+                                <React.Fragment key={i}>
+                                  <span>{emoji}</span>
+                                  {i < episode.expressions.length - 1 && <span>→</span>}
+                                </React.Fragment>
+                              ))}
+                            </Box>
+                          </Box>
+                          
+                          {/* LAUGH METER */}
+                          <Box sx={{ width: '100%', mb: 1 }}>
+                            <LinearProgress 
+                              variant="determinate" 
+                              value={episode.intensity || 75} 
+                              sx={{
+                                height: 8,
+                                borderRadius: 4,
+                                backgroundColor: 'grey.200',
+                                '& .MuiLinearProgress-bar': {
+                                  backgroundColor: highlight?.color || 'primary.main'
+                                }
+                              }}
+                            />
+                            <Typography variant="caption" sx={{ textAlign: 'right', display: 'block' }}>
+                              {episode.intensity || 75}% Intensity
                             </Typography>
-                          </React.Fragment>
-                        }
-                      />
-                      {episode.id !== currentVideo.id && (
-                        <IconButton edge="end" aria-label="more">
-                          <MoreVert />
-                        </IconButton>
-                      )}
-                    </ListItem>
-                    <Divider variant="inset" component="li" sx={{ ml: 17 }} />
-                  </React.Fragment>
-                ))}
-            </List>
+                          </Box>
+                          
+                          <Stack direction="row" justifyContent="space-between">
+                            <Typography variant="caption">
+                              Ep {episode.episode}
+                            </Typography>
+                            <Typography variant="caption">
+                              {episode.duration}
+                            </Typography>
+                          </Stack>
+                        </CardContent>
+                      </Card>
+                    );
+                  })}
+              </Box>
+            ) : (
+              /* DEFAULT LIST VIEW */
+              <List dense sx={{ width: '100%', bgcolor: 'background.paper', maxHeight: '60vh', overflowY: 'auto' }}>
+                {allEpisodes
+                  .filter(episode => episode.season === currentVideo.season)
+                  .map((episode) => (
+                    <React.Fragment key={episode.id}>
+                      <ListItem
+                        alignItems="flex-start"
+                        onClick={() => handleVideoSelect(episode)}
+                        sx={{
+                          bgcolor: episode.id === currentVideo.id ? 'action.selected' : 'inherit',
+                          '&:hover': { 
+                            bgcolor: episode.id === currentVideo.id ? 'action.selected' : 'action.hover',
+                            cursor: 'pointer'
+                          }
+                        }}
+                      >
+                        <Box sx={{ 
+                          position: 'relative',
+                          mr: 2,
+                          flexShrink: 0 
+                        }}>
+                          <Avatar
+                            variant="square"
+                            src={episode.thumbnail}
+                            sx={{ width: 120, height: 68 }}
+                          />
+                          <Box sx={{
+                            position: 'absolute',
+                            top: '50%',
+                            left: '50%',
+                            transform: 'translate(-50%, -50%)',
+                            color: 'white',
+                            fontSize: '2rem',
+                            opacity: 0.8
+                          }}>
+                            <PlayCircleOutline fontSize="inherit" />
+                          </Box>
+                          {episode.id === currentVideo.id && (
+                            <Box sx={{
+                              position: 'absolute',
+                              top: 0,
+                              left: 0,
+                              right: 0,
+                              height: 3,
+                              bgcolor: 'primary.main'
+                            }} />
+                          )}
+                        </Box>
+                        <ListItemText
+                          primary={
+                            <Typography 
+                              variant="body2" 
+                              sx={{ 
+                                fontWeight: episode.id === currentVideo.id ? 600 : 400,
+                                display: '-webkit-box',
+                                WebkitLineClamp: 2,
+                                WebkitBoxOrient: 'vertical',
+                                overflow: 'hidden'
+                              }}
+                            >
+                              {episode.title}
+                            </Typography>
+                          }
+                          secondary={
+                            <React.Fragment>
+                              <Typography
+                                component="span"
+                                variant="caption"
+                                color="text.secondary"
+                                sx={{ display: 'flex', alignItems: 'center' }}
+                              >
+                                <span>Episode {episode.episode}</span>
+                                <FiberManualRecord sx={{ fontSize: '0.5rem', mx: 1 }} />
+                                <span>{episode.duration}</span>
+                              </Typography>
+                              <Typography
+                                component="span"
+                                variant="caption"
+                                color="text.secondary"
+                                sx={{ display: 'block' }}
+                              >
+                                {episode.views}
+                              </Typography>
+                            </React.Fragment>
+                          }
+                        />
+                        {episode.id !== currentVideo.id && (
+                          <IconButton edge="end" aria-label="more">
+                            <MoreVert />
+                          </IconButton>
+                        )}
+                      </ListItem>
+                      <Divider variant="inset" component="li" sx={{ ml: 17 }} />
+                    </React.Fragment>
+                  ))}
+              </List>
+            )}
           </Box>
         </Col>
       </Row>
@@ -380,192 +536,3 @@ const WatchEpisode = () => {
 };
 
 export default WatchEpisode;
-
-
-
-
-
-
-// import React, { useState, useRef } from 'react';
-// import ComedyPlayer from './ComedyPlayer';
-// import {
-//   PlayArrow, Pause, MoreVert, FiberManualRecord,
-//   PlayCircleOutline, CheckCircle, Brightness4
-// } from '@mui/icons-material';
-// import {
-//   List, ListItem, ListItemIcon, ListItemText,
-//   Typography, Divider, IconButton, Box, Grid, 
-//   Card, CardMedia, CardContent, Avatar, Stack,
-//   Slider, Tooltip
-// } from '@mui/material';
-// import { Container, Row, Col } from 'react-bootstrap';
-// import './WatchEpisode.scss';
-
-// const WatchEpisode = () => {
-//   const [currentVideo, setCurrentVideo] = useState({
-//     id: 5,
-//     title: "Toilet Paper Samurai Returns",
-//     videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4",
-//     thumbnail: "https://i.ytimg.com/vi/dQw4w9WgXcQ/hqdefault.jpg",
-//     season: 2,
-//     episode: 3,
-//     description: "The hilarious return of everyone's favorite bathroom warrior!",
-//     airDate: "May 15, 2023",
-//     cast: ["John Smith", "Jane Doe", "Mike Johnson"],
-//     duration: "22:45",
-//     views: "1.2M views",
-//     active: true
-//   });
-
-//   // Player state
-//   const [showControls, setShowControls] = useState(true);
-//   const [isPlaying, setIsPlaying] = useState(false);
-//   const [brightness, setBrightness] = useState(100);
-//   const [showBrightnessSlider, setShowBrightnessSlider] = useState(false);
-//   const brightnessTimeoutRef = useRef(null);
-
-//   // ... (keep other existing state and data)
-
-//   const handleBrightnessChange = (event, newValue) => {
-//     setBrightness(newValue);
-//     // Reset the hide timeout when adjusting brightness
-//     if (brightnessTimeoutRef.current) {
-//       clearTimeout(brightnessTimeoutRef.current);
-//     }
-//     brightnessTimeoutRef.current = setTimeout(() => {
-//       setShowBrightnessSlider(false);
-//     }, 2000);
-//   };
-
-//   const toggleBrightnessSlider = () => {
-//     setShowBrightnessSlider(!showBrightnessSlider);
-//     if (brightnessTimeoutRef.current) {
-//       clearTimeout(brightnessTimeoutRef.current);
-//     }
-//     if (!showBrightnessSlider) {
-//       brightnessTimeoutRef.current = setTimeout(() => {
-//         setShowBrightnessSlider(false);
-//       }, 2000);
-//     }
-//   };
-
-//   // ... (keep other existing functions)
-
-//   return (
-//     <Container fluid className="mt-4 px-0 px-md-3">
-//       <Row>
-//         <Col lg={8} className="pe-lg-3">
-//           <Box className="episode-container p-3 p-md-4">
-//             <Typography variant="h4" component="h1" className="text-center mb-3">
-//               {currentVideo.title}
-//             </Typography>
-            
-//             <Box 
-//               className="mb-4 video-player-container" 
-//               onClick={() => setShowControls(!showControls)}
-//               sx={{ 
-//                 position: 'relative',
-//                 backgroundColor: 'transparent',
-//                 borderRadius: '8px',
-//                 overflow: 'hidden',
-//                 filter: `brightness(${brightness}%)`,
-//                 transition: 'filter 0.3s ease',
-//                 '&:hover .video-controls': {
-//                   opacity: 1
-//                 }
-//               }}
-//             >
-//               <ComedyPlayer 
-//                 src={currentVideo.videoUrl} 
-//                 key={currentVideo.id}
-//                 isPlaying={isPlaying}
-//               />
-              
-//               {/* Brightness Control - Left Center Position */}
-//               <Box sx={{
-//                 position: 'absolute',
-//                 left: '16px',
-//                 top: '50%',
-//                 transform: 'translateY(-50%)',
-//                 display: 'flex',
-//                 flexDirection: 'column',
-//                 alignItems: 'center',
-//                 zIndex: 10
-//               }}>
-//                 <Tooltip title="Brightness">
-//                   <IconButton 
-//                     onClick={toggleBrightnessSlider}
-//                     sx={{ 
-//                       color: 'white',
-//                       bgcolor: 'rgba(0,0,0,0.5)',
-//                       '&:hover': {
-//                         bgcolor: 'rgba(0,0,0,0.7)'
-//                       }
-//                     }}
-//                   >
-//                     <Brightness4 />
-//                   </IconButton>
-//                 </Tooltip>
-                
-//                 {showBrightnessSlider && (
-//                   <Slider
-//                     value={brightness}
-//                     onChange={handleBrightnessChange}
-//                     orientation="vertical"
-//                     min={50}
-//                     max={150}
-//                     step={5}
-//                     sx={{
-//                       height: '100px',
-//                       color: 'white',
-//                       '& .MuiSlider-thumb': {
-//                         width: 16,
-//                         height: 16,
-//                         '&:hover, &.Mui-focusVisible': {
-//                           boxShadow: '0 0 0 8px rgba(255, 255, 255, 0.16)',
-//                         },
-//                       },
-//                       '& .MuiSlider-track': {
-//                         border: 'none',
-//                         width: '4px'
-//                       },
-//                       '& .MuiSlider-rail': {
-//                         width: '4px',
-//                         opacity: 0.5
-//                       },
-//                       mt: 1,
-//                       mb: 1
-//                     }}
-//                   />
-//                 )}
-//               </Box>
-
-//               {/* Rest of the video controls... */}
-//               {showControls && (
-//                 <Box className="video-controls" sx={{
-//                   position: 'absolute',
-//                   bottom: 0,
-//                   left: 0,
-//                   right: 0,
-//                   p: 2,
-//                   background: 'linear-gradient(to top, rgba(0,0,0,0.7), transparent)',
-//                   transition: 'opacity 0.3s ease',
-//                 }}>
-//                   {/* ... existing control buttons ... */}
-//                 </Box>
-//               )}
-//             </Box>
-
-//             {/* ... rest of the component remains the same ... */}
-//           </Box>
-//         </Col>
-        
-//         {/* Sidebar column remains the same */}
-//         {/* ... */}
-//       </Row>
-//     </Container>
-//   );
-// };
-
-// export default WatchEpisode;
-

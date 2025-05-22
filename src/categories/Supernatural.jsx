@@ -2,6 +2,21 @@ import React, { useRef, useState, useEffect } from "react";
 import { FaStar, FaPlay, FaBookmark } from "react-icons/fa";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import { FaFire,  FaRocket, FaHeart, FaRegLaughSquint } from "react-icons/fa";
+const badgeIcons = {
+  "Trending": <FaFire className="ms-1" />,       // 🔥 for Trending
+  "Popular": <FaStar className="ms-1" />,        // ⭐ for Popular
+  "New": <FaRocket className="ms-1" />,          // 🚀 for New
+  "Fan Favorite": <FaHeart className="ms-1" />,  // ❤️ for Fan Favorite
+  "Funny": <FaRegLaughSquint className="ms-1" />, // 😆 for Funny
+};
+const badgeColors = {
+  "Trending": "#FF1493",
+  "Popular": "#FFD700",
+  "Funny": "#4B0082",
+  "New": "#00BFFF",
+  "Fan Favorite": "#FF4500"
+};
 
 const styles = {
   episodeCard: {
@@ -33,10 +48,28 @@ const styles = {
     flexDirection: 'column',
     position: 'relative'
   },
-  imageContainer: {
-    height: '370px',
-    overflow: 'hidden'
-  },
+imageContainer: {
+  height: '370px',
+  overflow: 'hidden',
+  position: "relative", // ✅ Required for absolute positioning
+  width: "100%",
+},
+badge: {
+  position: "absolute",
+  top: "10px",
+  left: "10px",
+  backgroundColor: "#ff4081",
+  color: "white",
+  padding: "4px 10px",
+  borderRadius: "12px",
+  fontWeight: "bold",
+  fontSize: "14px",
+  zIndex: 10,
+  boxShadow: "0px 2px 6px rgba(0, 0, 0, 0.3)",
+  display: "flex",          // Align icon and text
+  alignItems: "center",     // Vertically center
+  gap: "4px",               // Space between text and icon
+},
   normalState: {
     padding: '10px 15px',
     minHeight: '80px',
@@ -76,117 +109,127 @@ const styles = {
 };
 
 const Supernatural = () => {
- const episodes = [
-    {
-      id: 1,
-      title: "The Flying Stapler Incident",
-      image: "/assets/images/comdey1.png",
-      description: "Office supplies gain unexpected mobility",
-      rating: 4.5,
-      episodes: 4,
-      season: 1,
-      votes: 387,
-      details: "Someone rigged the staplers with tiny rubber bands, making them 'fly' across the desk when pressed. The accounting department still finds staples in unexpected places."
-    },
-    {
-      id: 2,
-      title: "The Great Plant Swap",
-      image: "/assets/images/comedy2.png",
-      description: "Office greenery gets rearranged overnight",
-      rating: 4.1,
-      episodes: 3,
-      season: 2,
-      votes: 342,
-      details: "Every office plant was moved to a different desk. The cactus ended up with HR, while the sensitive fern found itself in the break room microwave."
-    },
-    {
-      id: 3,
-      title: "The Mystery Snack Bandit",
-      image: "/assets/images/comedy3.png",
-      description: "Lunch bags develop legs",
-      rating: 4.7,
-      episodes: 5,
-      season: 1,
-      votes: 456,
-      details: "Someone kept moving people's lunches just slightly - enough to make everyone question their memory. The tuna sandwich that kept appearing in different fridges became legendary."
-    },
-    {
-      id: 4,
-      title: "The Elevator Surprise",
-      image: "/assets/images/comedy4.png",
-      description: "Going up takes on new meaning",
-      rating: 4.9,
-      episodes: 2,
-      season: 3,
-      votes: 521,
-      details: "The elevator was transformed into a disco party every time it reached the 3rd floor. Complete with lights, music, and a tiny disco ball that dropped from the ceiling."
-    },
-    {
-      id: 5,
-      title: "The Fake Promotion",
-      image: "/assets/images/comedy5.png",
-      description: "Nameplates tell creative stories",
-      rating: 4.3,
-      episodes: 6,
-      season: 2,
-      votes: 398,
-      details: "Everyone's titles got creative upgrades overnight. Interns became 'Supreme Overlords', managers turned into 'Chief Fun Officers', and the CEO's plate read 'Head Janitor'."
-    },
-    {
-      id: 6,
-      title: "The Meeting Bingo Scandal",
-      image: "/assets/images/comedy6.png",
-      description: "Corporate jargon becomes a game",
-      rating: 4.6,
-      episodes: 4,
-      season: 1,
-      votes: 432,
-      details: "Someone distributed bingo cards with common meeting phrases. The first person to shout 'Bingo!' during the budget presentation nearly got fired (but got promoted instead)."
-    },
-    {
-      id: 7,
-      title: "The Parking Space Lottery",
-      image: "/assets/images/comedy7.png",
-      description: "Reserved spots become musical chairs",
-      rating: 4.2,
-      episodes: 3,
-      season: 3,
-      votes: 367,
-      details: "All the parking space name tags were randomly reassigned. The CEO ended up in spot #47 while the new intern parked in the VIP space for a glorious two hours."
-    },
-    {
-      id: 8,
-      title: "The Haunted Restroom",
-      image: "/assets/images/comedy8.png",
-      description: "Motion sensors get creative",
-      rating: 4.8,
-      episodes: 5,
-      season: 2,
-      votes: 489,
-      details: "The bathroom motion sensors were reprogrammed to play dramatic opera music whenever someone entered. The stall doors would 'applaud' when occupants left."
-    },
-    {
-      id: 9,
-      title: "The Fake Company Merger",
-      image: "/assets/images/comedy9.png",
-      description: "Office names get creative",
-      rating: 4.4,
-      episodes: 7,
-      season: 1,
-      votes: 412,
-      details: "All department names were changed to reflect a fake merger with a chocolate factory. Marketing became 'Wonka Vision', IT turned into 'Oompa Loompa Tech Support'."
-    },
-    {
-      id: 10,
-      title: "The Reverse Birthday",
-      image: "/assets/images/comedy10.png",
-      description: "Everyone gets unexpected gifts",
-      rating: 4.9,
-      episodes: 2,
-      season: 3,
-      votes: 534,
-      details: "Someone declared it 'Reverse Birthday' where instead of receiving gifts, everyone had to give random items to coworkers. The CFO still has that half-eaten granola bar from accounting."
-    }
+const episodes = [
+  {
+    id: 1,
+    title: "The Flying Stapler Incident",
+    image: "/assets/images/Supernatural1.png",
+    description: "Office supplies gain unexpected mobility",
+    rating: 4.5,
+    episodes: 4,
+    season: 1,
+    votes: 387,
+    details: "Someone rigged the staplers with tiny rubber bands, making them 'fly' across the desk when pressed. The accounting department still finds staples in unexpected places.",
+    badgeText: "Trending" // 🔥
+  },
+  {
+    id: 2,
+    title: "The Great Plant Swap",
+    image: "/assets/images/Supernatural2.png",
+    description: "Office greenery gets rearranged overnight",
+    rating: 4.1,
+    episodes: 3,
+    season: 2,
+    votes: 342,
+    details: "Every office plant was moved to a different desk. The cactus ended up with HR, while the sensitive fern found itself in the break room microwave.",
+    badgeText: "Popular" // ⭐
+  },
+  {
+    id: 3,
+    title: "The Mystery Snack Bandit",
+    image: "/assets/images/Supernatural3.png",
+    description: "Lunch bags develop legs",
+    rating: 4.7,
+    episodes: 5,
+    season: 1,
+    votes: 456,
+    details: "Someone kept moving people's lunches just slightly - enough to make everyone question their memory. The tuna sandwich that kept appearing in different fridges became legendary.",
+    badgeText: "Fan Favorite" // ❤️
+  },
+  {
+    id: 4,
+    title: "The Elevator Surprise",
+    image: "/assets/images/Supernatural4.png",
+    description: "Going up takes on new meaning",
+    rating: 4.9,
+    episodes: 2,
+    season: 3,
+    votes: 521,
+    details: "The elevator was transformed into a disco party every time it reached the 3rd floor. Complete with lights, music, and a tiny disco ball that dropped from the ceiling.",
+    badgeText: "Trending" // 🔥
+  },
+  {
+    id: 5,
+    title: "The Fake Promotion",
+    image: "/assets/images/Supernatural5.png",
+    description: "Nameplates tell creative stories",
+    rating: 4.3,
+    episodes: 6,
+    season: 2,
+    votes: 398,
+    details: "Everyone's titles got creative upgrades overnight. Interns became 'Supreme Overlords', managers turned into 'Chief Fun Officers', and the CEO's plate read 'Head Janitor'.",
+    badgeText: "Funny" // 😆
+  },
+  {
+    id: 6,
+    title: "The Meeting Bingo Scandal",
+    image: "/assets/images/Supernatural6.png",
+    description: "Corporate jargon becomes a game",
+    rating: 4.6,
+    episodes: 4,
+    season: 1,
+    votes: 432,
+    details: "Someone distributed bingo cards with common meeting phrases. The first person to shout 'Bingo!' during the budget presentation nearly got fired (but got promoted instead).",
+    badgeText: "Popular" // ⭐
+  },
+  {
+    id: 7,
+    title: "The Parking Space Lottery",
+    image: "/assets/images/Supernatural7.png",
+    description: "Reserved spots become musical chairs",
+    rating: 4.2,
+    episodes: 3,
+    season: 3,
+    votes: 367,
+    details: "All the parking space name tags were randomly reassigned. The CEO ended up in spot #47 while the new intern parked in the VIP space for a glorious two hours.",
+    badgeText: "New" // 🚀
+  },
+  {
+    id: 8,
+    title: "The Haunted Restroom",
+    image: "/assets/images/Supernatural8.png",
+    description: "Motion sensors get creative",
+    rating: 4.8,
+    episodes: 5,
+    season: 2,
+    votes: 489,
+    details: "The bathroom motion sensors were reprogrammed to play dramatic opera music whenever someone entered. The stall doors would 'applaud' when occupants left.",
+    badgeText: "Fan Favorite" // ❤️
+  },
+  {
+    id: 9,
+    title: "The Fake Company Merger",
+    image: "/assets/images/Supernatural9.png",
+    description: "Office names get creative",
+    rating: 4.4,
+    episodes: 7,
+    season: 1,
+    votes: 412,
+    details: "All department names were changed to reflect a fake merger with a chocolate factory. Marketing became 'Wonka Vision', IT turned into 'Oompa Loompa Tech Support'.",
+    badgeText: "Funny" // 😆
+  },
+  {
+    id: 10,
+    title: "The Reverse Birthday",
+    image: "/assets/images/Supernatural10.png",
+    description: "Everyone gets unexpected gifts",
+    rating: 4.9,
+    episodes: 2,
+    season: 3,
+    votes: 534,
+    details: "Someone declared it 'Reverse Birthday' where instead of receiving gifts, everyone had to give random items to coworkers. The CFO still has that half-eaten granola bar from accounting.",
+    badgeText: "Trending" // 🔥
+  }
 ];
 
   const audioRefs = useRef({});
@@ -273,6 +316,10 @@ const Supernatural = () => {
                   zIndex: isHovered ? 1 : 2
                 }}>
                   <div style={styles.imageContainer}>
+                                        <div style={{ ...styles.badge, backgroundColor: badgeColors[episode.badgeText] }}>
+  {episode.badgeText} 
+  {badgeIcons[episode.badgeText]}
+</div>
                     <img
                       src={episode.image}
                       alt={episode.title}

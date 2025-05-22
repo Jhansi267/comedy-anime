@@ -1,5 +1,18 @@
 import React, { useRef, useState, useEffect } from "react";
 import { FaStar, FaPlay, FaBookmark } from "react-icons/fa";
+import { FaFire,  FaRocket, FaHeart, FaRegLaughSquint } from "react-icons/fa";
+const badgeIcons = {
+  "Trending": <FaFire className="ms-1" />,       // 🔥 for Trending
+  "Popular": <FaStar className="ms-1" />,        // ⭐ for Popular
+  "New": <FaRocket className="ms-1" />,          // 🚀 for New
+  "Fan Favorite": <FaHeart className="ms-1" />,  // ❤️ for Fan Favorite
+  "Funny": <FaRegLaughSquint className="ms-1" />, // 😆 for Funny
+};
+const badgeColors = {
+  "Trending": "#ff4081",
+  "Popular": "#FFD700",
+  "Funny": "#4CAF50",
+};
 
 const styles = {
   episodeCard: {
@@ -31,10 +44,28 @@ const styles = {
     flexDirection: 'column',
     position: 'relative'
   },
-  imageContainer: {
-    height: '370px',
-    overflow: 'hidden'
-  },
+ imageContainer: {
+  height: '370px',
+  overflow: 'hidden',
+  position: "relative", // ✅ Required for absolute positioning
+  width: "100%",
+},
+badge: {
+  position: "absolute",
+  top: "10px",
+  left: "10px",
+  backgroundColor: "#ff4081",
+  color: "white",
+  padding: "4px 10px",
+  borderRadius: "12px",
+  fontWeight: "bold",
+  fontSize: "14px",
+  zIndex: 10,
+  boxShadow: "0px 2px 6px rgba(0, 0, 0, 0.3)",
+  display: "flex",          // Align icon and text
+  alignItems: "center",     // Vertically center
+  gap: "4px",               // Space between text and icon
+},
   normalState: {
     padding: '10px 15px',
     minHeight: '80px',
@@ -85,6 +116,7 @@ const PrankEpisodes = () => {
       episodes: 4,
       season: 1,
       votes: 356,
+      badgeText: "Trending",
       details:
         "In the sacred dojo, there are two kinds of people. Those who respect the art, and those who turn it into toilet paper origami In the sacred dojo, there are two kinds of people. Those who respect the art, and those who turn it into toilet paper origami",
     },
@@ -97,6 +129,7 @@ const PrankEpisodes = () => {
       episodes: 3,
       season: 1,
       votes: 289,
+      badgeText: "Popular",
       details:
         "The school's main staircase became an impossible obstacle course when someone coated it with banana peels The school's main staircase became an impossible obstacle course when someone coated it with banana peels",
     },
@@ -109,6 +142,7 @@ const PrankEpisodes = () => {
       episodes: 5,
       season: 2,
       votes: 421,
+      badgeText: "Funny", 
       details:
         "What started as a simple desk prank turned into mass hysteria when hundreds of rubber spiders appeared What started as a simple desk prank turned into mass hysteria when hundreds of rubber spiders appeared",
     },
@@ -279,6 +313,10 @@ const PrankEpisodes = () => {
                   zIndex: isHovered ? 1 : 2
                 }}>
                   <div style={styles.imageContainer}>
+<div style={{ ...styles.badge, backgroundColor: badgeColors[episode.badgeText] }}>
+  {episode.badgeText} 
+  {badgeIcons[episode.badgeText]}
+</div>
                     <img
                       src={episode.image}
                       alt={episode.title}

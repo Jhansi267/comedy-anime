@@ -34,7 +34,7 @@ const App = () => {
       <Route path='Downloads' element={<Downloads/>}/>
       <Route path='Accountsetting' element={<AccountSetting/>}/>
       <Route path='home'element={<Home/>}/>
-  
+      <Route path='PrankEpisodes' element={<PrankEpisodes/>}/>
     </Routes>
   );
 };
