@@ -14,7 +14,7 @@ const Footer = () => {
   
   return (
     <>
-      <div className="container-fluid mt-5 bg-dark text-white">
+      <div className="container-fluid  bg-dark text-white">
         <div className="row pt-5">
           <div className="col-12 col-sm-12 col-md-4 col-lg-4">
             <ul style={{listStyle:"none"}}>

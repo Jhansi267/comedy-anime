@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import './Subscription.scss';
 import { useNavigate } from 'react-router-dom';
+import Navbar from './Navbar';
+import Footer from './Footer';
 
 const plans = [
   {
@@ -47,7 +49,9 @@ const Subscription = () => {
   };
 
   return (
-    <div className="subscription-container">
+    <>
+    <Navbar/>
+  <div className="subscription-container" style={{ marginTop: '85px', marginBottom: '0' }}>
       <h1 className="comic-title">SUBSCRIBE & LOL!</h1>
       <h2 className="comic-subtitle">Choose Your Gag Plan!</h2>
 
@@ -74,6 +78,9 @@ const Subscription = () => {
         ))}
       </div>
     </div>
+    <Footer/>
+    </>
+
   );
 };
 

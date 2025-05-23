@@ -8,6 +8,8 @@ import {
 import { EmojiEvents, Star, Mood, SentimentVerySatisfied, Groups } from '@mui/icons-material';
 import { Row, Col } from 'react-bootstrap';
 import './FanRankings.scss';
+import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
 
 const FanRankings = () => {
   // Sample data for leaderboards
@@ -71,7 +73,9 @@ const FanRankings = () => {
   };
 
   return (
-    <Container className="fan-rankings-container" sx={{ py: 4 }}>
+    <>
+    <Navbar/>
+        <Container className="fan-rankings-container" style={{marginTop:'85px'}} sx={{ py: 4 }}>
       {/* Header with themed decorations */}
       <Box sx={{ 
         textAlign: 'center', 
@@ -465,6 +469,9 @@ const FanRankings = () => {
         ))}
       </Box>
     </Container>
+    <Footer/>
+    </>
+
   );
 };
 

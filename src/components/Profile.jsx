@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Profile.scss';
+import Navbar from './Navbar';
+import Footer from './Footer';
 
 const avatarOptions = [
   '/Avatars/avatar1.jfif',
@@ -89,7 +91,9 @@ const Profile = () => {
   };
 
   return (
-    <div className="profile-page">
+    <>
+    <Navbar/>
+        <div className="profile-page" style={{marginTop:'85px'}}>
       <div className="emoji-background">
         {[
           { emoji: '😂', size: '5rem' },
@@ -187,6 +191,9 @@ const Profile = () => {
         </>
       )}
     </div>
+    <Footer/>
+    </>
+
   );
 };
 
