@@ -16,6 +16,9 @@ import AllPrankEpisodes from '../categories/AllPrankEpisodes';
 import Embarrassing from '../categories/Embarrassing';
 import Supernatural from '../categories/Supernatural';
 import Movies from '../pages/Movies';
+import NoPage from '../pages/NoPage';
+import WishList from '../pages/WishList';
+import CurrentSubscription from './CurrentSubscription';
 
 // import '../styles/Theme.scss'; // Comedy UI theme styling
 
@@ -75,6 +78,7 @@ const App = () => {
 
       {/* Routes */}
       <Routes>
+        <Route path="" element={<Login />} />
         <Route path="Subscription" element={<Subscription />} />
         <Route path="payment" element={<PaymentPage />} />
         <Route path="payment-options" element={<PaymentOptions />} />
@@ -92,6 +96,12 @@ const App = () => {
         <Route path="Accountsetting" element={<AccountSetting />} />
         <Route path="home" element={<Home />} />
         <Route path="PrankEpisodes" element={<PrankEpisodes />} />
+        <Route path="WishList" element={<WishList/>}/>
+        <Route path='CurrentSubscription' element={<CurrentSubscription/>}/>
+
+
+
+        <Route path='*' element={<NoPage/>}/>
       </Routes>
     </>
   );

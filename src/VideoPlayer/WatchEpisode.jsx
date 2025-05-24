@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import ComedyPlayer from './ComedyPlayer';
+import VideoPlayer from './ComedyPlayer';
+import { Button } from '@mui/material';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import {
    MoreVert, FiberManualRecord,
   PlayCircleOutline, CheckCircle
@@ -12,8 +14,10 @@ import {
 } from '@mui/material';
 import { Container, Row, Col } from 'react-bootstrap';
 import './WatchEpisode.scss';
+import { useNavigate } from 'react-router-dom';
 
 const WatchEpisode = () => {
+  let nav = useNavigate();
   const [currentVideo, setCurrentVideo] = useState({
     id: 5,
     title: "Toilet Paper Samurai Returns",
@@ -36,7 +40,7 @@ const WatchEpisode = () => {
       id: 1,
       title: "Ultimate Prank War: Office Edition",
       videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
-      thumbnail: "https://i.ytimg.com/vi/1L7EI0vKVuU/hqdefault.jpg",
+      thumbnail: "/assest/images/thumbnail1.png",
       season: 1,
       episode: 1,
       description: "The origin story of our bathroom hero",
@@ -64,7 +68,7 @@ const WatchEpisode = () => {
       id: 3,
       title: "Bidet of Destiny",
       videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
-      thumbnail: "https://i.ytimg.com/vi/3L9E0vKVuU/hqdefault.jpg",
+      thumbnail: "/assets/images/thumbnail1.png",
       season: 2,
       episode: 1,
       description: "A mysterious new bathroom appliance appears",
@@ -78,7 +82,7 @@ const WatchEpisode = () => {
       id: 4,
       title: "Rolling Thunder",
       videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4",
-      thumbnail: "https://i.ytimg.com/vi/4L0E0vKVuU/hqdefault.jpg",
+      thumbnail: "/assets/images/thumbnail2.png",
       season: 2,
       episode: 2,
       description: "The toilet paper revolution begins",
@@ -108,7 +112,7 @@ const WatchEpisode = () => {
       id: 6,
       title: "The Final Flush",
       videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4",
-      thumbnail: "https://i.ytimg.com/vi/6L0E0vKVuU/hqdefault.jpg",
+      thumbnail: "/assets/images/thumbnail3.png",
       season: 2,
       episode: 4,
       description: "The epic bathroom conclusion",
@@ -127,7 +131,7 @@ const WatchEpisode = () => {
       videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4",
       channel: "Mocktail Comedy",
       views: "5.7M views",
-      thumbnail: "https://i.ytimg.com/vi/7L0E0vKVuU/hqdefault.jpg",
+      thumbnail: "/assets/images/thumbnail4.png",
       verified: true,
       duration: "15:30"
     },
@@ -137,7 +141,7 @@ const WatchEpisode = () => {
       videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
       channel: "Mocktail Comedy",
       views: "3.2M views",
-      thumbnail: "https://i.ytimg.com/vi/8L0E0vKVuU/hqdefault.jpg",
+      thumbnail: "/assets/images/thumbnail5.png",
       verified: true,
       duration: "18:45"
     },
@@ -147,7 +151,7 @@ const WatchEpisode = () => {
       videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
       channel: "Mocktail Universe",
       views: "2.8M views",
-      thumbnail: "https://i.ytimg.com/vi/9L0E0vKVuU/hqdefault.jpg",
+      thumbnail: "/assets/images/thumbnail6.png",
       duration: "17:20"
     },
     {
@@ -156,7 +160,7 @@ const WatchEpisode = () => {
       videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4",
       channel: "Mocktail Comedy",
       views: "4.1M views",
-      thumbnail: "https://i.ytimg.com/vi/0L1E0vKVuU/hqdefault.jpg",
+      thumbnail: "/assets/images/thumbnail7.png",
       verified: true,
       duration: "14:50"
     }
@@ -183,13 +187,23 @@ const WatchEpisode = () => {
       <Row>
         {/* Main Content Column */}
         <Col lg={8} className="pe-lg-3">
+         <Box sx={{ mb: 2 }}>
+    <Button 
+      size='large'
+      variant="outlined" 
+      onClick={() => window.history.back()} 
+      style={{background: 'linear-gradient(to right, #ff758c, #ff7eb3, #ff8c7e, #ff9a5a)'}}
+    >
+      Back
+    </Button>
+  </Box>
           <Box className="episode-container p-3 p-md-4">
             <Typography variant="h4" component="h1" className="text-center mb-3">
               {currentVideo.title}
             </Typography>
             
             <Box className="mb-4">
-              <ComedyPlayer 
+              <VideoPlayer 
                 src={currentVideo.videoUrl} 
                 key={currentVideo.id}
               />
@@ -285,7 +299,7 @@ const WatchEpisode = () => {
         </Col>
 
         {/* All Episodes Sidebar Column */}
-        <Col lg={4} className="ps-lg-0">
+        <Col lg={4} className="ps-lg-0 mt-5">
           <Box sx={{ bgcolor: 'background.paper' }} className="shadow-sm h-100">
             <Box sx={{ p: 2 }} className="d-flex justify-content-between align-items-center">
               <Typography variant="h6" component="div">

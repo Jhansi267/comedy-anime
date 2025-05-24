@@ -6,8 +6,8 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 import "./Downloads.scss";
-
 const Downloads = () => {
+  let nav = useNavigate();
   const [history, setHistory] = useState([
     { id: 1, title: "Shin Chan:", date: "2025-02-24", thumbnail: "/Avatars/Shin-Chan-PNG.png" },
     { id: 2, title: "Shiva", date: "2025-02-22", thumbnail: "/Avatars/Shiva.png" },
@@ -73,7 +73,7 @@ const Downloads = () => {
                       >
                         <Delete />
                       </IconButton>
-                      <IconButton className="playing" color="primary">
+                      <IconButton className="playing" color="primary" onClick={()=>nav('/WatchEpisode')}>
                         <PlayArrow />
                       </IconButton>
                     </div>

@@ -1,963 +1,147 @@
-// import React, { useState, useRef, useEffect } from 'react';
-// import { Box, Slider, IconButton, Tooltip, Button, Typography } from '@mui/material';
-// import {
-//   PlayArrow, Pause, Replay10, Forward10, SlowMotionVideo, 
-//   Screenshot, EmojiEmotions, VolumeUp, VolumeOff, Fullscreen
-// } from '@mui/icons-material';
-// import { keyframes } from '@emotion/react';
-
-// // Helper function to format time
-// const formatTime = (seconds) => {
-//   if (isNaN(seconds)) return '0:00';
-  
-//   const minutes = Math.floor(seconds / 60);
-//   const remainingSeconds = Math.floor(seconds % 60);
-//   return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
-// };
-
-// // Animations
-// const wiggle = keyframes`
-//   0%, 100% { transform: rotate(0deg); }
-//   25% { transform: rotate(-5deg); }
-//   75% { transform: rotate(5deg); }
-// `;
-
-// const flash = keyframes`
-//   0% { opacity: 0; background: yellow; }
-//   50% { opacity: 1; background: orange; }
-//   100% { opacity: 0; background: yellow; }
-// `;
-
-// const ComedyPlayer = ({ src }) => {
-//   const videoRef = useRef(null);
-//   const containerRef = useRef(null);
-//   const [playing, setPlaying] = useState(false);
-//   const [volume, setVolume] = useState(0.7);
-//   const [muted, setMuted] = useState(false);
-//   const [progress, setProgress] = useState(0);
-//   const [jokeCount, setJokeCount] = useState(0);
-//   const [slowMo, setSlowMo] = useState(false);
-//   const [flashEffect, setFlashEffect] = useState(false);
-//   const [duration, setDuration] = useState(0);
-//   const [currentTime, setCurrentTime] = useState(0);
-//   const [fullscreen, setFullscreen] = useState(false);
-//   const [showControls, setShowControls] = useState(true);
-
-//   // Handle metadata load to get duration
-//   const handleLoadedMetadata = () => {
-//     if (videoRef.current) {
-//       setDuration(videoRef.current.duration);
-//     }
-//   };
-
-//   // Handle time updates
-//   const handleTimeUpdate = () => {
-//     if (videoRef.current) {
-//       setCurrentTime(videoRef.current.currentTime);
-//       setProgress((videoRef.current.currentTime / duration) * 100);
-//     }
-//   };
-
-//   // Handle play/pause
-//   const togglePlay = () => {
-//     if (videoRef.current) {
-//       if (playing) {
-//         videoRef.current.pause();
-//       } else {
-//         videoRef.current.play().catch(error => {
-//           console.error("Video play failed:", error);
-//         });
-//       }
-//       setPlaying(!playing);
-//     }
-//   };
-
-//   // Rewind 10 seconds with comic flash
-//   const rewindLaugh = () => {
-//     if (videoRef.current) {
-//       videoRef.current.currentTime = Math.max(0, videoRef.current.currentTime - 10);
-//       setFlashEffect(true);
-//       setTimeout(() => setFlashEffect(false), 1000);
-//     }
-//   };
-
-//   // Fast forward 10 seconds
-//   const fastForward = () => {
-//     if (videoRef.current) {
-//       videoRef.current.currentTime = Math.min(
-//         duration,
-//         videoRef.current.currentTime + 10
-//       );
-//     }
-//   };
-
-//   // Toggle slow motion (0.5x speed)
-//   const toggleSlowMo = () => {
-//     if (videoRef.current) {
-//       const newSlowMo = !slowMo;
-//       videoRef.current.playbackRate = newSlowMo ? 0.5 : 1;
-//       setSlowMo(newSlowMo);
-//     }
-//   };
-
-//   // Capture meme screenshot
-//   const captureMeme = () => {
-//     if (videoRef.current) {
-//       const canvas = document.createElement('canvas');
-//       canvas.width = videoRef.current.videoWidth;
-//       canvas.height = videoRef.current.videoHeight;
-//       canvas.getContext('2d').drawImage(videoRef.current, 0, 0);
-      
-//       const link = document.createElement('a');
-//       link.download = `meme-${new Date().getTime()}.png`;
-//       link.href = canvas.toDataURL('image/png');
-//       link.click();
-//     }
-//   };
-
-//   // Count jokes
-//   const countJoke = () => {
-//     setJokeCount(prev => prev + 1);
-//   };
-
-//   // Handle volume change
-//   const handleVolumeChange = (e, newValue) => {
-//     if (videoRef.current) {
-//       setVolume(newValue);
-//       videoRef.current.volume = newValue;
-//       setMuted(newValue === 0);
-//     }
-//   };
-
-//   // Toggle fullscreen
-//   const toggleFullscreen = () => {
-//     if (!fullscreen) {
-//       containerRef.current?.requestFullscreen?.().catch(err => {
-//         console.error("Fullscreen failed:", err);
-//       });
-//     } else {
-//       document.exitFullscreen?.();
-//     }
-//     setFullscreen(!fullscreen);
-//   };
-
-//   // Handle keyboard shortcuts
-//   useEffect(() => {
-//     const handleKeyDown = (e) => {
-//       if (!videoRef.current) return;
-      
-//       switch (e.key) {
-//         case ' ':
-//           togglePlay();
-//           break;
-//         case 'ArrowLeft':
-//           rewindLaugh();
-//           break;
-//         case 'ArrowRight':
-//           fastForward();
-//           break;
-//         case 'm':
-//           setMuted(!muted);
-//           break;
-//         case 'f':
-//           toggleFullscreen();
-//           break;
-//         default:
-//           break;
-//       }
-//     };
-
-//     document.addEventListener('keydown', handleKeyDown);
-//     return () => document.removeEventListener('keydown', handleKeyDown);
-//   }, [playing, muted, fullscreen]);
-
-//   // Auto-hide controls
-//   useEffect(() => {
-//     if (!playing) {
-//       setShowControls(true);
-//       return;
-//     }
-
-//     const timer = setTimeout(() => {
-//       setShowControls(false);
-//     }, 3000);
-
-//     return () => clearTimeout(timer);
-//   }, [playing, currentTime]);
-
-//   return (
-//     <Box 
-//       ref={containerRef}
-//       sx={{
-//         width: '100%',
-//         maxWidth: 800,
-//         mx: 'auto',
-//         position: 'relative',
-//         bgcolor: 'background.paper',
-//         borderRadius: 2,
-//         overflow: 'hidden',
-//         boxShadow: 6,
-//         '&:hover .controls': {
-//           opacity: 1
-//         }
-//       }}
-//       onMouseMove={() => setShowControls(true)}
-//     >
-//       {/* Video Element */}
-//       <video
-//         ref={videoRef}
-//         src={src}
-//         onClick={togglePlay}
-//         onTimeUpdate={handleTimeUpdate}
-//         onLoadedMetadata={handleLoadedMetadata}
-//         onEnded={() => setPlaying(false)}
-//         onPlay={() => setPlaying(true)}
-//         onPause={() => setPlaying(false)}
-//         style={{
-//           width: '100%',
-//           display: 'block',
-//           cursor: 'pointer',
-//           filter: slowMo ? 'sepia(0.5)' : 'none',
-//         }}
-//       />
-
-//       {/* Flash Effect (for rewind) */}
-//       {flashEffect && (
-//         <Box sx={{
-//           position: 'absolute',
-//           top: 0,
-//           left: 0,
-//           right: 0,
-//           bottom: 0,
-//           animation: `${flash} 1s ease-out`,
-//           pointerEvents: 'none',
-//           zIndex: 1,
-//         }} />
-//       )}
-
-//       {/* Controls Container */}
-//       <Box className="controls" sx={{
-//         p: 1,
-//         bgcolor: 'rgba(0,0,0,0.7)',
-//         color: 'white',
-//         display: 'flex',
-//         flexDirection: 'column',
-//         gap: 1,
-//         position: 'absolute',
-//         bottom: 0,
-//         left: 0,
-//         right: 0,
-//         transition: 'opacity 0.3s',
-//         opacity: showControls ? 1 : 0,
-//         zIndex: 2
-//       }}>
-//         {/* Progress Bar */}
-//         <Slider
-//           value={progress || 0}
-//           onChange={(e, newValue) => {
-//             if (videoRef.current) {
-//               const seekTime = (newValue / 100) * duration;
-//               videoRef.current.currentTime = seekTime;
-//             }
-//           }}
-//           sx={{
-//             color: '#FF4081',
-//             height: 6,
-//             '& .MuiSlider-thumb': {
-//               width: 15,
-//               height: 15,
-//               transition: '0.3s',
-//               '&:hover, &.Mui-focusVisible': {
-//                 boxShadow: '0 0 0 8px rgba(255, 64, 129, 0.16)',
-//                 animation: `${wiggle} 0.5s ease-in-out`,
-//               },
-//             },
-//           }}
-//         />
-
-//         {/* Main Controls */}
-//         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-//           {/* Play/Pause */}
-//           <IconButton onClick={togglePlay} color="inherit" aria-label={playing ? 'Pause' : 'Play'}>
-//             {playing ? <Pause /> : <PlayArrow />}
-//           </IconButton>
-
-//           {/* Volume */}
-//           <Box sx={{ display: 'flex', alignItems: 'center', width: 100 }}>
-//             <IconButton onClick={() => setMuted(!muted)} color="inherit" aria-label={muted ? 'Unmute' : 'Mute'}>
-//               {muted || volume === 0 ? <VolumeOff /> : <VolumeUp />}
-//             </IconButton>
-//             <Slider
-//               value={muted ? 0 : volume}
-//               onChange={handleVolumeChange}
-//               min={0}
-//               max={1}
-//               step={0.1}
-//               sx={{ color: 'white' }}
-//               aria-label="Volume"
-//             />
-//           </Box>
-
-//           {/* Time Display */}
-//           <Typography variant="body2" sx={{ ml: 'auto', mr: 1 }}>
-//             {formatTime(currentTime)} / {formatTime(duration)}
-//           </Typography>
-
-//           {/* Fullscreen */}
-//           <IconButton onClick={toggleFullscreen} color="inherit" aria-label="Fullscreen">
-//             <Fullscreen />
-//           </IconButton>
-//         </Box>
-
-//         {/* Gag Tools */}
-//         <Box sx={{ 
-//           display: 'flex', 
-//           justifyContent: 'space-around',
-//           borderTop: '1px solid rgba(255,255,255,0.2)',
-//           pt: 1,
-//         }}>
-//           {/* Rewind the Laugh */}
-//           <Tooltip title="Rewind the Laugh (10 sec)">
-//             <Button 
-//               onClick={rewindLaugh}
-//               startIcon={<Replay10 />}
-//               sx={{ color: 'white', '&:active': { animation: `${wiggle} 0.3s` } }}
-//             >
-//               10s
-//             </Button>
-//           </Tooltip>
-
-//           {/* Fast Forward */}
-//           <Tooltip title="Fast Forward (10 sec)">
-//             <Button 
-//               onClick={fastForward}
-//               startIcon={<Forward10 />}
-//               sx={{ color: 'white', '&:active': { animation: `${wiggle} 0.3s` } }}
-//             >
-//               10s
-//             </Button>
-//           </Tooltip>
-
-//           {/* Slow Mo Scream */}
-//           <Tooltip title="Slow Mo Scream">
-//             <Button 
-//               onClick={toggleSlowMo}
-//               startIcon={<SlowMotionVideo />}
-//               sx={{ 
-//                 color: slowMo ? '#FFD700' : 'white',
-//                 '&:active': { animation: `${wiggle} 0.3s` }
-//               }}
-//             >
-//               Slow Mo
-//             </Button>
-//           </Tooltip>
-
-//           {/* Meme Freeze */}
-//           <Tooltip title="Meme Freeze (Screenshot)">
-//             <Button 
-//               onClick={captureMeme}
-//               startIcon={<Screenshot />}
-//               sx={{ color: 'white', '&:active': { animation: `${wiggle} 0.3s` } }}
-//             >
-//               Meme
-//             </Button>
-//           </Tooltip>
-
-//           {/* Joke Counter */}
-//           <Tooltip title="Joke Counter">
-//             <Button 
-//               onClick={countJoke}
-//               startIcon={<EmojiEmotions />}
-//               sx={{ color: 'white', '&:active': { animation: `${wiggle} 0.3s` } }}
-//             >
-//               Jokes: {jokeCount}
-//             </Button>
-//           </Tooltip>
-//         </Box>
-//       </Box>
-//     </Box>
-//   );
-// };
-
-// export default ComedyPlayer;
-
-// import React, { useState, useRef, useEffect } from 'react';
-// import { Box, Slider, IconButton, Tooltip, Button, Typography } from '@mui/material';
-// import {
-//   PlayArrow, Pause, Replay10, Forward10, SlowMotionVideo,
-//   Screenshot, EmojiEmotions, VolumeUp, VolumeOff, Fullscreen
-// } from '@mui/icons-material';
-// import { keyframes } from '@emotion/react';
-
-// // Helper function to format time
-// const formatTime = (seconds) => {
-//   if (isNaN(seconds)) return '0:00';
-//   const minutes = Math.floor(seconds / 60);
-//   const remainingSeconds = Math.floor(seconds % 60);
-//   return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
-// };
-
-// // Animations
-// const wiggle = keyframes`
-//   0%, 100% { transform: rotate(0deg); }
-//   25% { transform: rotate(-5deg); }
-//   75% { transform: rotate(5deg); }
-// `;
-
-// const flash = keyframes`
-//   0% { opacity: 0; background: yellow; }
-//   50% { opacity: 1; background: orange; }
-//   100% { opacity: 0; background: yellow; }
-// `;
-
-// const ComedyPlayer = ({ src }) => {
-//   const videoRef = useRef(null);
-//   const containerRef = useRef(null);
-//   const controlsTimeout = useRef(null);
-//   const [playing, setPlaying] = useState(false);
-//   const [volume, setVolume] = useState(0.7);
-//   const [muted, setMuted] = useState(false);
-//   const [progress, setProgress] = useState(0);
-//   const [jokeCount, setJokeCount] = useState(0);
-//   const [slowMo, setSlowMo] = useState(false);
-//   const [flashEffect, setFlashEffect] = useState(false);
-//   const [duration, setDuration] = useState(0);
-//   const [currentTime, setCurrentTime] = useState(0);
-//   const [fullscreen, setFullscreen] = useState(false);
-//   const [showControls, setShowControls] = useState(true);
-//   const [isMobile, setIsMobile] = useState(false);
-
-//   // Check mobile on mount and resize
-//   useEffect(() => {
-//     const checkMobile = () => setIsMobile(window.innerWidth < 768);
-//     checkMobile();
-//     window.addEventListener('resize', checkMobile);
-//     return () => window.removeEventListener('resize', checkMobile);
-//   }, []);
-
-//   // Handle metadata load
-//   const handleLoadedMetadata = () => {
-//     if (videoRef.current) {
-//       setDuration(videoRef.current.duration);
-//     }
-//   };
-
-//   // Handle time updates
-//   const handleTimeUpdate = () => {
-//     if (videoRef.current) {
-//       setCurrentTime(videoRef.current.currentTime);
-//       setProgress((videoRef.current.currentTime / duration) * 100);
-//     }
-//   };
-
-//   // Handle play/pause
-//   const togglePlay = () => {
-//     if (videoRef.current) {
-//       if (playing) {
-//         videoRef.current.pause();
-//       } else {
-//         videoRef.current.play().catch(error => {
-//           console.error("Video play failed:", error);
-//         });
-//       }
-//       setPlaying(!playing);
-//     }
-//   };
-
-//   // Seek functions
-//   const rewindLaugh = () => {
-//     if (videoRef.current) {
-//       videoRef.current.currentTime = Math.max(0, videoRef.current.currentTime - 10);
-//       setFlashEffect(true);
-//       setTimeout(() => setFlashEffect(false), 1000);
-//     }
-//   };
-
-//   const fastForward = () => {
-//     if (videoRef.current) {
-//       videoRef.current.currentTime = Math.min(
-//         duration,
-//         videoRef.current.currentTime + 10
-//       );
-//     }
-//   };
-
-//   // Playback controls
-//   const toggleSlowMo = () => {
-//     if (videoRef.current) {
-//       const newSlowMo = !slowMo;
-//       videoRef.current.playbackRate = newSlowMo ? 0.5 : 1;
-//       setSlowMo(newSlowMo);
-//     }
-//   };
-
-//   // Volume controls
-//   const handleVolumeChange = (e, newValue) => {
-//     if (videoRef.current) {
-//       setVolume(newValue);
-//       videoRef.current.volume = newValue;
-//       setMuted(newValue === 0);
-//     }
-//   };
-
-//   // Screenshot function
-//   const captureMeme = () => {
-//     if (videoRef.current) {
-//       const canvas = document.createElement('canvas');
-//       canvas.width = videoRef.current.videoWidth;
-//       canvas.height = videoRef.current.videoHeight;
-//       canvas.getContext('2d').drawImage(videoRef.current, 0, 0);
-      
-//       const link = document.createElement('a');
-//       link.download = `meme-${new Date().getTime()}.png`;
-//       link.href = canvas.toDataURL('image/png');
-//       link.click();
-//     }
-//   };
-
-//   // Joke counter
-//   const countJoke = () => {
-//     setJokeCount(prev => prev + 1);
-//   };
-
-//   // Fullscreen controls
-//   const toggleFullscreen = () => {
-//     if (!fullscreen) {
-//       containerRef.current?.requestFullscreen?.().catch(err => {
-//         console.error("Fullscreen failed:", err);
-//       });
-//     } else {
-//       document.exitFullscreen?.();
-//     }
-//     setFullscreen(!fullscreen);
-//   };
-
-//   // Handle keyboard shortcuts
-//   useEffect(() => {
-//     const handleKeyDown = (e) => {
-//       if (!videoRef.current) return;
-      
-//       switch (e.key) {
-//         case ' ':
-//           e.preventDefault();
-//           togglePlay();
-//           break;
-//         case 'ArrowLeft':
-//           rewindLaugh();
-//           break;
-//         case 'ArrowRight':
-//           fastForward();
-//           break;
-//         case 'm':
-//           setMuted(!muted);
-//           break;
-//         case 'f':
-//           toggleFullscreen();
-//           break;
-//         default:
-//           break;
-//       }
-//     };
-
-//     document.addEventListener('keydown', handleKeyDown);
-//     return () => document.removeEventListener('keydown', handleKeyDown);
-//   }, [playing, muted, fullscreen]);
-
-//   // Auto-hide controls
-//   useEffect(() => {
-//     const resetControlsTimeout = () => {
-//       clearTimeout(controlsTimeout.current);
-//       setShowControls(true);
-//       if (playing) {
-//         controlsTimeout.current = setTimeout(() => {
-//           setShowControls(false);
-//         }, 3000);
-//       }
-//     };
-
-//     resetControlsTimeout();
-//     return () => clearTimeout(controlsTimeout.current);
-//   }, [playing, currentTime]);
-
-//   // Responsive controls render
-//   const renderControlButton = (icon, label, onClick, color = 'inherit', extraProps = {}) => (
-//     <Tooltip title={label}>
-//       <IconButton
-//         onClick={onClick}
-//         color={color}
-//         aria-label={label}
-//         sx={{
-//           '&:active': { animation: `${wiggle} 0.3s` },
-//           ...extraProps.sx
-//         }}
-//         size={isMobile ? "small" : "medium"}
-//       >
-//         {icon}
-//         {!isMobile && extraProps.text && (
-//           <Typography variant="caption" sx={{ ml: 0.5 }}>
-//             {extraProps.text}
-//           </Typography>
-//         )}
-//       </IconButton>
-//     </Tooltip>
-//   );
-
-//   return (
-//     <Box 
-//       ref={containerRef}
-//       sx={{
-//         width: '100%',
-//         maxWidth: '100%',
-//         mx: 'auto',
-//         position: 'relative',
-//         bgcolor: 'background.paper',
-//         borderRadius: { xs: 0, sm: 2 },
-//         overflow: 'hidden',
-//         boxShadow: 6,
-//         '&:hover .controls': {
-//           opacity: 1
-//         }
-//       }}
-//       onMouseMove={() => setShowControls(true)}
-//       onTouchStart={() => setShowControls(true)}
-//     >
-//       {/* Video Element */}
-//       <video
-//         ref={videoRef}
-//         src={src}
-//         onClick={togglePlay}
-//         onTimeUpdate={handleTimeUpdate}
-//         onLoadedMetadata={handleLoadedMetadata}
-//         onEnded={() => setPlaying(false)}
-//         onPlay={() => setPlaying(true)}
-//         onPause={() => setPlaying(false)}
-//         style={{
-//           width: '100%',
-//           display: 'block',
-//           cursor: 'pointer',
-//           filter: slowMo ? 'sepia(0.5)' : 'none',
-//         }}
-//       />
-
-//       {/* Flash Effect */}
-//       {flashEffect && (
-//         <Box sx={{
-//           position: 'absolute',
-//           top: 0,
-//           left: 0,
-//           right: 0,
-//           bottom: 0,
-//           animation: `${flash} 1s ease-out`,
-//           pointerEvents: 'none',
-//           zIndex: 1,
-//         }} />
-//       )}
-
-//       {/* Controls Container */}
-//       <Box className="controls" sx={{
-//         p: { xs: 0.5, sm: 1 },
-//         bgcolor: 'rgba(0,0,0,0.7)',
-//         color: 'white',
-//         display: 'flex',
-//         flexDirection: 'column',
-//         gap: { xs: 0.5, sm: 1 },
-//         position: 'absolute',
-//         bottom: 0,
-//         left: 0,
-//         right: 0,
-//         transition: 'opacity 0.3s',
-//         opacity: showControls ? 1 : 0,
-//         zIndex: 2
-//       }}>
-//         {/* Progress Bar */}
-//         <Slider
-//           value={progress || 0}
-//           onChange={(e, newValue) => {
-//             if (videoRef.current) {
-//               const seekTime = (newValue / 100) * duration;
-//               videoRef.current.currentTime = seekTime;
-//             }
-//           }}
-//           sx={{
-//             color: '#FF4081',
-//             height: { xs: 4, sm: 6 },
-//             '& .MuiSlider-thumb': {
-//               width: { xs: 12, sm: 15 },
-//               height: { xs: 12, sm: 15 },
-//               transition: '0.3s',
-//               '&:hover, &.Mui-focusVisible': {
-//                 boxShadow: '0 0 0 8px rgba(255, 64, 129, 0.16)',
-//                 animation: `${wiggle} 0.5s ease-in-out`,
-//               },
-//             },
-//           }}
-//         />
-
-//         {/* Main Controls */}
-//         <Box sx={{ 
-//           display: 'flex', 
-//           alignItems: 'center', 
-//           gap: { xs: 0.5, sm: 1 },
-//         }}>
-//           {/* Play/Pause */}
-//           {renderControlButton(
-//             playing ? <Pause /> : <PlayArrow />,
-//             playing ? 'Pause' : 'Play',
-//             togglePlay
-//           )}
-
-//           {/* Volume */}
-//           <Box sx={{ 
-//             display: 'flex', 
-//             alignItems: 'center', 
-//             width: { xs: 80, sm: 100 },
-//             gap: 0.5
-//           }}>
-//             {renderControlButton(
-//               muted || volume === 0 ? <VolumeOff /> : <VolumeUp />,
-//               muted ? 'Unmute' : 'Mute',
-//               () => setMuted(!muted)
-//             )}
-//             <Slider
-//               value={muted ? 0 : volume}
-//               onChange={handleVolumeChange}
-//               min={0}
-//               max={1}
-//               step={0.1}
-//               sx={{ color: 'white' }}
-//               aria-label="Volume"
-//               size="small"
-//             />
-//           </Box>
-
-//           {/* Time Display */}
-//           <Typography 
-//             variant="body2" 
-//             sx={{ 
-//               ml: 'auto', 
-//               mr: 1,
-//               fontSize: { xs: '0.75rem', sm: '0.875rem' },
-//               display: { xs: 'none', sm: 'block' }
-//             }}
-//           >
-//             {formatTime(currentTime)} / {formatTime(duration)}
-//           </Typography>
-
-//           {/* Additional Controls */}
-//           {renderControlButton(
-//             <Replay10 />,
-//             'Rewind 10s',
-//             rewindLaugh,
-//             'inherit',
-//             { text: isMobile ? null : '10s' }
-//           )}
-
-//           {renderControlButton(
-//             <Forward10 />,
-//             'Forward 10s',
-//             fastForward,
-//             'inherit',
-//             { text: isMobile ? null : '10s' }
-//           )}
-
-//           {renderControlButton(
-//             <SlowMotionVideo />,
-//             'Slow Motion',
-//             toggleSlowMo,
-//             slowMo ? 'warning' : 'inherit'
-//           )}
-
-//           {renderControlButton(
-//             <Fullscreen />,
-//             fullscreen ? 'Exit Fullscreen' : 'Fullscreen',
-//             toggleFullscreen
-//           )}
-//         </Box>
-
-//         {/* Bottom Row Controls */}
-//         <Box sx={{ 
-//           display: 'flex', 
-//           justifyContent: 'space-around',
-//           borderTop: '1px solid rgba(255,255,255,0.2)',
-//           pt: { xs: 0.5, sm: 1 },
-//         }}>
-//           <Button 
-//             onClick={captureMeme}
-//             startIcon={<Screenshot />}
-//             sx={{ 
-//               color: 'white', 
-//               '&:active': { animation: `${wiggle} 0.3s` },
-//               minWidth: 'auto',
-//               px: { xs: 0.5, sm: 1 }
-//             }}
-//             size="small"
-//           >
-//             {!isMobile && 'Meme'}
-//           </Button>
-
-//           <Button 
-//             onClick={countJoke}
-//             startIcon={<EmojiEmotions />}
-//             sx={{ 
-//               color: 'white', 
-//               '&:active': { animation: `${wiggle} 0.3s` },
-//               minWidth: 'auto',
-//               px: { xs: 0.5, sm: 1 }
-//             }}
-//             size="small"
-//           >
-//             {!isMobile && 'Jokes:'} {jokeCount}
-//           </Button>
-//         </Box>
-//       </Box>
-//     </Box>
-//   );
-// };
-
-// export default ComedyPlayer;
-
-
-// 
-
-import React, { useState, useRef, useEffect } from 'react';
-import { Box, Slider, IconButton, Tooltip, Button, Typography, Snackbar, Alert } from '@mui/material';
+import React, { useRef, useState, useEffect } from 'react';
 import {
-  PlayArrow, Pause, Replay10, Forward10, SlowMotionVideo,
-  Screenshot, EmojiEmotions, VolumeUp, VolumeOff, Fullscreen,
-  Brightness4, Brightness7
+  Box,
+  Slider,
+  Typography,
+  Button,
+  Snackbar,
+  Alert,
+  keyframes,
+  useMediaQuery,
+  useTheme
+} from '@mui/material';
+import {
+  PlayArrow,
+  Pause,
+  VolumeUp,
+  VolumeOff,
+  Brightness4,
+  Brightness7,
+  Fullscreen,
+  Replay10,
+  Forward10,
+  Screenshot,
+  SlowMotionVideo,
+  EmojiEmotions
 } from '@mui/icons-material';
-import { keyframes } from '@emotion/react';
 
-// Helper function to format time
-const formatTime = (seconds) => {
-  if (isNaN(seconds)) return '0:00';
-  const minutes = Math.floor(seconds / 60);
-  const remainingSeconds = Math.floor(seconds % 60);
-  return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
-};
-
-// Animations
-const wiggle = keyframes`
-  0%, 100% { transform: rotate(0deg); }
-  25% { transform: rotate(-5deg); }
-  75% { transform: rotate(5deg); }
-`;
-
+// Keyframe animations
 const flash = keyframes`
-  0% { opacity: 0; background: yellow; }
-  50% { opacity: 1; background: orange; }
-  100% { opacity: 0; background: yellow; }
+  0% { background-color: transparent; }
+  50% { background-color: white; }
+  100% { background-color: transparent; }
 `;
 
-const ComedyPlayer = ({ src }) => {
-  // Refs
+const wiggle = keyframes`
+  0% { transform: rotate(0deg); }
+  25% { transform: rotate(5deg); }
+  75% { transform: rotate(-5deg); }
+  100% { transform: rotate(0deg); }
+`;
+
+const VideoPlayer = ({ src }) => {
   const videoRef = useRef(null);
   const containerRef = useRef(null);
-  const controlsTimeout = useRef(null);
-
-  // Player state
   const [playing, setPlaying] = useState(false);
-  const [volume, setVolume] = useState(0.7);
   const [muted, setMuted] = useState(false);
+  const [volume, setVolume] = useState(1);
   const [progress, setProgress] = useState(0);
   const [duration, setDuration] = useState(0);
   const [currentTime, setCurrentTime] = useState(0);
   const [fullscreen, setFullscreen] = useState(false);
-  const [showControls, setShowControls] = useState(true);
-  const [isMobile, setIsMobile] = useState(false);
-  const [canCapture, setCanCapture] = useState(true);
-  const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'error' });
-
-  // Comedy features state
-  const [jokeCount, setJokeCount] = useState(0);
-  const [slowMo, setSlowMo] = useState(false);
-  const [flashEffect, setFlashEffect] = useState(false);
   const [brightness, setBrightness] = useState(100);
   const [showBrightnessSlider, setShowBrightnessSlider] = useState(false);
+  const [showControls, setShowControls] = useState(true);
+  const [flashEffect, setFlashEffect] = useState(false);
+  const [slowMo, setSlowMo] = useState(false);
+  const [jokeCount, setJokeCount] = useState(0);
+  const [canCapture, setCanCapture] = useState(true);
+  const [snackbar, setSnackbar] = useState({
+    open: false,
+    message: '',
+    severity: 'info'
+  });
+  const [touchStartTime, setTouchStartTime] = useState(0);
+  const [lastTapTime, setLastTapTime] = useState(0);
 
-  // Check mobile responsiveness
-  useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 768);
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const isTablet = useMediaQuery(theme.breakpoints.between('sm', 'md'));
 
-  // Video event handlers
-  const handleLoadedMetadata = () => {
-    if (videoRef.current) {
-      setDuration(videoRef.current.duration);
-    }
+  // Format time (seconds to MM:SS)
+  const formatTime = (seconds) => {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = Math.floor(seconds % 60);
+    return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
   };
 
-  const handleTimeUpdate = () => {
-    if (videoRef.current) {
-      setCurrentTime(videoRef.current.currentTime);
-      setProgress((videoRef.current.currentTime / duration) * 100);
-    }
-  };
-
-  // Playback controls
+  // Toggle play/pause
   const togglePlay = () => {
-    if (videoRef.current) {
-      if (playing) {
-        videoRef.current.pause();
-      } else {
-        videoRef.current.play().catch(error => {
-          console.error("Video play failed:", error);
-        });
-      }
-      setPlaying(!playing);
+    if (playing) {
+      videoRef.current.pause();
+    } else {
+      videoRef.current.play();
     }
+    setPlaying(!playing);
   };
 
-  const rewindLaugh = () => {
-    if (videoRef.current) {
-      videoRef.current.currentTime = Math.max(0, videoRef.current.currentTime - 10);
-      setFlashEffect(true);
-      setTimeout(() => setFlashEffect(false), 1000);
-    }
+  // Handle volume change
+  const handleVolumeChange = (e, newValue) => {
+    setVolume(newValue);
+    videoRef.current.volume = newValue;
+    setMuted(newValue === 0);
   };
 
-  const fastForward = () => {
-    if (videoRef.current) {
-      videoRef.current.currentTime = Math.min(
-        duration,
-        videoRef.current.currentTime + 10
-      );
-    }
-  };
-
-  const toggleSlowMo = () => {
-    if (videoRef.current) {
-      const newSlowMo = !slowMo;
-      videoRef.current.playbackRate = newSlowMo ? 0.5 : 1;
-      setSlowMo(newSlowMo);
-      updateVideoFilter();
-    }
-  };
-
-  // Video effects
-  const updateVideoFilter = () => {
-    if (videoRef.current) {
-      videoRef.current.style.filter = `
-        brightness(${brightness}%) 
-        ${slowMo ? 'sepia(0.5)' : ''}
-      `;
-    }
-  };
-
+  // Handle brightness change
   const handleBrightnessChange = (e, newValue) => {
     setBrightness(newValue);
-    updateVideoFilter();
+    videoRef.current.style.filter = `brightness(${newValue / 100})`;
   };
 
+  // Toggle brightness slider
   const toggleBrightnessSlider = () => {
     setShowBrightnessSlider(!showBrightnessSlider);
   };
 
-  // Meme capture with security error handling
-  const captureMeme = async () => {
+  // Handle time update
+  const handleTimeUpdate = () => {
+    setCurrentTime(videoRef.current.currentTime);
+    setProgress((videoRef.current.currentTime / duration) * 100);
+  };
+
+  // Handle loaded metadata
+  const handleLoadedMetadata = () => {
+    setDuration(videoRef.current.duration);
+  };
+
+  // Toggle fullscreen
+  const toggleFullscreen = () => {
+    if (!document.fullscreenElement) {
+      containerRef.current.requestFullscreen().catch(err => {
+        setSnackbar({
+          open: true,
+          message: `Fullscreen failed: ${err.message}`,
+          severity: 'error'
+        });
+      });
+      setFullscreen(true);
+    } else {
+      document.exitFullscreen();
+      setFullscreen(false);
+    }
+  };
+
+  // Seek functions
+  const rewindLaugh = () => {
+    videoRef.current.currentTime = Math.max(0, currentTime - 10);
+  };
+
+  const fastForward = () => {
+    videoRef.current.currentTime = Math.min(duration, currentTime + 10);
+  };
+
+  // Comedy features
+ const captureMeme = async () => {
     if (!videoRef.current || !canCapture) return;
     
     try {
@@ -999,111 +183,84 @@ const ComedyPlayer = ({ src }) => {
       setCanCapture(false);
     }
   };
-
-  const handleVolumeChange = (e, newValue) => {
-    if (videoRef.current) {
-      setVolume(newValue);
-      videoRef.current.volume = newValue;
-      setMuted(newValue === 0);
-    }
+  const toggleSlowMo = () => {
+    setSlowMo(!slowMo);
+    videoRef.current.playbackRate = slowMo ? 1 : 0.5;
   };
 
-  const toggleFullscreen = () => {
-    if (!fullscreen) {
-      containerRef.current?.requestFullscreen?.().catch(err => {
-        console.error("Fullscreen failed:", err);
-      });
-    } else {
-      document.exitFullscreen?.();
-    }
-    setFullscreen(!fullscreen);
-  };
-
-  // Comedy features
   const countJoke = () => {
-    setJokeCount(prev => prev + 1);
+    setJokeCount(jokeCount + 1);
   };
 
-  // Close snackbar
+  // Snackbar handler
   const handleCloseSnackbar = () => {
-    setSnackbar(prev => ({ ...prev, open: false }));
+    setSnackbar({ ...snackbar, open: false });
   };
 
-  // Keyboard shortcuts
-  useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (!videoRef.current) return;
-      
-      switch (e.key) {
-        case ' ':
-          e.preventDefault();
-          togglePlay();
-          break;
-        case 'ArrowLeft':
-          rewindLaugh();
-          break;
-        case 'ArrowRight':
-          fastForward();
-          break;
-        case 'm':
-          setMuted(!muted);
-          break;
-        case 'f':
-          toggleFullscreen();
-          break;
-        case 'b':
-          toggleBrightnessSlider();
-          break;
-        default:
-          break;
-      }
-    };
-
-    document.addEventListener('keydown', handleKeyDown);
-    return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [playing, muted, fullscreen]);
-
-  // Auto-hide controls
-  useEffect(() => {
-    const resetControlsTimeout = () => {
-      clearTimeout(controlsTimeout.current);
-      setShowControls(true);
-      if (playing) {
-        controlsTimeout.current = setTimeout(() => {
-          setShowControls(false);
-        }, 3000);
-      }
-    };
-
-    resetControlsTimeout();
-    return () => clearTimeout(controlsTimeout.current);
-  }, [playing, currentTime]);
-
-  // Responsive control button renderer
-  const renderControlButton = (icon, label, onClick, color = 'inherit', extraProps = {}) => (
-    <Tooltip title={label}>
-      <IconButton
-        onClick={onClick}
-        color={color}
-        aria-label={label}
-        sx={{
-          '&:active': { animation: `${wiggle} 0.3s` },
-          ...extraProps.sx
-        }}
-        size={isMobile ? "small" : "medium"}
-      >
-        {icon}
-        {!isMobile && extraProps.text && (
-          <Typography variant="caption" sx={{ ml: 0.5 }}>
-            {extraProps.text}
-          </Typography>
-        )}
-      </IconButton>
-    </Tooltip>
+  // Render control button helper
+  const renderControlButton = (icon, title, onClick, color = 'white', extra = {}) => (
+    <Button
+      onClick={onClick}
+      aria-label={title}
+      sx={{
+        color,
+        minWidth: 'auto',
+        p: isMobile ? 0.5 : 1,
+        '&:active': { animation: `${wiggle} 0.3s` }
+      }}
+    >
+      {icon}
+      {!isMobile && extra.text && (
+        <Typography variant="caption" sx={{ ml: 0.5 }}>
+          {extra.text}
+        </Typography>
+      )}
+    </Button>
   );
 
+  // Touch event handlers for mobile
+  const handleTouchStart = () => {
+    setTouchStartTime(Date.now());
+    setShowControls(true);
+    setTimeout(() => setShowControls(false), 3000);
+  };
+
+  const handleTouchEnd = () => {
+    const touchDuration = Date.now() - touchStartTime;
+    if (touchDuration < 300) {
+      const now = Date.now();
+      if (now - lastTapTime < 300) {
+        togglePlay();
+      }
+      setLastTapTime(now);
+    }
+  };
+
+  // Hide controls after 3 seconds of inactivity
+  useEffect(() => {
+    let timer;
+    if (showControls) {
+      timer = setTimeout(() => {
+        setShowControls(false);
+      }, 3000);
+    }
+    return () => clearTimeout(timer);
+  }, [showControls]);
+
+  // Handle fullscreen change
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      setFullscreen(!!document.fullscreenElement);
+    };
+
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    return () => {
+      document.removeEventListener('fullscreenchange', handleFullscreenChange);
+    };
+  }, []);
+
   return (
-    <Box 
+    <Box
       ref={containerRef}
       sx={{
         width: '100%',
@@ -1115,18 +272,19 @@ const ComedyPlayer = ({ src }) => {
         overflow: 'hidden',
         boxShadow: 6,
         '&:hover .controls': {
-          opacity: 1
+          opacity: isMobile ? 0 : 1
         }
       }}
-      onMouseMove={() => setShowControls(true)}
-      onTouchStart={() => setShowControls(true)}
+      onMouseMove={() => !isMobile && setShowControls(true)}
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
     >
       {/* Video Element */}
       <video
         ref={videoRef}
         src={src}
         crossOrigin="anonymous"
-        onClick={togglePlay}
+        onClick={isMobile ? undefined : togglePlay}
         onTimeUpdate={handleTimeUpdate}
         onLoadedMetadata={handleLoadedMetadata}
         onEnded={() => setPlaying(false)}
@@ -1140,7 +298,7 @@ const ComedyPlayer = ({ src }) => {
         style={{
           width: '100%',
           display: 'block',
-          cursor: 'pointer',
+          cursor: isMobile ? 'default' : 'pointer',
         }}
       />
 
@@ -1160,12 +318,12 @@ const ComedyPlayer = ({ src }) => {
 
       {/* Controls Container */}
       <Box className="controls" sx={{
-        p: { xs: 0.5, sm: 1 },
+        p: isMobile ? 0.5 : 1,
         bgcolor: 'rgba(0,0,0,0.7)',
         color: 'white',
         display: 'flex',
         flexDirection: 'column',
-        gap: { xs: 0.5, sm: 1 },
+        gap: isMobile ? 0.5 : 1,
         position: 'absolute',
         bottom: 0,
         left: 0,
@@ -1185,10 +343,10 @@ const ComedyPlayer = ({ src }) => {
           }}
           sx={{
             color: '#FF4081',
-            height: { xs: 4, sm: 6 },
+            height: isMobile ? 4 : 6,
             '& .MuiSlider-thumb': {
-              width: { xs: 12, sm: 15 },
-              height: { xs: 12, sm: 15 },
+              width: isMobile ? 12 : 15,
+              height: isMobile ? 12 : 15,
               transition: '0.3s',
               '&:hover, &.Mui-focusVisible': {
                 boxShadow: '0 0 0 8px rgba(255, 64, 129, 0.16)',
@@ -1198,71 +356,70 @@ const ComedyPlayer = ({ src }) => {
           }}
         />
 
-        {/* Brightness Slider */}
-        {showBrightnessSlider && (
-          <Box sx={{ 
-            display: 'flex', 
-            alignItems: 'center', 
-            gap: 1,
-            mb: 1
-          }}>
-            <Brightness4 sx={{ color: 'white' }} />
-            <Slider
-              value={brightness}
-              onChange={handleBrightnessChange}
-              min={50}
-              max={150}
-              step={5}
-              sx={{ color: 'white', flexGrow: 1 }}
-              aria-label="Brightness"
-            />
-            <Brightness7 sx={{ color: 'white' }} />
-          </Box>
-        )}
-
         {/* Main Controls Row */}
         <Box sx={{ 
           display: 'flex', 
           alignItems: 'center', 
-          gap: { xs: 0.5, sm: 1 },
+          gap: isMobile ? 0.5 : 1,
         }}>
           {/* Play/Pause */}
           {renderControlButton(
-            playing ? <Pause /> : <PlayArrow />,
+            playing ? <Pause fontSize={isMobile ? 'small' : 'medium'} /> : <PlayArrow fontSize={isMobile ? 'small' : 'medium'} />,
             playing ? 'Pause' : 'Play',
             togglePlay
           )}
 
           {/* Volume Controls */}
-          <Box sx={{ 
-            display: 'flex', 
-            alignItems: 'center', 
-            width: { xs: 80, sm: 100 },
-            gap: 0.5
+          {!isMobile && (
+            <Box sx={{ 
+              display: 'flex', 
+              alignItems: 'center', 
+              width: isTablet ? 80 : 100,
+              gap: 0.5
+            }}>
+              {renderControlButton(
+                muted || volume === 0 ? <VolumeOff fontSize={isMobile ? 'small' : 'medium'} /> : <VolumeUp fontSize={isMobile ? 'small' : 'medium'} />,
+                muted ? 'Unmute' : 'Mute',
+                () => setMuted(!muted)
+              )}
+              <Slider
+                value={muted ? 0 : volume}
+                onChange={handleVolumeChange}
+                min={0}
+                max={1}
+                step={0.1}
+                sx={{ color: 'white' }}
+                aria-label="Volume"
+                size="small"
+              />
+            </Box>
+          )}
+
+          {/* Brightness Control */}
+          <Box sx={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 0.5,
+            width: isMobile ? 80 : 120
           }}>
             {renderControlButton(
-              muted || volume === 0 ? <VolumeOff /> : <VolumeUp />,
-              muted ? 'Unmute' : 'Mute',
-              () => setMuted(!muted)
+              brightness > 100 ? <Brightness7 fontSize={isMobile ? 'small' : 'medium'} /> : <Brightness4 fontSize={isMobile ? 'small' : 'medium'} />,
+              'Adjust Brightness',
+              toggleBrightnessSlider
             )}
-            <Slider
-              value={muted ? 0 : volume}
-              onChange={handleVolumeChange}
-              min={0}
-              max={1}
-              step={0.1}
-              sx={{ color: 'white' }}
-              aria-label="Volume"
-              size="small"
-            />
+            {showBrightnessSlider && (
+              <Slider
+                value={brightness}
+                onChange={handleBrightnessChange}
+                min={50}
+                max={150}
+                step={5}
+                sx={{ color: 'white' }}
+                aria-label="Brightness"
+                size="small"
+              />
+            )}
           </Box>
-
-          {/* Brightness Toggle */}
-          {renderControlButton(
-            brightness > 100 ? <Brightness7 /> : <Brightness4 />,
-            'Adjust Brightness',
-            toggleBrightnessSlider
-          )}
 
           {/* Time Display */}
           <Typography 
@@ -1270,8 +427,8 @@ const ComedyPlayer = ({ src }) => {
             sx={{ 
               ml: 'auto', 
               mr: 1,
-              fontSize: { xs: '0.75rem', sm: '0.875rem' },
-              display: { xs: 'none', sm: 'block' }
+              fontSize: isMobile ? '0.7rem' : '0.875rem',
+              display: isMobile ? 'none' : 'block'
             }}
           >
             {formatTime(currentTime)} / {formatTime(duration)}
@@ -1279,7 +436,7 @@ const ComedyPlayer = ({ src }) => {
 
           {/* Seek Controls */}
           {renderControlButton(
-            <Replay10 />,
+            <Replay10 fontSize={isMobile ? 'small' : 'medium'} />,
             'Rewind 10s',
             rewindLaugh,
             'inherit',
@@ -1287,7 +444,7 @@ const ComedyPlayer = ({ src }) => {
           )}
 
           {renderControlButton(
-            <Forward10 />,
+            <Forward10 fontSize={isMobile ? 'small' : 'medium'} />,
             'Forward 10s',
             fastForward,
             'inherit',
@@ -1296,66 +453,111 @@ const ComedyPlayer = ({ src }) => {
 
           {/* Fullscreen */}
           {renderControlButton(
-            <Fullscreen />,
+            <Fullscreen fontSize={isMobile ? 'small' : 'medium'} />,
             fullscreen ? 'Exit Fullscreen' : 'Fullscreen',
             toggleFullscreen
           )}
         </Box>
 
-        {/* Comedy Features Row */}
-        <Box sx={{ 
-          display: 'flex', 
-          justifyContent: 'space-around',
-          borderTop: '1px solid rgba(255,255,255,0.2)',
-          pt: { xs: 0.5, sm: 1 },
-        }}>
-          {/* Meme Capture */}
-          <Button 
-            onClick={captureMeme}
-            disabled={!canCapture}
-            startIcon={<Screenshot />}
-            sx={{ 
-              color: 'white', 
-              '&:active': { animation: `${wiggle} 0.3s` },
-              minWidth: 'auto',
-              px: { xs: 0.5, sm: 1 }
-            }}
-            size="small"
-          >
-            {!isMobile && 'Meme'}
-          </Button>
+        {/* Comedy Features Row - Hidden on mobile to save space */}
+        {!isMobile && (
+          <Box sx={{ 
+            display: 'flex', 
+            justifyContent: 'space-around',
+            borderTop: '1px solid rgba(255,255,255,0.2)',
+            pt: isMobile ? 0.5 : 1,
+          }}>
+            <Button 
+              onClick={captureMeme}
+              disabled={!canCapture}
+              startIcon={<Screenshot fontSize={isMobile ? 'small' : 'medium'} />}
+              sx={{ 
+                color: 'white', 
+                '&:active': { animation: `${wiggle} 0.3s` },
+                minWidth: 'auto',
+                px: isMobile ? 0.5 : 1,
+                fontSize: isMobile ? '0.7rem' : '0.875rem'
+              }}
+              size="small"
+            >
+              Meme
+            </Button>
 
-          {/* Slow Motion */}
-          <Button 
-            onClick={toggleSlowMo}
-            startIcon={<SlowMotionVideo />}
-            sx={{ 
-              color: slowMo ? '#FFD700' : 'white',
-              '&:active': { animation: `${wiggle} 0.3s` },
-              minWidth: 'auto',
-              px: { xs: 0.5, sm: 1 }
-            }}
-            size="small"
-          >
-            {!isMobile && 'Slow Mo'}
-          </Button>
+            <Button 
+              onClick={toggleSlowMo}
+              startIcon={<SlowMotionVideo fontSize={isMobile ? 'small' : 'medium'} />}
+              sx={{ 
+                color: slowMo ? '#FFD700' : 'white',
+                '&:active': { animation: `${wiggle} 0.3s` },
+                minWidth: 'auto',
+                px: isMobile ? 0.5 : 1,
+                fontSize: isMobile ? '0.7rem' : '0.875rem'
+              }}
+              size="small"
+            >
+              Slow Mo
+            </Button>
 
-          {/* Joke Counter */}
-          <Button 
-            onClick={countJoke}
-            startIcon={<EmojiEmotions />}
-            sx={{ 
-              color: 'white', 
-              '&:active': { animation: `${wiggle} 0.3s` },
-              minWidth: 'auto',
-              px: { xs: 0.5, sm: 1 }
-            }}
-            size="small"
-          >
-            {!isMobile && 'Jokes:'} {jokeCount}
-          </Button>
-        </Box>
+            <Button 
+              onClick={countJoke}
+              startIcon={<EmojiEmotions fontSize={isMobile ? 'small' : 'medium'} />}
+              sx={{ 
+                color: 'white', 
+                '&:active': { animation: `${wiggle} 0.3s` },
+                minWidth: 'auto',
+                px: isMobile ? 0.5 : 1,
+                fontSize: isMobile ? '0.7rem' : '0.875rem'
+              }}
+              size="small"
+            >
+              Jokes: {jokeCount}
+            </Button>
+          </Box>
+        )}
       </Box>
+
+      {/* Mobile Time Display */}
+      {isMobile && showControls && (
+        <Box sx={{
+          position: 'absolute',
+          top: 8,
+          right: 8,
+          bgcolor: 'rgba(0,0,0,0.5)',
+          px: 1,
+          py: 0.5,
+          borderRadius: 1,
+          zIndex: 2
+        }}>
+          <Typography variant="caption" sx={{ color: 'white', fontSize: '0.7rem' }}>
+            {formatTime(currentTime)} / {formatTime(duration)}
+          </Typography>
+        </Box>
+      )}
+
+      {/* Mobile Play/Pause Center Button */}
+      {isMobile && !showControls && (
+        <Box 
+          onClick={togglePlay}
+          sx={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            zIndex: 1,
+            opacity: 0.7,
+            transition: 'opacity 0.3s',
+            '&:active': {
+              opacity: 1
+            }
+          }}
+        >
+          {playing ? (
+            <Pause sx={{ fontSize: '3rem', color: 'white' }} />
+          ) : (
+            <PlayArrow sx={{ fontSize: '3rem', color: 'white' }} />
+          )}
+        </Box>
+      )}
 
       {/* Snackbar for error messages */}
       <Snackbar
@@ -1372,4 +574,4 @@ const ComedyPlayer = ({ src }) => {
   );
 };
 
-export default ComedyPlayer;
+export default VideoPlayer;

@@ -226,13 +226,14 @@ export default function Login() {
                   <button
                     type="button"
                     className="signup-link"
+                    style={{color:'red',border:'none',background:'transparent'}}
                     onClick={() => {
                       setStep('signup');
                       setError('');
                       setSuccess('');
                     }}
                   >
-                    Signup
+                    Sign Up
                   </button>
                 </p>
               </div>
@@ -251,6 +252,7 @@ export default function Login() {
                   onChange={e => setSignupName(e.target.value)}
                   className="input"
                   required
+                  pattern="[a-zA-Z \-']+"
                 />
               </div>
               <div className="input-group">
@@ -262,6 +264,7 @@ export default function Login() {
                   onChange={e => setSignupEmail(e.target.value)}
                   className="input"
                   required
+                  pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.com$"
                 />
               </div>
               <div className="input-group">
@@ -294,11 +297,12 @@ export default function Login() {
             Sign Up
           </button>
 
-          <p className="signup-text">
+          <p className="signup-text mt-3">
             Already have an account?{' '}
             <button
               type="button"
               className="signup-link"
+              style={{color:'red',border:'none',background:'transparent'}}
               onClick={() => {
                 setStep('login');
                 setError('');

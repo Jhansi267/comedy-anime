@@ -1,240 +1,529 @@
 import React, { useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from "react-router-dom";
+import { 
+  Container, 
+  Box, 
+  Typography, 
+  Tabs, 
+  Tab, 
+  TextField, 
+  Button, 
+  List, 
+  ListItem, 
+  ListItemText, 
+  Divider,
+  IconButton,
+  Paper,
+  Avatar,
+  InputAdornment,
+  Icon
+} from "@mui/material";
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import "bootstrap/dist/css/bootstrap.min.css";
 import "./Accountsetting.scss";
 
 const Accountsetting = () => {
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("profile");
 
+  // Profile data with initial values
   const [profileData, setProfileData] = useState({
-    username: "",
-    email: "",
+    username: "ComedyFan123",
+    email: "user@comedyott.com",
+    avatar: "",
+    bio: "Laughing my way through life!",
   });
 
+  // Security data
   const [securityData, setSecurityData] = useState({
     currentPassword: "",
     newPassword: "",
     confirmPassword: "",
   });
 
+  // Show/hide password states
+  const [showPasswords, setShowPasswords] = useState({
+    current: false,
+    new: false,
+    confirm: false
+  });
+
+  // Activity log data
   const lastActivity = [
     { date: "2025-05-20", activity: "Logged in from Chrome on Windows" },
     { date: "2025-05-19", activity: "Password changed" },
     { date: "2025-05-18", activity: "Enabled push notifications" },
+    { date: "2025-05-15", activity: "Watched 'Stand-Up Special: Laugh Riot'" },
+    { date: "2025-05-14", activity: "Subscribed to 'Funny Bones' series" },
   ];
 
-  const [errors, setErrors] = useState({});
+  // Validation errors
+  const [errors, setErrors] = useState({
+    profile: {},
+    security: {}
+  });
 
-  const handleTabChange = (tab) => {
-    setErrors({});
-    setActiveTab(tab);
+  // Handle tab change
+  const handleTabChange = (event, newValue) => {
+    setErrors({ profile: {}, security: {} });
+    setActiveTab(newValue);
   };
 
+  // Handle profile input changes
   const handleProfileChange = (e) => {
     const { name, value } = e.target;
     setProfileData((prev) => ({ ...prev, [name]: value }));
+    
+    // Clear error when user starts typing
+    if (errors.profile[name]) {
+      setErrors(prev => ({
+        ...prev,
+        profile: { ...prev.profile, [name]: '' }
+      }));
+    }
   };
 
+  // Handle security input changes
   const handleSecurityChange = (e) => {
     const { name, value } = e.target;
     setSecurityData((prev) => ({ ...prev, [name]: value }));
+    
+    // Clear error when user starts typing
+    if (errors.security[name]) {
+      setErrors(prev => ({
+        ...prev,
+        security: { ...prev.security, [name]: '' }
+      }));
+    }
   };
 
+  // Toggle password visibility
+  const handleClickShowPassword = (field) => {
+    setShowPasswords({
+      ...showPasswords,
+      [field]: !showPasswords[field]
+    });
+  };
+
+  // Validate profile form
   const validateProfile = () => {
-    let tempErrors = {};
-    if (!profileData.username) tempErrors.username = "Username is required";
-    if (!profileData.email) tempErrors.email = "Email is required";
-    else if (
-      !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(profileData.email)
-    )
-      tempErrors.email = "Invalid email address";
+    let valid = true;
+    const newErrors = { ...errors.profile };
 
-    setErrors(tempErrors);
-    return Object.keys(tempErrors).length === 0;
+    // Username validation
+    if (!profileData.username.trim()) {
+      newErrors.username = "Username is required";
+      valid = false;
+    } else if (profileData.username.length < 3) {
+      newErrors.username = "Username must be at least 3 characters";
+      valid = false;
+    } else if (!/^[a-zA-Z0-9_]+$/.test(profileData.username)) {
+      newErrors.username = "Username can only contain letters, numbers and underscores";
+      valid = false;
+    }
+
+    // Email validation
+    if (!profileData.email) {
+      newErrors.email = "Email is required";
+      valid = false;
+    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(profileData.email)) {
+      newErrors.email = "Invalid email address";
+      valid = false;
+    }
+
+    // Bio validation
+    if (profileData.bio.length > 150) {
+      newErrors.bio = "Bio must be less than 150 characters";
+      valid = false;
+    }
+
+    setErrors({ ...errors, profile: newErrors });
+    return valid;
   };
 
+  // Validate security form
   const validateSecurity = () => {
-    let tempErrors = {};
-    if (!securityData.currentPassword)
-      tempErrors.currentPassword = "Current password is required";
-    if (!securityData.newPassword)
-      tempErrors.newPassword = "New password is required";
-    if (securityData.newPassword !== securityData.confirmPassword)
-      tempErrors.confirmPassword = "Passwords do not match";
+    let valid = true;
+    const newErrors = { ...errors.security };
 
-    setErrors(tempErrors);
-    return Object.keys(tempErrors).length === 0;
+    // Current password validation
+    if (!securityData.currentPassword) {
+      newErrors.currentPassword = "Current password is required";
+      valid = false;
+    } else if (securityData.currentPassword.length < 8) {
+      newErrors.currentPassword = "Password must be at least 8 characters";
+      valid = false;
+    }
+
+    // New password validation
+    if (!securityData.newPassword) {
+      newErrors.newPassword = "New password is required";
+      valid = false;
+    } else if (securityData.newPassword.length < 8) {
+      newErrors.newPassword = "Password must be at least 8 characters";
+      valid = false;
+    } else if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}/.test(securityData.newPassword)) {
+      newErrors.newPassword = "Password must contain uppercase, lowercase, number and special character";
+      valid = false;
+    } else if (securityData.newPassword === securityData.currentPassword) {
+      newErrors.newPassword = "New password must be different from current password";
+      valid = false;
+    }
+
+    // Confirm password validation
+    if (!securityData.confirmPassword) {
+      newErrors.confirmPassword = "Please confirm your new password";
+      valid = false;
+    } else if (securityData.newPassword !== securityData.confirmPassword) {
+      newErrors.confirmPassword = "Passwords do not match";
+      valid = false;
+    }
+
+    setErrors({ ...errors, security: newErrors });
+    return valid;
   };
 
+  // Handle profile form submission
   const handleProfileSubmit = (e) => {
     e.preventDefault();
     if (validateProfile()) {
       toast.success("Profile updated successfully!");
-      setErrors({});
+      setErrors({ ...errors, profile: {} });
     } else {
-      toast.error("Fix profile form errors.");
+      toast.error("Please fix the errors in the form");
     }
   };
 
+  // Handle security form submission
   const handleSecuritySubmit = (e) => {
     e.preventDefault();
     if (validateSecurity()) {
       toast.success("Password updated successfully!");
-      setErrors({});
+      setErrors({ ...errors, security: {} });
       setSecurityData({
         currentPassword: "",
         newPassword: "",
         confirmPassword: "",
       });
     } else {
-      toast.error("Fix security form errors.");
+      toast.error("Please fix the errors in the form");
+    }
+  };
+
+  // Handle avatar upload
+  const handleAvatarUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      if (file.size > 2 * 1024 * 1024) {
+        toast.error("Image size should be less than 2MB");
+        return;
+      }
+      if (!['image/jpeg', 'image/png', 'image/gif'].includes(file.type)) {
+        toast.error("Only JPG, PNG or GIF images are allowed");
+        return;
+      }
+      
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        setProfileData(prev => ({
+          ...prev,
+          avatar: event.target.result
+        }));
+        toast.success("Avatar updated successfully!");
+      };
+      reader.readAsDataURL(file);
     }
   };
 
   return (
-    <div className="account-layout">
-      <div className="account-image-section">
-        <img
-          src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80"
-          alt="Account Visual"
-        />
-      </div>
+    <Container maxWidth="lg" className="account-setting-container">
+      <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
+        <Button
+        variant="contained"
+        style={{background: 'linear-gradient(to right, #ff758c, #ff7eb3, #ff8c7e, #ff9a5a)'}}
+        size="large"
+         onClick={() => navigate(-1)} sx={{ mr: 2 }}>
+         Back
+        </Button>
+        <Typography variant="h4" component="h1" sx={{ 
+          fontWeight: 'bold',
+          background: 'linear-gradient(45deg, #FF6B6B 30%, #FF8E53 90%)',
+          WebkitBackgroundClip: 'text',
+          WebkitTextFillColor: 'transparent'
+        }}>
+          Comedy OTT Account Settings
+        </Typography>
+      </Box>
 
-      <div className="account-setting-container">
-        <ToastContainer />
-        <h2>Account Settings</h2>
+      <ToastContainer position="top-right" autoClose={3000} />
 
-        <div className="tabs">
-          <button
-            className={activeTab === "profile" ? "active" : ""}
-            onClick={() => handleTabChange("profile")}
+      <Paper elevation={3} sx={{ p: 3, mb: 4, background: '#1a1a2e' }}>
+        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+          <Tabs 
+            value={activeTab} 
+            onChange={handleTabChange} 
+            textColor="secondary"
+            indicatorColor="secondary"
+            variant="fullWidth"
           >
-            Profile
-          </button>
-          <button
-            className={activeTab === "security" ? "active" : ""}
-            onClick={() => handleTabChange("security")}
-          >
-            Security
-          </button>
-          <button
-            className={activeTab === "activity" ? "active" : ""}
-            onClick={() => handleTabChange("activity")}
-          >
-            Last Activity
-          </button>
-        </div>
+            <Tab label="Profile" value="profile" />
+            <Tab label="Security" value="security" />
+            <Tab label="Activity Log" value="activity" />
+          </Tabs>
+        </Box>
 
-        {activeTab === "profile" && (
-          <form className="tab-content" onSubmit={handleProfileSubmit} noValidate>
-            <div className="input-row">
-              <div className="input-field">
-                <label>Username</label>
-                <input
+        <Box sx={{ pt: 3 }}>
+          {/* PROFILE TAB */}
+          {activeTab === "profile" && (
+            <Box component="form" onSubmit={handleProfileSubmit}>
+              <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mb: 4 }}>
+                <Avatar
+                  src={profileData.avatar}
+                  sx={{ 
+                    width: 120, 
+                    height: 120, 
+                    mb: 2,
+                    border: '3px solid #FF6B6B'
+                  }}
+                />
+                <Button
+                  variant="contained"
+                  component="label"
+                  style={{background: 'linear-gradient(to right, #ff758c, #ff7eb3, #ff8c7e, #ff9a5a)'}}
+                  size="small"
+                >
+                  Upload Avatar
+                  <input
+                    type="file"
+                    hidden
+                    accept="image/*"
+                    onChange={handleAvatarUpload}
+                  />
+                </Button>
+              </Box>
+
+              <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, gap: 3 }}>
+                <TextField
+                  fullWidth
+                  label="Username"
                   name="username"
                   value={profileData.username}
                   onChange={handleProfileChange}
-                  className={errors.username ? "error" : ""}
-                  placeholder="Enter username"
+                  error={!!errors.profile.username}
+                  helperText={errors.profile.username}
+                  variant="outlined"
+                  color="secondary"
+                  InputProps={{
+                    style: { color: '#fff' }
+                  }}
+                  InputLabelProps={{
+                    style: { color: '#aaa' }
+                  }}
                 />
-                {errors.username && (
-                  <span className="error-message">{errors.username}</span>
-                )}
-              </div>
-
-              <div className="input-field">
-                <label>Email</label>
-                <input
+                <TextField
+                  fullWidth
+                  label="Email"
                   name="email"
+                  type="email"
                   value={profileData.email}
                   onChange={handleProfileChange}
-                  className={errors.email ? "error" : ""}
-                  placeholder="Enter email"
-                  type="email"
+                  error={!!errors.profile.email}
+                  helperText={errors.profile.email}
+                  variant="outlined"
+                  color="secondary"
+                  InputProps={{
+                    style: { color: '#fff' }
+                  }}
+                  InputLabelProps={{
+                    style: { color: '#aaa' }
+                  }}
                 />
-                {errors.email && (
-                  <span className="error-message">{errors.email}</span>
-                )}
-              </div>
-            </div>
+              </Box>
 
-            <button type="submit" className="save-btn">
-              Save Profile
-            </button>
-          </form>
-        )}
+              <TextField
+                fullWidth
+                label="Bio"
+                name="bio"
+                value={profileData.bio}
+                onChange={handleProfileChange}
+                error={!!errors.profile.bio}
+                helperText={errors.profile.bio || `${profileData.bio.length}/150`}
+                variant="outlined"
+                color="secondary"
+                multiline
+                rows={4}
+                sx={{ mt: 3 }}
+                InputProps={{
+                  style: { color: '#fff' }
+                }}
+                InputLabelProps={{
+                  style: { color: '#aaa' }
+                }}
+              />
 
-        {activeTab === "security" && (
-          <form className="tab-content" onSubmit={handleSecuritySubmit} noValidate>
-            <div className="input-field">
-              <label>Current Password</label>
-              <input
-                type="password"
+              <Button
+                type="submit"
+                variant="contained"
+                style={{background: 'linear-gradient(to right, #ff758c, #ff7eb3, #ff8c7e, #ff9a5a)'}}
+                size="large"
+                sx={{ mt: 3, fontWeight: 'bold' }}
+              >
+                Save Profile
+              </Button>
+            </Box>
+          )}
+
+          {/* SECURITY TAB */}
+          {activeTab === "security" && (
+            <Box component="form" onSubmit={handleSecuritySubmit}>
+              <TextField
+                fullWidth
+                label="Current Password"
                 name="currentPassword"
+                type={showPasswords.current ? 'text' : 'password'}
                 value={securityData.currentPassword}
                 onChange={handleSecurityChange}
-                className={errors.currentPassword ? "error" : ""}
-                placeholder="Current password"
+                error={!!errors.security.currentPassword}
+                helperText={errors.security.currentPassword}
+                variant="outlined"
+                color="secondary"
+                sx={{ mb: 3 }}
+                InputProps={{
+                  style: { color: '#fff' },
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={() => handleClickShowPassword('current')}
+                        edge="end"
+                      >
+                        {showPasswords.current ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  )
+                }}
+                InputLabelProps={{
+                  style: { color: '#aaa' }
+                }}
               />
-              {errors.currentPassword && (
-                <span className="error-message">{errors.currentPassword}</span>
-              )}
-            </div>
 
-            <div className="input-field">
-              <label>New Password</label>
-              <input
-                type="password"
+              <TextField
+                fullWidth
+                label="New Password"
                 name="newPassword"
+                type={showPasswords.new ? 'text' : 'password'}
                 value={securityData.newPassword}
                 onChange={handleSecurityChange}
-                className={errors.newPassword ? "error" : ""}
-                placeholder="New password"
+                error={!!errors.security.newPassword}
+                helperText={errors.security.newPassword || "Minimum 8 characters with uppercase, lowercase, number and special character"}
+                variant="outlined"
+                color="secondary"
+                sx={{ mb: 3 }}
+                InputProps={{
+                  style: { color: '#fff' },
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={() => handleClickShowPassword('new')}
+                        edge="end"
+                      >
+                        {showPasswords.new ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  )
+                }}
+                InputLabelProps={{
+                  style: { color: '#aaa' }
+                }}
               />
-              {errors.newPassword && (
-                <span className="error-message">{errors.newPassword}</span>
-              )}
-            </div>
 
-            <div className="input-field">
-              <label>Confirm New Password</label>
-              <input
-                type="password"
+              <TextField
+                fullWidth
+                label="Confirm New Password"
                 name="confirmPassword"
+                type={showPasswords.confirm ? 'text' : 'password'}
                 value={securityData.confirmPassword}
                 onChange={handleSecurityChange}
-                className={errors.confirmPassword ? "error" : ""}
-                placeholder="Confirm new password"
+                error={!!errors.security.confirmPassword}
+                helperText={errors.security.confirmPassword}
+                variant="outlined"
+                color="secondary"
+                sx={{ mb: 3 }}
+                InputProps={{
+                  style: { color: '#fff' },
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={() => handleClickShowPassword('confirm')}
+                        edge="end"
+                      >
+                        {showPasswords.confirm ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  )
+                }}
+                InputLabelProps={{
+                  style: { color: '#aaa' }
+                }}
               />
-              {errors.confirmPassword && (
-                <span className="error-message">{errors.confirmPassword}</span>
-              )}
-            </div>
 
-            <button type="submit" className="save-btn">
-              Change Password
-            </button>
-          </form>
-        )}
+              <Button
+                type="submit"
+                variant="contained"
+                color="secondary"
+                size="large"
+                sx={{ fontWeight: 'bold' }}
+              >
+                Change Password
+              </Button>
+            </Box>
+          )}
 
-        {activeTab === "activity" && (
-          <div className="tab-content last-activity">
-            {lastActivity.length === 0 ? (
-              <p>No recent activity.</p>
-            ) : (
-              <ul>
-                {lastActivity.map((item, idx) => (
-                  <li key={idx}>
-                    <span className="date">{item.date}</span> —{" "}
-                    <span className="activity">{item.activity}</span>
-                  </li>
+          {/* ACTIVITY LOG TAB */}
+          {activeTab === "activity" && (
+            <Box>
+              <Typography variant="h6" gutterBottom sx={{ color: '#FF6B6B' }}>
+                Recent Activity
+              </Typography>
+              <List sx={{ 
+                bgcolor: 'background.paper',
+                borderRadius: 1,
+                overflow: 'hidden'
+              }}>
+                {lastActivity.map((item, index) => (
+                  <React.Fragment key={index}>
+                    <ListItem alignItems="flex-start">
+                      <ListItemText
+                        primary={
+                          <Typography variant="body1" sx={{ fontWeight: 'bold', color: '#FF8E53' }}>
+                            {item.activity}
+                          </Typography>
+                        }
+                        secondary={
+                          <Typography variant="body2" sx={{ color: '#aaa' }}>
+                            {new Date(item.date).toLocaleDateString('en-US', {
+                              year: 'numeric',
+                              month: 'long',
+                              day: 'numeric'
+                            })}
+                          </Typography>
+                        }
+                      />
+                    </ListItem>
+                    {index < lastActivity.length - 1 && <Divider component="li" />}
+                  </React.Fragment>
                 ))}
-              </ul>
-            )}
-          </div>
-        )}
-      </div>
-    </div>
+              </List>
+            </Box>
+          )}
+        </Box>
+      </Paper>
+    </Container>
   );
 };
 
