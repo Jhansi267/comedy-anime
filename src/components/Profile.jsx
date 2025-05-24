@@ -80,7 +80,7 @@ const Profile = () => {
     if (tab === 'profiles') return;
 
     const routeMap = {
-      subscription: '/subscription',
+      subscription: '/CurrentSubscription',
       history: '/history',
       account: '/accountsetting',  // Navigate to Accountsetting component
       downloads: '/downloads',

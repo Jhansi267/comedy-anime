@@ -202,7 +202,7 @@ const Navbar = () => {
               {/* Bookmarks */}
               <li className="nav-item" key="bookmarks">
                 <NavLink
-                  to="/bookmarks"
+                  to="/WishList"
                   className="nav-link"
                   style={({ isActive }) =>
                     isActive

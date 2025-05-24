@@ -9,6 +9,7 @@ import EmbarrassingConfessions from '../scroll/EmbarrassingConfessions';
 import SupernaturalShenanigans from '../scroll/SupernaturalShenanigans';
 import Footer from '../components/Footer';
 import { useNavigate } from 'react-router-dom';
+import './EmojiBackground.scss';
 
 // Font definitions
 const comicFonts = {
@@ -98,7 +99,44 @@ const Home = () => {
   return (
     <>
       <Navbar/>
-       <div className="container" style={{ fontFamily: comicFonts.body,marginTop:'97px'}}>
+ <div
+  className="container"
+  style={{
+    fontFamily: comicFonts.body,
+    marginTop: '97px'}}>
+        <div className="emoji-background">
+        {[
+          { emoji: '😂', size: '5rem' },
+          { emoji: '🤣', size: '3rem' },
+          { emoji: '😹', size: '1.8rem' },
+          { emoji: '😆', size: '2.5rem' },
+          { emoji: '🙃', size: '3.2rem' },
+          { emoji: '😜', size: '2.2rem' },
+          { emoji: '😝', size: '1.5rem' },
+          { emoji: '🎭', size: '2.8rem' },
+        ].map((item, index) => (
+          <span
+            key={`emoji-${index}`}
+            className={`emoji emoji-${index}`}
+            style={{ fontSize: item.size }}
+          >
+            {item.emoji}
+          </span>
+        ))}
+
+        {[ // floating images
+          '/Avatars/Banana.png',
+          '/Avatars/confetti.png',
+          '/Avatars/speechbubles.png',
+        ].map((src, index) => (
+          <img
+            key={`img-${index}`}
+            src={src}
+            alt={`bg-${index}`}
+            className={`floating-img floating-img-${index}`}
+          />
+        ))}
+      </div>
       <div className="row">
         <div className="col-12">
           <Box sx={{ position: 'relative', overflow: 'hidden' }}>
@@ -207,6 +245,7 @@ const Home = () => {
                           <Button 
                             variant="contained" 
                             startIcon={<PlayArrow />}
+                            onClick={()=>nav('/WatchEpisode')}
                             sx={{
                               fontFamily: comicFonts.body,
                               borderRadius: '50px',
@@ -221,6 +260,7 @@ const Home = () => {
                           <Button 
                             variant="contained" 
                             startIcon={<BookmarkAdd />}
+                            onClick={()=>nav('/Wishlist')}
                             sx={{
                               fontFamily: comicFonts.body,
                               borderRadius: '50px',

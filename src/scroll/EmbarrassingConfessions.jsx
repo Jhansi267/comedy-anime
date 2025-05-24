@@ -1,6 +1,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import { FaStar, FaPlay, FaBookmark } from "react-icons/fa";
 import { FaFire,  FaRocket, FaHeart, FaRegLaughSquint } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 const badgeIcons = {
   "Trending": <FaFire className="ms-1" />,       // 🔥 for Trending
   "Popular": <FaStar className="ms-1" />,        // ⭐ for Popular
@@ -129,6 +130,7 @@ badge: {
 };
 
 const EmbarrassingConfessions = () => {
+  let nav = useNavigate();
 const episodes = [
   {
     id: 1,
@@ -382,10 +384,10 @@ const episodes = [
                     <div style={styles.facepalmOverlay}>🤣</div>
 
                     <div style={styles.cardActions} className="d-flex me-auto">
-                      <button className="btn p-0">
+                      <button className="btn p-0" onClick={()=>nav('/WatchEpisode')}>
                         <FaPlay size={25} style={{ color: "orange" }} />
                       </button>
-                      <button className="btn p-0">
+                      <button className="btn p-0" onClick={()=>nav('/Wishlist')}>
                         <FaBookmark size={25} style={{ color: "orange" }} />
                       </button>
                     </div>
