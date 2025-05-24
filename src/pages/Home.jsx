@@ -8,6 +8,7 @@ import { FaChevronRight } from "react-icons/fa";
 import EmbarrassingConfessions from '../scroll/EmbarrassingConfessions';
 import SupernaturalShenanigans from '../scroll/SupernaturalShenanigans';
 import Footer from '../components/Footer';
+import { useNavigate } from 'react-router-dom';
 
 // Font definitions
 const comicFonts = {
@@ -37,6 +38,7 @@ const sweatDropBounce = keyframes`
 `;
 
 const Home = () => {
+  let nav =useNavigate();
   const [activeIndex, setActiveIndex] = useState(0);
   
   const comedyShows = [
@@ -263,7 +265,7 @@ const Home = () => {
       <div className="row">
         <div className="col-12 d-flex">
             <h2>Prank Episodes</h2>
-            <span className='ms-auto'><FaChevronRight/></span>
+            <span className='ms-auto'><FaChevronRight style={{cursor:'pointer'}} onClick={()=>nav('/Movies/AllPrankEpisodes')}/></span>
         </div>
       </div>
       <div className="row">
@@ -276,7 +278,7 @@ const Home = () => {
       <div className="row">
         <div className="col-12 d-flex">
             <h2>Embarrassing Confessions</h2>
-            <span className='ms-auto'><FaChevronRight/></span>
+            <span className='ms-auto'><FaChevronRight style={{cursor:'pointer'}} onClick={()=>nav('/Movies/Embarrassing')}/></span>
         </div>
       </div>
       <div className="row">
@@ -289,7 +291,7 @@ const Home = () => {
       <div className="row">
         <div className="col-12 d-flex">
             <h2> Supernatural Shenanigans</h2>
-            <span className='ms-auto'><FaChevronRight/></span>
+            <span className='ms-auto'><FaChevronRight style={{cursor:'pointer'}} onClick={()=>nav('/Movies/Supernatural')}/></span>
         </div>
       </div>
       <div className="row">

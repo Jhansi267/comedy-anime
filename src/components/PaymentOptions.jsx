@@ -14,8 +14,11 @@ import {
 import SentimentVerySatisfiedIcon from "@mui/icons-material/SentimentVerySatisfied";
 import PaymentIcon from "@mui/icons-material/Payment";
 import { useLocation, useNavigate } from "react-router-dom";
+import CancelIcon from '@mui/icons-material/Cancel';
+
  
 const PaymentOptions = () => {
+  let nav =useNavigate();
   const [method, setMethod] = useState("card");
   const [paid, setPaid] = useState(false);
   const location = useLocation();
@@ -269,6 +272,25 @@ const PaymentOptions = () => {
           >
             {paid ? "Processing..." : `🤣 Pay ${selectedPlan?.price}`}
           </Button>
+          <Button
+  variant="outlined"
+  color="error"
+  size="large"
+  sx={{
+    marginTop: 2,
+    fontWeight: "bold",
+    letterSpacing: 1,
+    transition: "transform 0.2s ease",
+    "&:hover": {
+      transform: "scale(1.1) rotate(-5deg)",
+    },
+  }}
+  onClick={()=>nav("/Subscription")} // Make sure you define handleCancel function
+  startIcon={<CancelIcon />} // Import CancelIcon from @mui/icons-material
+>
+  Cancel Payment
+</Button>
+
  
           <Fade in={paid} timeout={1000}>
             <Typography
