@@ -1,26 +1,10 @@
-/* body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
-} */
-
 body {
   margin: 0;
   font-family:"'Comic Neue', cursive";
-   /* font-family: 'Permanent Marker', 'Indie Flower', cursive; */
- /* or your font */
   background: radial-gradient(circle at 20% 30%, #fff59d, transparent 30%),
-              radial-gradient(circle at 80% 40%, #ff80ab, transparent 40%),
-              radial-gradient(circle at 50% 80%, #81d4fa, transparent 50%),
-              linear-gradient(135deg, #ffe0b2 0%, #ffccbc 100%);
+  radial-gradient(circle at 80% 40%, #ff80ab, transparent 40%),
+  radial-gradient(circle at 50% 80%, #81d4fa, transparent 50%),
+  linear-gradient(135deg, #ffe0b2 0%, #ffccbc 100%);
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: cover;

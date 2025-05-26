@@ -38,12 +38,9 @@ const History = () => {
     setHistory([]);
     toast.warning("Watch history cleared");
   };
-
   const navigate = useNavigate();
-
   return (
     <div className="history-page">
-      {/* Floating emoji background */}
       <div className="emoji-background">
         <span className="emoji">🤣</span>
         <span className="emoji">😜</span>
@@ -51,7 +48,6 @@ const History = () => {
         <span className="emoji">🍥</span>
         <span className="emoji">🌀</span>
       </div>
-
       <Container className="mt-4">
         <div className="d-flex justify-content-start align-items-center mb-3">
           <Button className="gradient-button" onClick={() => navigate(-1)}>
@@ -59,9 +55,7 @@ const History = () => {
             Back
           </Button>
         </div>
-
         <h2 className="mb-4 text-center">📺 Watch History 📺</h2>
-
         <Row>
           {history.length > 0 ? (
             history.map((item) => (
@@ -92,17 +86,14 @@ const History = () => {
             <p className="no-history">No watch history available. 😢</p>
           )}
         </Row>
-
         {history.length > 0 && (
           <Button className="gradient-button" onClick={handleClearHistory}>
             🗑️ Clear All History
           </Button>
         )}
-
         <ToastContainer position="bottom-right" autoClose={3000} />
       </Container>
     </div>
   );
 };
-
 export default History;

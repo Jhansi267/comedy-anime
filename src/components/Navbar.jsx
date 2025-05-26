@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { NavLink, useNavigate, Link } from 'react-router-dom';
+import React, { useState } from "react";
+import { NavLink, useNavigate, Link } from "react-router-dom";
 import { BsFillBookmarkHeartFill } from "react-icons/bs";
 import { IoMdNotifications } from "react-icons/io";
 import { CgProfile } from "react-icons/cg";
@@ -12,15 +12,12 @@ const Navbar = () => {
   const [showMovieSubmenu, setShowMovieSubmenu] = useState(false);
   const [showProfileDropdown, setShowProfileDropdown] = useState(false);
   const navigate = useNavigate();
-
   const toggleMovieSubmenu = () => {
-    setShowMovieSubmenu(prev => !prev);
+    setShowMovieSubmenu((prev) => !prev);
   };
-
   const toggleProfileDropdown = () => {
-    setShowProfileDropdown(prev => !prev);
+    setShowProfileDropdown((prev) => !prev);
   };
-
   const activeStyle = {
     fontWeight: "bold",
     color: "#fff",
@@ -28,12 +25,10 @@ const Navbar = () => {
     borderRadius: "10px",
     padding: "5px 10px",
   };
-
   const comedyHoverStyle = {
     transition: "transform 0.2s ease, background-color 0.2s ease",
     borderRadius: "10px",
   };
-
   const getHoverStyle = (name) =>
     hoveredLink === name
       ? {
@@ -45,7 +40,7 @@ const Navbar = () => {
 
   const handleLogout = () => {
     console.log("Logging out...");
-    navigate('/login');
+    navigate("/login");
   };
 
   return (
@@ -64,7 +59,10 @@ const Navbar = () => {
         }
       `}</style>
 
-      <nav className="navbar navbar-expand-lg navbar-light fixed-top" style={{ background: 'var(--nav-bg)' }}>
+      <nav
+        className="navbar navbar-expand-lg navbar-light fixed-top"
+        style={{ background: "var(--nav-bg)" }}
+      >
         <div className="container-fluid">
           <NavLink className="navbar-brand ms-3" to="/home">
             <img src="/assets/images/logo.png" alt="logo" width={60} />
@@ -80,11 +78,8 @@ const Navbar = () => {
           >
             <span className="navbar-toggler-icon"></span>
           </button>
-
           <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
             <ul className="navbar-nav mx-auto mb-2 mb-lg-0 gap-3 text-white">
-
-              {/* Home */}
               <li className="nav-item" key="home">
                 <NavLink
                   to="/home"
@@ -97,11 +92,10 @@ const Navbar = () => {
                   onMouseEnter={() => setHoveredLink("home")}
                   onMouseLeave={() => setHoveredLink(null)}
                 >
-                  <AiFillHome size={25} /><span className="ms-2">Home</span>
+                  <AiFillHome size={25} />
+                  <span className="ms-2">Home</span>
                 </NavLink>
               </li>
-
-              {/* Movies with submenu */}
               <li
                 className="nav-item position-relative"
                 key="movies"
@@ -110,9 +104,11 @@ const Navbar = () => {
                 <div
                   className="nav-link d-flex align-items-center"
                   style={{
-                    cursor: 'pointer',
+                    cursor: "pointer",
                     ...comedyHoverStyle,
-                    ...(hoveredLink === "movies" ? getHoverStyle("movies") : {})
+                    ...(hoveredLink === "movies"
+                      ? getHoverStyle("movies")
+                      : {}),
                   }}
                   onClick={toggleMovieSubmenu}
                   onMouseEnter={() => setHoveredLink("movies")}
@@ -121,18 +117,17 @@ const Navbar = () => {
                   <RiMovie2Fill size={25} />
                   <span className="ms-2">Movies</span>
                 </div>
-
                 {showMovieSubmenu && (
                   <ul
                     className="position-absolute bg-white shadow p-2 rounded"
-                    style={{ top: '100%', left: 0, zIndex: 1000 }}
+                    style={{ top: "100%", left: 0, zIndex: 1000 }}
                     onMouseLeave={() => setShowMovieSubmenu(false)}
                   >
                     <li>
                       <Link
                         to="/Movies/AllPrankEpisodes"
                         className="dropdown-item"
-                        style={{ color: '#000', padding: '5px 10px' }}
+                        style={{ color: "#000", padding: "5px 10px" }}
                         onClick={() => setShowMovieSubmenu(false)}
                       >
                         All Prank Episodes
@@ -142,7 +137,7 @@ const Navbar = () => {
                       <Link
                         to="/Movies/Embarrassing"
                         className="dropdown-item"
-                        style={{ color: '#000', padding: '5px 10px' }}
+                        style={{ color: "#000", padding: "5px 10px" }}
                         onClick={() => setShowMovieSubmenu(false)}
                       >
                         Embarrassing
@@ -152,7 +147,7 @@ const Navbar = () => {
                       <Link
                         to="/Movies/Supernatural"
                         className="dropdown-item"
-                        style={{ color: '#000', padding: '5px 10px' }}
+                        style={{ color: "#000", padding: "5px 10px" }}
                         onClick={() => setShowMovieSubmenu(false)}
                       >
                         Supernatural
@@ -161,8 +156,6 @@ const Navbar = () => {
                   </ul>
                 )}
               </li>
-
-              {/* LOL Pass */}
               <li className="nav-item" key="lol">
                 <NavLink
                   to="/Subscription"
@@ -175,11 +168,10 @@ const Navbar = () => {
                   onMouseEnter={() => setHoveredLink("lol")}
                   onMouseLeave={() => setHoveredLink(null)}
                 >
-                  <MdLocalActivity size={25} /><span className="ms-2">LOL Pass</span>
+                  <MdLocalActivity size={25} />
+                  <span className="ms-2">LOL Pass</span>
                 </NavLink>
               </li>
-
-              {/* Ranking */}
               <li className="nav-item" key="ranking">
                 <NavLink
                   to="/FanRankings"
@@ -192,14 +184,12 @@ const Navbar = () => {
                   onMouseEnter={() => setHoveredLink("ranking")}
                   onMouseLeave={() => setHoveredLink(null)}
                 >
-                  <MdLeaderboard size={25} /><span className="ms-2">Ranking</span>
+                  <MdLeaderboard size={25} />
+                  <span className="ms-2">Ranking</span>
                 </NavLink>
               </li>
             </ul>
-
             <ul className="navbar-nav ms-auto mb-2 gap-2">
-
-              {/* Bookmarks */}
               <li className="nav-item" key="bookmarks">
                 <NavLink
                   to="/WishList"
@@ -215,9 +205,11 @@ const Navbar = () => {
                   <BsFillBookmarkHeartFill size={30} />
                 </NavLink>
               </li>
-
-              {/* Profile with dropdown */}
-              <li className="nav-item position-relative" key="profile" style={{ cursor: 'pointer' }}>
+              <li
+                className="nav-item position-relative"
+                key="profile"
+                style={{ cursor: "pointer" }}
+              >
                 <div
                   className="nav-link d-flex align-items-center"
                   onClick={toggleProfileDropdown}
@@ -225,24 +217,30 @@ const Navbar = () => {
                   onMouseLeave={() => setHoveredLink(null)}
                   style={{
                     ...comedyHoverStyle,
-                    ...(hoveredLink === "profile" ? getHoverStyle("profile") : {})
+                    ...(hoveredLink === "profile"
+                      ? getHoverStyle("profile")
+                      : {}),
                   }}
                 >
                   <CgProfile size={30} />
                   <span className="ms-2"></span>
                 </div>
-
                 {showProfileDropdown && (
                   <ul
                     className="position-absolute bg-white shadow p-2 rounded"
-                    style={{ top: '100%', right: 0, zIndex: 1000, minWidth: '150px' }}
+                    style={{
+                      top: "100%",
+                      right: 0,
+                      zIndex: 1000,
+                      minWidth: "150px",
+                    }}
                     onMouseLeave={() => setShowProfileDropdown(false)}
                   >
                     <li>
                       <NavLink
                         to="/profile"
                         className="dropdown-item"
-                        style={{ color: '#000', padding: '8px 12px' }}
+                        style={{ color: "#000", padding: "8px 12px" }}
                         onClick={() => setShowProfileDropdown(false)}
                       >
                         Profile
@@ -251,7 +249,11 @@ const Navbar = () => {
                     <li>
                       <button
                         className="dropdown-item btn btn-link"
-                        style={{ color: '#000', padding: '8px 12px', textAlign: 'left' }}
+                        style={{
+                          color: "#000",
+                          padding: "8px 12px",
+                          textAlign: "left",
+                        }}
                         onClick={() => {
                           setShowProfileDropdown(false);
                           handleLogout();
@@ -270,5 +272,4 @@ const Navbar = () => {
     </>
   );
 };
-
 export default Navbar;

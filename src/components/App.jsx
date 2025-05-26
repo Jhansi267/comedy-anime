@@ -1,82 +1,27 @@
-import React from 'react';
-import { Routes, Route } from 'react-router-dom';
-import Subscription from './Subscription';
-import PaymentPage from './PaymentPage';
-import PaymentOptions from './PaymentOptions';
-import Profile from './Profile';
-import Login from './Login';
+import React from "react";
+import { Routes, Route } from "react-router-dom";
+import Subscription from "./Subscription";
+import PaymentPage from "./PaymentPage";
+import PaymentOptions from "./PaymentOptions";
+import Profile from "./Profile";
+import Login from "./Login";
 import FanRankings from "../pages/FanRankings";
 import PrankEpisodes from "../pages/PrankEpisodes";
-import History  from './History';
-import Downloads from './Downloads';
-import AccountSetting from './Accountsetting';
+import History from "./History";
+import Downloads from "./Downloads";
+import AccountSetting from "./Accountsetting";
 import WatchEpisode from "../VideoPlayer/WatchEpisode";
-import Home from '../pages/Home';
-import AllPrankEpisodes from '../categories/AllPrankEpisodes';
-import Embarrassing from '../categories/Embarrassing';
-import Supernatural from '../categories/Supernatural';
-import Movies from '../pages/Movies';
-import NoPage from '../pages/NoPage';
-import WishList from '../pages/WishList';
-import CurrentSubscription from './CurrentSubscription';
-
-// import '../styles/Theme.scss'; // Comedy UI theme styling
-
+import Home from "../pages/Home";
+import AllPrankEpisodes from "../categories/AllPrankEpisodes";
+import Embarrassing from "../categories/Embarrassing";
+import Supernatural from "../categories/Supernatural";
+import Movies from "../pages/Movies";
+import NoPage from "../pages/NoPage";
+import WishList from "../pages/WishList";
+import CurrentSubscription from "./CurrentSubscription";
 const App = () => {
   return (
     <>
-      {/* Comedy Themed Background Elements */}
-{/* <div className="confetti"></div> */}
-
-{/* <div className="comedy-decor-wrapper">
-  {[...Array(100)].map((_, index) => {
-    const isIcon = index >= 50; // First 50 are banana peels, next 50 are icons
-
-    const top = `${Math.floor(Math.random() * 400)}vh`; // Extend up to 400vh
-    const isLeft = Math.random() > 0.5;
-    const horizontal = `${Math.floor(Math.random() * 90)}%`;
-
-    const style = {
-      position: 'absolute',
-      top,
-      [isLeft ? 'left' : 'right']: horizontal,
-    };
-
-    if (!isIcon) {
-      return (
-        <div
-          key={`banana-${index}`}
-          className="background-decor banana-peel"
-          style={style}
-        />
-      );
-    } else {
-      const icons = [
-        { className: 'icon-laugh', image: '/assets/images/laugh.png' },
-        { className: 'icon-sweat', image: '/assets/images/sweat1.png' },
-        { className: 'icon-chicken', image: '/assets/images/chicken1.png' },
-        { className: 'icon-banana', image: '/assets/images/banana.png' },
-      ];
-      const randomIcon = icons[Math.floor(Math.random() * icons.length)];
-
-      return (
-        <div
-          key={`icon-${index}`}
-          className={`floating-icon ${randomIcon.className}`}
-          style={{
-            ...style,
-            backgroundImage: `url(${randomIcon.image})`,
-          }}
-        />
-      );
-    }
-  })}
-</div> */}
-
-
-
-
-      {/* Routes */}
       <Routes>
         <Route path="" element={<Login />} />
         <Route path="Subscription" element={<Subscription />} />
@@ -85,7 +30,7 @@ const App = () => {
         <Route path="Profile" element={<Profile />} />
         <Route path="login" element={<Login />} />
         <Route path="FanRankings" element={<FanRankings />} />
-        <Route path="Movies" element={<Movies/>}>
+        <Route path="Movies" element={<Movies />}>
           <Route path="AllPrankEpisodes" element={<AllPrankEpisodes />} />
           <Route path="Embarrassing" element={<Embarrassing />} />
           <Route path="Supernatural" element={<Supernatural />} />
@@ -96,15 +41,12 @@ const App = () => {
         <Route path="Accountsetting" element={<AccountSetting />} />
         <Route path="home" element={<Home />} />
         <Route path="PrankEpisodes" element={<PrankEpisodes />} />
-        <Route path="WishList" element={<WishList/>}/>
-        <Route path='CurrentSubscription' element={<CurrentSubscription/>}/>
+        <Route path="WishList" element={<WishList />} />
+        <Route path="CurrentSubscription" element={<CurrentSubscription />} />
 
-
-
-        <Route path='*' element={<NoPage/>}/>
+        <Route path="*" element={<NoPage />} />
       </Routes>
     </>
   );
 };
-
 export default App;

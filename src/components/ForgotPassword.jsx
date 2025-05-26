@@ -4,20 +4,17 @@ import "./ForgotPassword.scss";
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
-
   const handleSubmit = (e) => {
     e.preventDefault();
     if (email.trim()) {
       setSubmitted(true);
     }
   };
-
   return (
     <div className="forgot-password-container">
       <div className="forgot-password-box">
         <h2>Forgot Password?</h2>
         <p>Enter your email to receive a password reset link</p>
-
         {!submitted ? (
           <form onSubmit={handleSubmit}>
             <input
@@ -35,7 +32,6 @@ const ForgotPassword = () => {
             shortly.
           </p>
         )}
-
         <a href="/login" className="back-link">
           ← Back to Login
         </a>
@@ -43,5 +39,4 @@ const ForgotPassword = () => {
     </div>
   );
 };
-
 export default ForgotPassword;

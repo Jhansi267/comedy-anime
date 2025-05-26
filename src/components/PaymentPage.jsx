@@ -12,7 +12,7 @@ import EmojiEmotionsIcon from "@mui/icons-material/EmojiEmotions";
 import WorkspacePremiumIcon from "@mui/icons-material/WorkspacePremium";
 import StarIcon from "@mui/icons-material/Star";
 import { useNavigate } from "react-router-dom";
- 
+
 const plans = [
   {
     name: "Laugh Lite",
@@ -33,11 +33,10 @@ const plans = [
     features: ["4K streaming", "No ads", "4 screens", "Offline access"],
   },
 ];
- 
 const PaymentPage = () => {
   const [selectedPlan, setSelectedPlan] = useState(null);
   const navigate = useNavigate();
- 
+
   return (
     <Box
       sx={{
@@ -53,7 +52,6 @@ const PaymentPage = () => {
       <Typography variant="subtitle1" gutterBottom>
         Pick a plan. Get ready to binge and laugh until your stomach hurts!
       </Typography>
- 
       <Grid container spacing={3} justifyContent="center" mt={4}>
         {plans.map((plan, index) => (
           <Grid item xs={12} sm={6} md={4} key={index}>
@@ -64,8 +62,7 @@ const PaymentPage = () => {
                   transform: "scale(1.05)",
                   boxShadow: "0 10px 20px rgba(0,0,0,0.2)",
                 },
-                backgroundColor:
-                  selectedPlan === index ? "#ffe0b2" : "#ffffff",
+                backgroundColor: selectedPlan === index ? "#ffe0b2" : "#ffffff",
               }}
               onClick={() => setSelectedPlan(index)}
             >
@@ -81,9 +78,7 @@ const PaymentPage = () => {
               </CardContent>
               <CardActions>
                 <Button
-                  variant={
-                    selectedPlan === index ? "contained" : "outlined"
-                  }
+                  variant={selectedPlan === index ? "contained" : "outlined"}
                   fullWidth
                   color="primary"
                 >
@@ -94,7 +89,6 @@ const PaymentPage = () => {
           </Grid>
         ))}
       </Grid>
- 
       {selectedPlan !== null && (
         <Box mt={5}>
           <Button
@@ -118,6 +112,4 @@ const PaymentPage = () => {
     </Box>
   );
 };
- 
 export default PaymentPage;
- 
