@@ -316,7 +316,6 @@ const AllPrankEpisodes = () => {
                 onMouseLeave={handleMouseLeave}
               >
                 <div style={styles.episodeCard}>
-                  {/* Front Card */}
                   <div
                     style={{
                       ...styles.card,
