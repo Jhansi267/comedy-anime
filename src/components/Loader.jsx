@@ -35,7 +35,7 @@ const Loader = ({ appName = 'Comedy Anime OTT' }) => {
   }, []);
 
   return (
-    <div className="loader-container">
+    <div className="loader-container w-100">
       <img src="/Avatars/Lol.gif" alt="Loading..." className="loader-gif" />
       <h1 className="app-name">{appName}</h1>
       <p className="loader-joke">{joke}</p>
