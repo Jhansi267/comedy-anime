@@ -14,41 +14,28 @@ import {
 import SentimentVerySatisfiedIcon from "@mui/icons-material/SentimentVerySatisfied";
 import PaymentIcon from "@mui/icons-material/Payment";
 import { useLocation, useNavigate } from "react-router-dom";
-import CancelIcon from '@mui/icons-material/Cancel';
-
- 
+import CancelIcon from "@mui/icons-material/Cancel";
 const PaymentOptions = () => {
-  let nav =useNavigate();
+  let nav = useNavigate();
   const [method, setMethod] = useState("card");
   const [paid, setPaid] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
- 
   const selectedPlan = location.state;
- 
-  // Form fields
   const [cardNumber, setCardNumber] = useState("");
   const [expiry, setExpiry] = useState("");
   const [cvv, setCvv] = useState("");
   const [upiId, setUpiId] = useState("");
- 
-  // Validation error states
   const [errors, setErrors] = useState({});
- 
-  // Validate inputs based on method
   const validate = () => {
     const newErrors = {};
- 
     if (method === "card") {
       if (!/^\d{16}$/.test(cardNumber.replace(/\s+/g, ""))) {
         newErrors.cardNumber = "Card number must be 16 digits";
       }
- 
-      // Expiry MM/YY check
       if (!/^(0[1-9]|1[0-2])\/\d{2}$/.test(expiry)) {
         newErrors.expiry = "Expiry must be in MM/YY format";
       } else {
-        // Check expiry is in future
         const [month, year] = expiry.split("/");
         const expiryDate = new Date(
           2000 + parseInt(year, 10),
@@ -56,36 +43,26 @@ const PaymentOptions = () => {
           1
         );
         const now = new Date();
-        // Set expiryDate to end of month
         expiryDate.setMonth(expiryDate.getMonth() + 1);
         expiryDate.setDate(0);
- 
         if (expiryDate < now) {
           newErrors.expiry = "Card has expired";
         }
       }
- 
       if (!/^\d{3}$/.test(cvv)) {
         newErrors.cvv = "CVV must be 3 digits";
       }
     } else if (method === "upi") {
-      // Basic UPI ID pattern: something@bank
       if (!/^[\w.-]+@[\w]+$/.test(upiId)) {
         newErrors.upiId = "Enter a valid UPI ID (example@bank)";
       }
     }
- 
     setErrors(newErrors);
-    // Return true if no errors
     return Object.keys(newErrors).length === 0;
   };
- 
-  // Re-validate whenever inputs or method changes
   useEffect(() => {
     validate();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [method, cardNumber, expiry, cvv, upiId]);
- 
   const handlePay = () => {
     if (validate()) {
       setPaid(true);
@@ -97,7 +74,6 @@ const PaymentOptions = () => {
       }, 1500);
     }
   };
- 
   return (
     <Box
       sx={{
@@ -116,7 +92,6 @@ const PaymentOptions = () => {
       >
         💳 Payment Options — Comedy Mode ON!
       </Typography>
- 
       <Typography variant="h5" color="primary" gutterBottom>
         You picked: <strong>{selectedPlan?.name || "No Plan"}</strong>{" "}
         <SentimentVerySatisfiedIcon color="warning" />
@@ -127,7 +102,6 @@ const PaymentOptions = () => {
           {selectedPlan?.price || "₹0"}
         </span>
       </Typography>
- 
       <Box mt={4}>
         <Typography
           variant="body1"
@@ -150,7 +124,6 @@ const PaymentOptions = () => {
           <FormControlLabel value="upi" control={<Radio />} label="📱 UPI" />
         </RadioGroup>
       </Box>
- 
       <Box mt={3} maxWidth={500} margin="auto">
         <Paper
           elevation={4}
@@ -171,7 +144,6 @@ const PaymentOptions = () => {
                   placeholder="😜 Enter your card # (just kidding!)"
                   value={cardNumber}
                   onChange={(e) => {
-                    // Allow only digits and spaces
                     const value = e.target.value.replace(/[^\d\s]/g, "");
                     setCardNumber(value);
                   }}
@@ -199,7 +171,6 @@ const PaymentOptions = () => {
                   placeholder="MM/YY"
                   value={expiry}
                   onChange={(e) => {
-                    // Allow only digits and slash
                     const value = e.target.value.replace(/[^0-9/]/g, "");
                     setExpiry(value);
                   }}
@@ -216,7 +187,6 @@ const PaymentOptions = () => {
                   placeholder="123"
                   value={cvv}
                   onChange={(e) => {
-                    // Only digits, max 3 chars
                     const value = e.target.value.replace(/\D/g, "").slice(0, 3);
                     setCvv(value);
                   }}
@@ -233,7 +203,6 @@ const PaymentOptions = () => {
               </Grid>
             </Grid>
           )}
- 
           {method === "upi" && (
             <TextField
               fullWidth
@@ -252,7 +221,6 @@ const PaymentOptions = () => {
               }}
             />
           )}
- 
           <Button
             variant="contained"
             color="warning"
@@ -273,25 +241,23 @@ const PaymentOptions = () => {
             {paid ? "Processing..." : `🤣 Pay ${selectedPlan?.price}`}
           </Button>
           <Button
-  variant="outlined"
-  color="error"
-  size="large"
-  sx={{
-    marginTop: 2,
-    fontWeight: "bold",
-    letterSpacing: 1,
-    transition: "transform 0.2s ease",
-    "&:hover": {
-      transform: "scale(1.1) rotate(-5deg)",
-    },
-  }}
-  onClick={()=>nav("/Subscription")} // Make sure you define handleCancel function
-  startIcon={<CancelIcon />} // Import CancelIcon from @mui/icons-material
->
-  Cancel Payment
-</Button>
-
- 
+            variant="outlined"
+            color="error"
+            size="large"
+            sx={{
+              marginTop: 2,
+              fontWeight: "bold",
+              letterSpacing: 1,
+              transition: "transform 0.2s ease",
+              "&:hover": {
+                transform: "scale(1.1) rotate(-5deg)",
+              },
+            }}
+            onClick={() => nav("/Subscription")}
+            startIcon={<CancelIcon />}
+          >
+            Cancel Payment
+          </Button>
           <Fade in={paid} timeout={1000}>
             <Typography
               variant="h6"
@@ -307,7 +273,6 @@ const PaymentOptions = () => {
           </Fade>
         </Paper>
       </Box>
- 
       <style>
         {`
           @keyframes pulse {
@@ -319,7 +284,4 @@ const PaymentOptions = () => {
     </Box>
   );
 };
- 
 export default PaymentOptions;
- 
- 

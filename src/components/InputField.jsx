@@ -55,12 +55,9 @@ const InputField = ({
       default:
         break;
     }
-
     setError("");
   };
-
   const isPasswordField = type === "password";
-
   return (
     <div style={{ marginBottom: "12px", width: width || "100%" }}>
       <div
@@ -106,5 +103,4 @@ const InputField = ({
     </div>
   );
 };
-
 export default InputField;

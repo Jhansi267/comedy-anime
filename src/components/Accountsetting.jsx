@@ -2,56 +2,48 @@ import React, { useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
-import { 
-  Container, 
-  Box, 
-  Typography, 
-  Tabs, 
-  Tab, 
-  TextField, 
-  Button, 
-  List, 
-  ListItem, 
-  ListItemText, 
+import {
+  Container,
+  Box,
+  Typography,
+  Tabs,
+  Tab,
+  TextField,
+  Button,
+  List,
+  ListItem,
+  ListItemText,
   Divider,
   IconButton,
   Paper,
   Avatar,
   InputAdornment,
-  Icon
+  Icon,
 } from "@mui/material";
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./Accountsetting.scss";
 
 const Accountsetting = () => {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("profile");
-
-  // Profile data with initial values
   const [profileData, setProfileData] = useState({
     username: "ComedyFan123",
     email: "user@comedyott.com",
     avatar: "",
     bio: "Laughing my way through life!",
   });
-
-  // Security data
   const [securityData, setSecurityData] = useState({
     currentPassword: "",
     newPassword: "",
     confirmPassword: "",
   });
-
-  // Show/hide password states
   const [showPasswords, setShowPasswords] = useState({
     current: false,
     new: false,
-    confirm: false
+    confirm: false,
   });
-
-  // Activity log data
   const lastActivity = [
     { date: "2025-05-20", activity: "Logged in from Chrome on Windows" },
     { date: "2025-05-19", activity: "Password changed" },
@@ -59,61 +51,43 @@ const Accountsetting = () => {
     { date: "2025-05-15", activity: "Watched 'Stand-Up Special: Laugh Riot'" },
     { date: "2025-05-14", activity: "Subscribed to 'Funny Bones' series" },
   ];
-
-  // Validation errors
   const [errors, setErrors] = useState({
     profile: {},
-    security: {}
+    security: {},
   });
-
-  // Handle tab change
   const handleTabChange = (event, newValue) => {
     setErrors({ profile: {}, security: {} });
     setActiveTab(newValue);
   };
-
-  // Handle profile input changes
   const handleProfileChange = (e) => {
     const { name, value } = e.target;
     setProfileData((prev) => ({ ...prev, [name]: value }));
-    
-    // Clear error when user starts typing
     if (errors.profile[name]) {
-      setErrors(prev => ({
+      setErrors((prev) => ({
         ...prev,
-        profile: { ...prev.profile, [name]: '' }
+        profile: { ...prev.profile, [name]: "" },
       }));
     }
   };
-
-  // Handle security input changes
   const handleSecurityChange = (e) => {
     const { name, value } = e.target;
     setSecurityData((prev) => ({ ...prev, [name]: value }));
-    
-    // Clear error when user starts typing
     if (errors.security[name]) {
-      setErrors(prev => ({
+      setErrors((prev) => ({
         ...prev,
-        security: { ...prev.security, [name]: '' }
+        security: { ...prev.security, [name]: "" },
       }));
     }
   };
-
-  // Toggle password visibility
   const handleClickShowPassword = (field) => {
     setShowPasswords({
       ...showPasswords,
-      [field]: !showPasswords[field]
+      [field]: !showPasswords[field],
     });
   };
-
-  // Validate profile form
   const validateProfile = () => {
     let valid = true;
     const newErrors = { ...errors.profile };
-
-    // Username validation
     if (!profileData.username.trim()) {
       newErrors.username = "Username is required";
       valid = false;
@@ -121,35 +95,29 @@ const Accountsetting = () => {
       newErrors.username = "Username must be at least 3 characters";
       valid = false;
     } else if (!/^[a-zA-Z0-9_]+$/.test(profileData.username)) {
-      newErrors.username = "Username can only contain letters, numbers and underscores";
+      newErrors.username =
+        "Username can only contain letters, numbers and underscores";
       valid = false;
     }
-
-    // Email validation
     if (!profileData.email) {
       newErrors.email = "Email is required";
       valid = false;
-    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(profileData.email)) {
+    } else if (
+      !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(profileData.email)
+    ) {
       newErrors.email = "Invalid email address";
       valid = false;
     }
-
-    // Bio validation
     if (profileData.bio.length > 150) {
       newErrors.bio = "Bio must be less than 150 characters";
       valid = false;
     }
-
     setErrors({ ...errors, profile: newErrors });
     return valid;
   };
-
-  // Validate security form
   const validateSecurity = () => {
     let valid = true;
     const newErrors = { ...errors.security };
-
-    // Current password validation
     if (!securityData.currentPassword) {
       newErrors.currentPassword = "Current password is required";
       valid = false;
@@ -157,23 +125,25 @@ const Accountsetting = () => {
       newErrors.currentPassword = "Password must be at least 8 characters";
       valid = false;
     }
-
-    // New password validation
     if (!securityData.newPassword) {
       newErrors.newPassword = "New password is required";
       valid = false;
     } else if (securityData.newPassword.length < 8) {
       newErrors.newPassword = "Password must be at least 8 characters";
       valid = false;
-    } else if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}/.test(securityData.newPassword)) {
-      newErrors.newPassword = "Password must contain uppercase, lowercase, number and special character";
+    } else if (
+      !/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}/.test(
+        securityData.newPassword
+      )
+    ) {
+      newErrors.newPassword =
+        "Password must contain uppercase, lowercase, number and special character";
       valid = false;
     } else if (securityData.newPassword === securityData.currentPassword) {
-      newErrors.newPassword = "New password must be different from current password";
+      newErrors.newPassword =
+        "New password must be different from current password";
       valid = false;
     }
-
-    // Confirm password validation
     if (!securityData.confirmPassword) {
       newErrors.confirmPassword = "Please confirm your new password";
       valid = false;
@@ -181,12 +151,9 @@ const Accountsetting = () => {
       newErrors.confirmPassword = "Passwords do not match";
       valid = false;
     }
-
     setErrors({ ...errors, security: newErrors });
     return valid;
   };
-
-  // Handle profile form submission
   const handleProfileSubmit = (e) => {
     e.preventDefault();
     if (validateProfile()) {
@@ -196,8 +163,6 @@ const Accountsetting = () => {
       toast.error("Please fix the errors in the form");
     }
   };
-
-  // Handle security form submission
   const handleSecuritySubmit = (e) => {
     e.preventDefault();
     if (validateSecurity()) {
@@ -212,8 +177,6 @@ const Accountsetting = () => {
       toast.error("Please fix the errors in the form");
     }
   };
-
-  // Handle avatar upload
   const handleAvatarUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -221,50 +184,55 @@ const Accountsetting = () => {
         toast.error("Image size should be less than 2MB");
         return;
       }
-      if (!['image/jpeg', 'image/png', 'image/gif'].includes(file.type)) {
+      if (!["image/jpeg", "image/png", "image/gif"].includes(file.type)) {
         toast.error("Only JPG, PNG or GIF images are allowed");
         return;
       }
-      
       const reader = new FileReader();
       reader.onload = (event) => {
-        setProfileData(prev => ({
+        setProfileData((prev) => ({
           ...prev,
-          avatar: event.target.result
+          avatar: event.target.result,
         }));
         toast.success("Avatar updated successfully!");
       };
       reader.readAsDataURL(file);
     }
   };
-
   return (
     <Container maxWidth="lg" className="account-setting-container">
-      <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
+      <Box sx={{ display: "flex", alignItems: "center", mb: 3 }}>
         <Button
-        variant="contained"
-        style={{background: 'linear-gradient(to right, #ff758c, #ff7eb3, #ff8c7e, #ff9a5a)'}}
-        size="large"
-         onClick={() => navigate(-1)} sx={{ mr: 2 }}>
-         Back
+          variant="contained"
+          style={{
+            background:
+              "linear-gradient(to right, #ff758c, #ff7eb3, #ff8c7e, #ff9a5a)",
+          }}
+          size="large"
+          onClick={() => navigate(-1)}
+          sx={{ mr: 2 }}
+        >
+          Back
         </Button>
-        <Typography variant="h4" component="h1" sx={{ 
-          fontWeight: 'bold',
-          background: 'linear-gradient(45deg, #FF6B6B 30%, #FF8E53 90%)',
-          WebkitBackgroundClip: 'text',
-          WebkitTextFillColor: 'transparent'
-        }}>
+        <Typography
+          variant="h4"
+          component="h1"
+          sx={{
+            fontWeight: "bold",
+            background: "linear-gradient(45deg, #FF6B6B 30%, #FF8E53 90%)",
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+          }}
+        >
           Comedy OTT Account Settings
         </Typography>
       </Box>
-
       <ToastContainer position="top-right" autoClose={3000} />
-
-      <Paper elevation={3} sx={{ p: 3, mb: 4, background: '#1a1a2e' }}>
-        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-          <Tabs 
-            value={activeTab} 
-            onChange={handleTabChange} 
+      <Paper elevation={3} sx={{ p: 3, mb: 4, background: "#1a1a2e" }}>
+        <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+          <Tabs
+            value={activeTab}
+            onChange={handleTabChange}
             textColor="secondary"
             indicatorColor="secondary"
             variant="fullWidth"
@@ -274,25 +242,33 @@ const Accountsetting = () => {
             <Tab label="Activity Log" value="activity" />
           </Tabs>
         </Box>
-
         <Box sx={{ pt: 3 }}>
-          {/* PROFILE TAB */}
           {activeTab === "profile" && (
             <Box component="form" onSubmit={handleProfileSubmit}>
-              <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mb: 4 }}>
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  mb: 4,
+                }}
+              >
                 <Avatar
                   src={profileData.avatar}
-                  sx={{ 
-                    width: 120, 
-                    height: 120, 
+                  sx={{
+                    width: 120,
+                    height: 120,
                     mb: 2,
-                    border: '3px solid #FF6B6B'
+                    border: "3px solid #FF6B6B",
                   }}
                 />
                 <Button
                   variant="contained"
                   component="label"
-                  style={{background: 'linear-gradient(to right, #ff758c, #ff7eb3, #ff8c7e, #ff9a5a)'}}
+                  style={{
+                    background:
+                      "linear-gradient(to right, #ff758c, #ff7eb3, #ff8c7e, #ff9a5a)",
+                  }}
                   size="small"
                 >
                   Upload Avatar
@@ -304,8 +280,13 @@ const Accountsetting = () => {
                   />
                 </Button>
               </Box>
-
-              <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, gap: 3 }}>
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: { xs: "column", md: "row" },
+                  gap: 3,
+                }}
+              >
                 <TextField
                   fullWidth
                   label="Username"
@@ -317,10 +298,10 @@ const Accountsetting = () => {
                   variant="outlined"
                   color="secondary"
                   InputProps={{
-                    style: { color: '#fff' }
+                    style: { color: "#fff" },
                   }}
                   InputLabelProps={{
-                    style: { color: '#aaa' }
+                    style: { color: "#aaa" },
                   }}
                 />
                 <TextField
@@ -335,14 +316,13 @@ const Accountsetting = () => {
                   variant="outlined"
                   color="secondary"
                   InputProps={{
-                    style: { color: '#fff' }
+                    style: { color: "#fff" },
                   }}
                   InputLabelProps={{
-                    style: { color: '#aaa' }
+                    style: { color: "#aaa" },
                   }}
                 />
               </Box>
-
               <TextField
                 fullWidth
                 label="Bio"
@@ -350,40 +330,42 @@ const Accountsetting = () => {
                 value={profileData.bio}
                 onChange={handleProfileChange}
                 error={!!errors.profile.bio}
-                helperText={errors.profile.bio || `${profileData.bio.length}/150`}
+                helperText={
+                  errors.profile.bio || `${profileData.bio.length}/150`
+                }
                 variant="outlined"
                 color="secondary"
                 multiline
                 rows={4}
                 sx={{ mt: 3 }}
                 InputProps={{
-                  style: { color: '#fff' }
+                  style: { color: "#fff" },
                 }}
                 InputLabelProps={{
-                  style: { color: '#aaa' }
+                  style: { color: "#aaa" },
                 }}
               />
-
               <Button
                 type="submit"
                 variant="contained"
-                style={{background: 'linear-gradient(to right, #ff758c, #ff7eb3, #ff8c7e, #ff9a5a)'}}
+                style={{
+                  background:
+                    "linear-gradient(to right, #ff758c, #ff7eb3, #ff8c7e, #ff9a5a)",
+                }}
                 size="large"
-                sx={{ mt: 3, fontWeight: 'bold' }}
+                sx={{ mt: 3, fontWeight: "bold" }}
               >
                 Save Profile
               </Button>
             </Box>
           )}
-
-          {/* SECURITY TAB */}
           {activeTab === "security" && (
             <Box component="form" onSubmit={handleSecuritySubmit}>
               <TextField
                 fullWidth
                 label="Current Password"
                 name="currentPassword"
-                type={showPasswords.current ? 'text' : 'password'}
+                type={showPasswords.current ? "text" : "password"}
                 value={securityData.currentPassword}
                 onChange={handleSecurityChange}
                 error={!!errors.security.currentPassword}
@@ -392,60 +374,65 @@ const Accountsetting = () => {
                 color="secondary"
                 sx={{ mb: 3 }}
                 InputProps={{
-                  style: { color: '#fff' },
+                  style: { color: "#fff" },
                   endAdornment: (
                     <InputAdornment position="end">
                       <IconButton
                         aria-label="toggle password visibility"
-                        onClick={() => handleClickShowPassword('current')}
+                        onClick={() => handleClickShowPassword("current")}
                         edge="end"
                       >
-                        {showPasswords.current ? <VisibilityOff /> : <Visibility />}
+                        {showPasswords.current ? (
+                          <VisibilityOff />
+                        ) : (
+                          <Visibility />
+                        )}
                       </IconButton>
                     </InputAdornment>
-                  )
+                  ),
                 }}
                 InputLabelProps={{
-                  style: { color: '#aaa' }
+                  style: { color: "#aaa" },
                 }}
               />
-
               <TextField
                 fullWidth
                 label="New Password"
                 name="newPassword"
-                type={showPasswords.new ? 'text' : 'password'}
+                type={showPasswords.new ? "text" : "password"}
                 value={securityData.newPassword}
                 onChange={handleSecurityChange}
                 error={!!errors.security.newPassword}
-                helperText={errors.security.newPassword || "Minimum 8 characters with uppercase, lowercase, number and special character"}
+                helperText={
+                  errors.security.newPassword ||
+                  "Minimum 8 characters with uppercase, lowercase, number and special character"
+                }
                 variant="outlined"
                 color="secondary"
                 sx={{ mb: 3 }}
                 InputProps={{
-                  style: { color: '#fff' },
+                  style: { color: "#fff" },
                   endAdornment: (
                     <InputAdornment position="end">
                       <IconButton
                         aria-label="toggle password visibility"
-                        onClick={() => handleClickShowPassword('new')}
+                        onClick={() => handleClickShowPassword("new")}
                         edge="end"
                       >
                         {showPasswords.new ? <VisibilityOff /> : <Visibility />}
                       </IconButton>
                     </InputAdornment>
-                  )
+                  ),
                 }}
                 InputLabelProps={{
-                  style: { color: '#aaa' }
+                  style: { color: "#aaa" },
                 }}
               />
-
               <TextField
                 fullWidth
                 label="Confirm New Password"
                 name="confirmPassword"
-                type={showPasswords.confirm ? 'text' : 'password'}
+                type={showPasswords.confirm ? "text" : "password"}
                 value={securityData.confirmPassword}
                 onChange={handleSecurityChange}
                 error={!!errors.security.confirmPassword}
@@ -454,68 +441,76 @@ const Accountsetting = () => {
                 color="secondary"
                 sx={{ mb: 3 }}
                 InputProps={{
-                  style: { color: '#fff' },
+                  style: { color: "#fff" },
                   endAdornment: (
                     <InputAdornment position="end">
                       <IconButton
                         aria-label="toggle password visibility"
-                        onClick={() => handleClickShowPassword('confirm')}
+                        onClick={() => handleClickShowPassword("confirm")}
                         edge="end"
                       >
-                        {showPasswords.confirm ? <VisibilityOff /> : <Visibility />}
+                        {showPasswords.confirm ? (
+                          <VisibilityOff />
+                        ) : (
+                          <Visibility />
+                        )}
                       </IconButton>
                     </InputAdornment>
-                  )
+                  ),
                 }}
                 InputLabelProps={{
-                  style: { color: '#aaa' }
+                  style: { color: "#aaa" },
                 }}
               />
-
               <Button
                 type="submit"
                 variant="contained"
                 color="secondary"
                 size="large"
-                sx={{ fontWeight: 'bold' }}
+                sx={{ fontWeight: "bold" }}
               >
                 Change Password
               </Button>
             </Box>
           )}
-
-          {/* ACTIVITY LOG TAB */}
           {activeTab === "activity" && (
             <Box>
-              <Typography variant="h6" gutterBottom sx={{ color: '#FF6B6B' }}>
+              <Typography variant="h6" gutterBottom sx={{ color: "#FF6B6B" }}>
                 Recent Activity
               </Typography>
-              <List sx={{ 
-                bgcolor: 'background.paper',
-                borderRadius: 1,
-                overflow: 'hidden'
-              }}>
+              <List
+                sx={{
+                  bgcolor: "background.paper",
+                  borderRadius: 1,
+                  overflow: "hidden",
+                }}
+              >
                 {lastActivity.map((item, index) => (
                   <React.Fragment key={index}>
                     <ListItem alignItems="flex-start">
                       <ListItemText
                         primary={
-                          <Typography variant="body1" sx={{ fontWeight: 'bold', color: '#FF8E53' }}>
+                          <Typography
+                            variant="body1"
+                            sx={{ fontWeight: "bold", color: "#FF8E53" }}
+                          >
                             {item.activity}
                           </Typography>
                         }
                         secondary={
-                          <Typography variant="body2" sx={{ color: '#aaa' }}>
-                            {new Date(item.date).toLocaleDateString('en-US', {
-                              year: 'numeric',
-                              month: 'long',
-                              day: 'numeric'
+                          <Typography variant="body2" sx={{ color: "#aaa" }}>
+                            {new Date(item.date).toLocaleDateString("en-US", {
+                              year: "numeric",
+                              month: "long",
+                              day: "numeric",
                             })}
                           </Typography>
                         }
                       />
                     </ListItem>
-                    {index < lastActivity.length - 1 && <Divider component="li" />}
+                    {index < lastActivity.length - 1 && (
+                      <Divider component="li" />
+                    )}
                   </React.Fragment>
                 ))}
               </List>
@@ -526,5 +521,4 @@ const Accountsetting = () => {
     </Container>
   );
 };
-
 export default Accountsetting;
