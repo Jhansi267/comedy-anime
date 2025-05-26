@@ -1,12 +1,12 @@
 import React, { useRef, useState, useEffect } from "react";
 import { FaStar, FaPlay, FaBookmark } from "react-icons/fa";
-import { FaFire,  FaRocket, FaHeart, FaRegLaughSquint } from "react-icons/fa";
+import { FaFire, FaRocket, FaHeart, FaRegLaughSquint } from "react-icons/fa";
 const badgeIcons = {
-  "Trending": <FaFire className="ms-1" />,       // 🔥 for Trending
-  "Popular": <FaStar className="ms-1" />,        // ⭐ for Popular
-  "New": <FaRocket className="ms-1" />,          // 🚀 for New
-  "Fan Favorite": <FaHeart className="ms-1" />,  // ❤️ for Fan Favorite
-  "Funny": <FaRegLaughSquint className="ms-1" />, // 😆 for Funny
+  "Trending": <FaFire className="ms-1" />,
+  "Popular": <FaStar className="ms-1" />,
+  "New": <FaRocket className="ms-1" />,
+  "Fan Favorite": <FaHeart className="ms-1" />,
+  "Funny": <FaRegLaughSquint className="ms-1" />,
 };
 const badgeColors = {
   "Trending": "#ff4081",
@@ -44,28 +44,28 @@ const styles = {
     flexDirection: 'column',
     position: 'relative'
   },
- imageContainer: {
-  height: '370px',
-  overflow: 'hidden',
-  position: "relative", // ✅ Required for absolute positioning
-  width: "100%",
-},
-badge: {
-  position: "absolute",
-  top: "10px",
-  left: "10px",
-  backgroundColor: "#ff4081",
-  color: "white",
-  padding: "4px 10px",
-  borderRadius: "12px",
-  fontWeight: "bold",
-  fontSize: "14px",
-  zIndex: 10,
-  boxShadow: "0px 2px 6px rgba(0, 0, 0, 0.3)",
-  display: "flex",          // Align icon and text
-  alignItems: "center",     // Vertically center
-  gap: "4px",               // Space between text and icon
-},
+  imageContainer: {
+    height: '370px',
+    overflow: 'hidden',
+    position: "relative",
+    width: "100%",
+  },
+  badge: {
+    position: "absolute",
+    top: "10px",
+    left: "10px",
+    backgroundColor: "#ff4081",
+    color: "white",
+    padding: "4px 10px",
+    borderRadius: "12px",
+    fontWeight: "bold",
+    fontSize: "14px",
+    zIndex: 10,
+    boxShadow: "0px 2px 6px rgba(0, 0, 0, 0.3)",
+    display: "flex",
+    alignItems: "center",
+    gap: "4px",
+  },
   normalState: {
     padding: '10px 15px',
     minHeight: '80px',
@@ -106,8 +106,7 @@ badge: {
 
 const PrankEpisodes = () => {
   const episodes = [
-    // ... (keep your existing episodes array)
-     {
+    {
       id: 1,
       title: "Toilet Paper Samurai Toilet Paper Samuai",
       image: "/assets/images/comdey1.png",
@@ -142,7 +141,7 @@ const PrankEpisodes = () => {
       episodes: 5,
       season: 2,
       votes: 421,
-      badgeText: "Funny", 
+      badgeText: "Funny",
       details:
         "What started as a simple desk prank turned into mass hysteria when hundreds of rubber spiders appeared What started as a simple desk prank turned into mass hysteria when hundreds of rubber spiders appeared",
     },
@@ -231,12 +230,11 @@ const PrankEpisodes = () => {
         "What began as an April Fool's joke turned into genuine role reversal What began as an April Fool's joke turned into genuine role reversal",
     },
   ];
-
   const audioRefs = useRef({});
   const [canPlayAudio, setCanPlayAudio] = useState(false);
   const [hoveredCard, setHoveredCard] = useState(null);
 
-  // Add keyframes to the document head
+
   useEffect(() => {
     const styleTag = document.createElement('style');
     styleTag.innerHTML = `
@@ -256,7 +254,7 @@ const PrankEpisodes = () => {
       }
     `;
     document.head.appendChild(styleTag);
-    
+
     return () => {
       document.head.removeChild(styleTag);
     };
@@ -273,7 +271,7 @@ const PrankEpisodes = () => {
 
   const handleMouseEnter = (id) => {
     setHoveredCard(id);
-    
+
     if (!canPlayAudio) return;
 
     const audio = audioRefs.current[id];
@@ -296,7 +294,7 @@ const PrankEpisodes = () => {
           const isHovered = hoveredCard === episode.id;
           const frontTransform = isHovered ? 'rotateY(180deg)' : 'rotateY(0deg)';
           const backTransform = isHovered ? 'rotateY(0deg)' : 'rotateY(180deg)';
-          
+
           return (
             <div
               key={episode.id}
@@ -305,7 +303,7 @@ const PrankEpisodes = () => {
               onMouseLeave={handleMouseLeave}
             >
               <div style={styles.episodeCard}>
-                {/* Front Card */}
+
                 <div style={{
                   ...styles.card,
                   ...styles.front,
@@ -313,10 +311,10 @@ const PrankEpisodes = () => {
                   zIndex: isHovered ? 1 : 2
                 }}>
                   <div style={styles.imageContainer}>
-<div style={{ ...styles.badge, backgroundColor: badgeColors[episode.badgeText] }}>
-  {episode.badgeText} 
-  {badgeIcons[episode.badgeText]}
-</div>
+                    <div style={{ ...styles.badge, backgroundColor: badgeColors[episode.badgeText] }}>
+                      {episode.badgeText}
+                      {badgeIcons[episode.badgeText]}
+                    </div>
                     <img
                       src={episode.image}
                       alt={episode.title}
@@ -329,8 +327,6 @@ const PrankEpisodes = () => {
                     </p>
                   </div>
                 </div>
-
-                {/* Back Card */}
                 <div style={{
                   ...styles.card,
                   ...styles.back,
@@ -364,8 +360,6 @@ const PrankEpisodes = () => {
                     </div>
                   </div>
                 </div>
-
-                {/* Audio element for this card */}
                 <audio
                   ref={(el) => (audioRefs.current[episode.id] = el)}
                   src="/assets/sounds/crazy.mp3"

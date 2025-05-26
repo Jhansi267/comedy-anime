@@ -12,7 +12,6 @@ import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 
 const FanRankings = () => {
-  // Sample data for leaderboards
   const topGagCollectors = [
     { id: 1, name: "LaughMaster3000", avatar: "https://i.pravatar.cc/150?img=1", episodes: 342, rank: 1 },
     { id: 2, name: "JokesterJill", avatar: "https://i.pravatar.cc/150?img=2", episodes: 298, rank: 2 },
@@ -28,8 +27,6 @@ const FanRankings = () => {
     { id: 4, name: "SatireScribe", avatar: "https://i.pravatar.cc/150?img=9", funnyReviews: 87, rank: 4 },
     { id: 5, name: "JokeJudge", avatar: "https://i.pravatar.cc/150?img=10", funnyReviews: 76, rank: 5 },
   ];
-
-  // Sample humor clubs data
   const humorClubs = [
     { 
       id: 1, 
@@ -64,8 +61,6 @@ const FanRankings = () => {
       banner:  "/assets/images/comedy2.png"
     },
   ];
-
-  // Theme elements
   const themeElements = {
     badges: ["🎭", "🤡", "🎪", "🍌", "🥧"],
     decorations: ["🎩", "👓", "🎤", "📯", "🎷"],
@@ -76,7 +71,6 @@ const FanRankings = () => {
     <>
     <Navbar/>
         <Container className="fan-rankings-container" style={{marginTop:'85px'}} sx={{ py: 4 }}>
-      {/* Header with themed decorations */}
       <Box sx={{ 
         textAlign: 'center', 
         mb: 4,
@@ -103,15 +97,13 @@ const FanRankings = () => {
           WebkitTextFillColor: 'transparent',
           display: 'inline-block'
         }}>
-          Comedy Community  Ranking Hub
+          LOL Community  Ranking Hub
         </Typography>
         <Typography variant="subtitle1" color="text.secondary">
           Where laughter earns you prestige!
         </Typography>
       </Box>
-
       <Row>
-        {/* Leaderboards Section */}
         <Col md={6}>
           <Card sx={{ 
             mb: 4, 
@@ -119,7 +111,7 @@ const FanRankings = () => {
             borderRadius: '8px',
             position: 'relative',
             overflow: 'visible',
-            height: 500, // Fixed height
+            height: 500, 
             '&::before': {
               content: '"🏆"',
               position: 'absolute',
@@ -215,7 +207,7 @@ const FanRankings = () => {
             borderRadius: '8px',
             position: 'relative',
             overflow: 'visible',
-            height: 400, // Fixed height
+            height: 400, 
             '&::before': {
               content: '"😂"',
               position: 'absolute',
@@ -293,7 +285,7 @@ const FanRankings = () => {
             mb: 4, 
             bgcolor: '#FFF8E1', 
             border: '2px dashed #FFC107',
-            height: 500 // Fixed height to match Top Gag Collectors
+            height: 500 
           }}>
             <CardContent sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
               <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
@@ -311,7 +303,7 @@ const FanRankings = () => {
                   {humorClubs.map((club) => (
                     <Grid item xs={12} sm={6} key={club.id}>
                       <Card sx={{ 
-                        height: 280, // Fixed height for all club cards
+                        height: 280, 
                         display: 'flex',
                         flexDirection: 'column',
                         position: 'relative',
@@ -324,7 +316,7 @@ const FanRankings = () => {
                       }}>
                         <CardMedia
                           component="img"
-                          height="140" // Fixed image height
+                          height="140" 
                           image={club.banner}
                           alt={club.name}
                           sx={{ objectFit: 'cover' }}
@@ -376,13 +368,11 @@ const FanRankings = () => {
               </Box>
             </CardContent>
           </Card>
-
-          {/* Themed Badges Section */}
           <Card sx={{ 
             bgcolor: '#E3F2FD',
             border: '2px dotted #2196F3',
             position: 'relative',
-            height: 400, // Fixed height to match Reaction Kings/Queens
+            height: 400,
             '&::before': {
               content: '""',
               position: 'absolute',
@@ -442,8 +432,6 @@ const FanRankings = () => {
           </Card>
         </Col>
       </Row>
-
-      {/* Decorative Footer */}
       <Box sx={{ 
         mt: 4,
         py: 2,
@@ -471,7 +459,6 @@ const FanRankings = () => {
     </Container>
     <Footer/>
     </>
-
   );
 };
 

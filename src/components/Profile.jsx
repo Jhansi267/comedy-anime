@@ -129,7 +129,7 @@ const Profile = () => {
         ))}
       </div>
 
-      <h1>Comedy Anime Profiles</h1>
+      <h1>LOL Profiles</h1>
 
       <div className="tabs">
         {['profiles', 'subscription', 'history', 'account', 'downloads'].map(tab => (

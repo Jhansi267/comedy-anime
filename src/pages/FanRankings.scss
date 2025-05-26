@@ -1,9 +1,7 @@
 .fan-rankings-container {
-  //background-color: #f9f7f7;
   position: relative;
   overflow: visible;
   padding-bottom: 40px;
-
   &::before {
     content: "";
     position: absolute;
@@ -15,22 +13,18 @@
     opacity: 0.1;
     z-index: 0;
   }
-
   .rank-1 {
     background: linear-gradient(90deg, rgba(255,215,0,0.1) 0%, rgba(255,255,255,0.8) 100%);
     border-left: 3px solid gold;
   }
-
-  .rank-2 {
+ .rank-2 {
     background: linear-gradient(90deg, rgba(192,192,192,0.1) 0%, rgba(255,255,255,0.8) 100%);
     border-left: 3px solid silver;
   }
-
   .rank-3 {
     background: linear-gradient(90deg, rgba(205,127,50,0.1) 0%, rgba(255,255,255,0.8) 100%);
     border-left: 3px solid #cd7f32;
   }
-
   @keyframes bounce {
     0%, 100% { 
       transform: translateY(0) scale(1); 
@@ -44,25 +38,21 @@
     font-weight: bold;
     text-shadow: 0 1px 1px rgba(0,0,0,0.2);
   }
-
   .funny-review {
     position: relative;
     padding-left: 15px;
-
     &::before {
-      content: "😂";
-      position: absolute;
-      left: -5px;
-      top: 0;
-      font-size: 1.2rem;
+    content: "😂";
+    position: absolute;
+    left: -5px;
+    top: 0;
+    font-size: 1.2rem;
     }
   }
-
-  @media (max-width: 768px) {
+ @media (max-width: 768px) {
     padding: 20px 10px;
-
     &::before {
-      display: none;
+    display: none;
     }
   }
 }

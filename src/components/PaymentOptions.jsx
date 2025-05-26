@@ -114,7 +114,7 @@ const PaymentOptions = () => {
         gutterBottom
         sx={{ fontWeight: "bold", mb: 3 }}
       >
-        💳 Payment Options — Comedy Mode ON!
+        💳 Payment Options — LOL Mode ON!
       </Typography>
  
       <Typography variant="h5" color="primary" gutterBottom>

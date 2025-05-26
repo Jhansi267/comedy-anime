@@ -254,7 +254,7 @@ const Accountsetting = () => {
           WebkitBackgroundClip: 'text',
           WebkitTextFillColor: 'transparent'
         }}>
-          Comedy OTT Account Settings
+          LOL OTT Account Settings
         </Typography>
       </Box>
 
@@ -365,6 +365,7 @@ const Accountsetting = () => {
               />
 
               <Button
+              onClick={() => navigate(-1)} 
                 type="submit"
                 variant="contained"
                 style={{background: 'linear-gradient(to right, #ff758c, #ff7eb3, #ff8c7e, #ff9a5a)'}}
@@ -478,7 +479,9 @@ const Accountsetting = () => {
                 color="secondary"
                 size="large"
                 sx={{ fontWeight: 'bold' }}
+                 style={{background: 'linear-gradient(to right, #ff758c, #ff7eb3, #ff8c7e, #ff9a5a)'}}
               >
+                    
                 Change Password
               </Button>
             </Box>

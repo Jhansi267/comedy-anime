@@ -3,11 +3,11 @@ import { FaStar, FaPlay, FaBookmark } from "react-icons/fa";
 import { FaFire,  FaRocket, FaHeart, FaRegLaughSquint } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 const badgeIcons = {
-  "Trending": <FaFire className="ms-1" />,       // 🔥 for Trending
-  "Popular": <FaStar className="ms-1" />,        // ⭐ for Popular
-  "New": <FaRocket className="ms-1" />,          // 🚀 for New
-  "Fan Favorite": <FaHeart className="ms-1" />,  // ❤️ for Fan Favorite
-  "Funny": <FaRegLaughSquint className="ms-1" />, // 😆 for Funny
+  "Trending": <FaFire className="ms-1" />,       
+  "Popular": <FaStar className="ms-1" />,        
+  "New": <FaRocket className="ms-1" />,          
+  "Fan Favorite": <FaHeart className="ms-1" />,  
+  "Funny": <FaRegLaughSquint className="ms-1" />, 
 };
 const badgeColors = {
   "Trending": "#FF1493",
@@ -26,12 +26,12 @@ const styles = {
     display: 'flex',
     flexWrap: 'nowrap',
     overflowX: 'auto',
-    scrollbarWidth: 'none',  // For Firefox
-    msOverflowStyle: 'none', // For IE/Edge
+    scrollbarWidth: 'none',  
+    msOverflowStyle: 'none', 
     '&::-webkit-scrollbar': {
-      display: 'none' // For Chrome/Safari
+      display: 'none' 
     },
-    paddingBottom: '20px', // Space for cards
+    paddingBottom: '20px', 
     marginLeft: '-10px',
     marginRight: '-10px'
   },
@@ -72,7 +72,7 @@ const styles = {
 imageContainer: {
   height: '370px',
   overflow: 'hidden',
-  position: "relative", // ✅ Required for absolute positioning
+  position: "relative", 
   width: "100%",
 },
 badge: {
@@ -87,9 +87,9 @@ badge: {
   fontSize: "14px",
   zIndex: 10,
   boxShadow: "0px 2px 6px rgba(0, 0, 0, 0.3)",
-  display: "flex",          // Align icon and text
-  alignItems: "center",     // Vertically center
-  gap: "4px",               // Space between text and icon
+  display: "flex",          
+  alignItems: "center",     
+  gap: "4px",               
 },
   normalState: {
     padding: '10px 15px',
@@ -258,8 +258,6 @@ const episodes = [
   const [canPlayAudio, setCanPlayAudio] = useState(false);
   const [hoveredCard, setHoveredCard] = useState(null);
   const rowRef = useRef(null);
-
-  // Add keyframes to the document head
   useEffect(() => {
     const styleTag = document.createElement('style');
     styleTag.innerHTML = `
@@ -318,7 +316,7 @@ const episodes = [
         ref={rowRef}
         style={{
           ...styles.row,
-          '&::-webkit-scrollbar': { display: 'none' } // This won't work inline, see note below
+          '&::-webkit-scrollbar': { display: 'none' } 
         }}
       >
         {episodes.map((episode) => {
@@ -334,7 +332,6 @@ const episodes = [
               onMouseLeave={handleMouseLeave}
             >
               <div style={styles.episodeCard}>
-                {/* Front Card */}
                 <div style={{
                   ...styles.card,
                   ...styles.front,
@@ -358,8 +355,6 @@ const episodes = [
                     </p>
                   </div>
                 </div>
-
-                {/* Back Card */}
                 <div style={{
                   ...styles.card,
                   ...styles.back,
@@ -393,8 +388,6 @@ const episodes = [
                     </div>
                   </div>
                 </div>
-
-                {/* Audio element for this card */}
                 <audio
                   ref={(el) => (audioRefs.current[episode.id] = el)}
                   src="/assets/sounds/crazy.mp3"

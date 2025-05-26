@@ -3,11 +3,11 @@ import { FaStar, FaPlay, FaBookmark } from "react-icons/fa";
 import { FaFire,  FaRocket, FaHeart, FaRegLaughSquint } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 const badgeIcons = {
-  "Trending": <FaFire className="ms-1" />,       // 🔥 for Trending
-  "Popular": <FaStar className="ms-1" />,        // ⭐ for Popular
-  "New": <FaRocket className="ms-1" />,          // 🚀 for New
-  "Fan Favorite": <FaHeart className="ms-1" />,  // ❤️ for Fan Favorite
-  "Funny": <FaRegLaughSquint className="ms-1" />, // 😆 for Funny
+  "Trending": <FaFire className="ms-1" />,       
+  "Popular": <FaStar className="ms-1" />,      
+  "New": <FaRocket className="ms-1" />,          
+  "Fan Favorite": <FaHeart className="ms-1" />,  
+  "Funny": <FaRegLaughSquint className="ms-1" />, 
 };
 const badgeColors = {
   "Trending": "#FF1493",
@@ -26,12 +26,12 @@ const styles = {
     display: 'flex',
     flexWrap: 'nowrap',
     overflowX: 'auto',
-    scrollbarWidth: 'none',  // For Firefox
-    msOverflowStyle: 'none', // For IE/Edge
+    scrollbarWidth: 'none',  
+    msOverflowStyle: 'none', 
     '&::-webkit-scrollbar': {
-      display: 'none' // For Chrome/Safari
+      display: 'none' 
     },
-    paddingBottom: '20px', // Space for cards
+    paddingBottom: '20px', 
     marginLeft: '-10px',
     marginRight: '-10px'
   },
@@ -72,7 +72,7 @@ const styles = {
 imageContainer: {
   height: '370px',
   overflow: 'hidden',
-  position: "relative", // ✅ Required for absolute positioning
+  position: "relative", 
   width: "100%",
 },
 badge: {
@@ -87,9 +87,9 @@ badge: {
   fontSize: "14px",
   zIndex: 10,
   boxShadow: "0px 2px 6px rgba(0, 0, 0, 0.3)",
-  display: "flex",          // Align icon and text
-  alignItems: "center",     // Vertically center
-  gap: "4px",               // Space between text and icon
+  display: "flex",          
+  alignItems: "center",     
+  gap: "4px",               
 },
   normalState: {
     padding: '10px 15px',
@@ -142,7 +142,7 @@ const episodes = [
     season: 1,
     votes: 387,
     details: "Someone rigged the staplers with tiny rubber bands, making them 'fly' across the desk when pressed. The accounting department still finds staples in unexpected places.",
-    badgeText: "Trending" // 🔥
+    badgeText: "Trending" 
   },
   {
     id: 2,
@@ -154,7 +154,7 @@ const episodes = [
     season: 2,
     votes: 342,
     details: "Every office plant was moved to a different desk. The cactus ended up with HR, while the sensitive fern found itself in the break room microwave.",
-    badgeText: "Popular" // ⭐
+    badgeText: "Popular" 
   },
   {
     id: 3,
@@ -166,7 +166,7 @@ const episodes = [
     season: 1,
     votes: 456,
     details: "Someone kept moving people's lunches just slightly - enough to make everyone question their memory. The tuna sandwich that kept appearing in different fridges became legendary.",
-    badgeText: "Fan Favorite" // ❤️
+    badgeText: "Fan Favorite" 
   },
   {
     id: 4,
@@ -178,7 +178,7 @@ const episodes = [
     season: 3,
     votes: 521,
     details: "The elevator was transformed into a disco party every time it reached the 3rd floor. Complete with lights, music, and a tiny disco ball that dropped from the ceiling.",
-    badgeText: "Trending" // 🔥
+    badgeText: "Trending" 
   },
   {
     id: 5,
@@ -190,7 +190,7 @@ const episodes = [
     season: 2,
     votes: 398,
     details: "Everyone's titles got creative upgrades overnight. Interns became 'Supreme Overlords', managers turned into 'Chief Fun Officers', and the CEO's plate read 'Head Janitor'.",
-    badgeText: "Funny" // 😆
+    badgeText: "Funny" 
   },
   {
     id: 6,
@@ -202,7 +202,7 @@ const episodes = [
     season: 1,
     votes: 432,
     details: "Someone distributed bingo cards with common meeting phrases. The first person to shout 'Bingo!' during the budget presentation nearly got fired (but got promoted instead).",
-    badgeText: "Popular" // ⭐
+    badgeText: "Popular" 
   },
   {
     id: 7,
@@ -214,7 +214,7 @@ const episodes = [
     season: 3,
     votes: 367,
     details: "All the parking space name tags were randomly reassigned. The CEO ended up in spot #47 while the new intern parked in the VIP space for a glorious two hours.",
-    badgeText: "New" // 🚀
+    badgeText: "New" 
   },
   {
     id: 8,
@@ -226,7 +226,7 @@ const episodes = [
     season: 2,
     votes: 489,
     details: "The bathroom motion sensors were reprogrammed to play dramatic opera music whenever someone entered. The stall doors would 'applaud' when occupants left.",
-    badgeText: "Fan Favorite" // ❤️
+    badgeText: "Fan Favorite" 
   },
   {
     id: 9,
@@ -238,7 +238,7 @@ const episodes = [
     season: 1,
     votes: 412,
     details: "All department names were changed to reflect a fake merger with a chocolate factory. Marketing became 'Wonka Vision', IT turned into 'Oompa Loompa Tech Support'.",
-    badgeText: "Funny" // 😆
+    badgeText: "Funny" 
   },
   {
     id: 10,
@@ -250,7 +250,7 @@ const episodes = [
     season: 3,
     votes: 534,
     details: "Someone declared it 'Reverse Birthday' where instead of receiving gifts, everyone had to give random items to coworkers. The CFO still has that half-eaten granola bar from accounting.",
-    badgeText: "Trending" // 🔥
+    badgeText: "Trending" 
   }
 ];
 
@@ -258,8 +258,6 @@ const episodes = [
   const [canPlayAudio, setCanPlayAudio] = useState(false);
   const [hoveredCard, setHoveredCard] = useState(null);
   const rowRef = useRef(null);
-
-  // Add keyframes to the document head
   useEffect(() => {
     const styleTag = document.createElement('style');
     styleTag.innerHTML = `
@@ -318,7 +316,7 @@ const episodes = [
         ref={rowRef}
         style={{
           ...styles.row,
-          '&::-webkit-scrollbar': { display: 'none' } // This won't work inline, see note below
+          '&::-webkit-scrollbar': { display: 'none' }
         }}
       >
         {episodes.map((episode) => {
@@ -334,7 +332,6 @@ const episodes = [
               onMouseLeave={handleMouseLeave}
             >
               <div style={styles.episodeCard}>
-                {/* Front Card */}
                 <div style={{
                   ...styles.card,
                   ...styles.front,
@@ -358,8 +355,6 @@ const episodes = [
                     </p>
                   </div>
                 </div>
-
-                {/* Back Card */}
                 <div style={{
                   ...styles.card,
                   ...styles.back,
@@ -393,8 +388,6 @@ const episodes = [
                     </div>
                   </div>
                 </div>
-
-                {/* Audio element for this card */}
                 <audio
                   ref={(el) => (audioRefs.current[episode.id] = el)}
                   src="/assets/sounds/crazy.mp3"
