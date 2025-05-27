@@ -1,15 +1,27 @@
-import React from 'react';
+import React from "react";
 import {
-  PlayArrow, MoreVert, ThumbUp, Share, PlaylistAdd,
-  FiberManualRecord, CheckCircle
-} from '@mui/icons-material';
+  PlayArrow,
+  MoreVert,
+  ThumbUp,
+  Share,
+  PlaylistAdd,
+  FiberManualRecord,
+  CheckCircle,
+} from "@mui/icons-material";
 import {
-  List, ListItem, ListItemIcon, ListItemText,
-  Typography, Divider, IconButton, Button, Box,
-  Chip, Stack
-} from '@mui/material';
-import { Container, Row, Col } from 'react-bootstrap';
-
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Typography,
+  Divider,
+  IconButton,
+  Button,
+  Box,
+  Chip,
+  Stack,
+} from "@mui/material";
+import { Container, Row, Col } from "react-bootstrap";
 const PlaylistSidebar = () => {
   const playlists = [
     {
@@ -17,64 +29,66 @@ const PlaylistSidebar = () => {
       channel: "Aditya Music",
       views: "4M views",
       time: "9 years ago",
-      verified: true
+      verified: true,
     },
     {
       title: "Mix – #NeedChoopule Full Song With TeluguLyrics",
       channel: "Ram Pothineni, Haricharan, Sonu Nigam",
-      time: "Updated today"
+      time: "Updated today",
     },
     {
       title: "Old Hindi Songs ♫ Unplugged ♫ Unplugged Covers! Song II...",
       channel: "The Editsmith",
       views: "25M views",
       time: "1 year ago",
-      active: true
+      active: true,
     },
     {
       title: "Best of KK | Singer KK Songs | Aditya Music Telugu #RIPKK",
       channel: "Aditya Music PLAYBACK",
       views: "1.5M views",
       time: "2 years ago",
-      verified: true
+      verified: true,
     },
     {
       title: "Sid sriram top songs#songs #latest #romantic",
-      channel: "Sid Sriram Official"
+      channel: "Sid Sriram Official",
     },
     {
       title: "Chill Songs Vol.03",
-      duration: "0:10 / 1:42:12 · 01.Yours My"
+      duration: "0:10 / 1:42:12 · 01.Yours My",
     },
     {
       title: "Chill Songs Vol.03 | Smooth & Mellow Vibes for Work & Study",
       channel: "MocktailMusic",
-      subscribers: "16.8K subscribers"
-    }
+      subscribers: "16.8K subscribers",
+    },
   ];
-
   return (
     <Container fluid className="p-0">
       <Row>
         <Col md={12} className="p-0">
-          <Box sx={{ bgcolor: 'background.paper' }} className="shadow-sm">
+          <Box sx={{ bgcolor: "background.paper" }} className="shadow-sm">
             {/* Header */}
-            <Box sx={{ p: 2 }} className="d-flex justify-content-between align-items-center">
+            <Box
+              sx={{ p: 2 }}
+              className="d-flex justify-content-between align-items-center"
+            >
               <Typography variant="h6" component="div">
                 Playlists
               </Typography>
               <Stack direction="row" spacing={1}>
-                <Button 
-                  variant="text" 
-                  size="small" 
+                <Button
+                  variant="text"
+                  size="small"
                   startIcon={<PlayArrow />}
                   className="text-secondary"
                 >
                   Play all
                 </Button>
-                <Button 
-                  variant="text" 
-                  size="small" 
+                <Button
+                  variant="text"
+                  size="small"
                   startIcon={<PlaylistAdd />}
                   className="text-secondary"
                 >
@@ -82,11 +96,8 @@ const PlaylistSidebar = () => {
                 </Button>
               </Stack>
             </Box>
-
             <Divider />
-
-            {/* Playlist Items */}
-            <List dense sx={{ width: '100%', bgcolor: 'background.paper' }}>
+            <List dense sx={{ width: "100%", bgcolor: "background.paper" }}>
               {playlists.map((item, index) => (
                 <React.Fragment key={index}>
                   <ListItem
@@ -97,8 +108,8 @@ const PlaylistSidebar = () => {
                       </IconButton>
                     }
                     sx={{
-                      bgcolor: item.active ? 'action.selected' : 'inherit',
-                      '&:hover': { bgcolor: 'action.hover' }
+                      bgcolor: item.active ? "action.selected" : "inherit",
+                      "&:hover": { bgcolor: "action.hover" },
                     }}
                   >
                     <ListItemIcon sx={{ minWidth: 36 }}>
@@ -112,8 +123,8 @@ const PlaylistSidebar = () => {
                     </ListItemIcon>
                     <ListItemText
                       primary={
-                        <Typography 
-                          variant="body2" 
+                        <Typography
+                          variant="body2"
                           sx={{ fontWeight: item.active ? 600 : 400 }}
                           noWrap
                         >
@@ -122,26 +133,34 @@ const PlaylistSidebar = () => {
                       }
                       secondary={
                         <React.Fragment>
-                          <Stack direction="row" spacing={0.5} alignItems="center">
+                          <Stack
+                            direction="row"
+                            spacing={0.5}
+                            alignItems="center"
+                          >
                             <Typography
                               component="span"
                               variant="caption"
                               color="text.primary"
-                              sx={{ display: 'inline' }}
+                              sx={{ display: "inline" }}
                             >
                               {item.channel}
                             </Typography>
                             {item.verified && (
-                              <CheckCircle color="primary" sx={{ fontSize: '0.8rem' }} />
+                              <CheckCircle
+                                color="primary"
+                                sx={{ fontSize: "0.8rem" }}
+                              />
                             )}
                           </Stack>
                           <Typography
                             component="span"
                             variant="caption"
                             color="text.secondary"
-                            sx={{ display: 'block' }}
+                            sx={{ display: "block" }}
                           >
-                            {item.views && `${item.views} · `}{item.time || item.duration}
+                            {item.views && `${item.views} · `}
+                            {item.time || item.duration}
                           </Typography>
                         </React.Fragment>
                       }
@@ -151,10 +170,12 @@ const PlaylistSidebar = () => {
                 </React.Fragment>
               ))}
             </List>
-
-            {/* Footer */}
             <Box sx={{ p: 2 }} className="bg-light">
-              <Stack direction="row" justifyContent="space-between" alignItems="center">
+              <Stack
+                direction="row"
+                justifyContent="space-between"
+                alignItems="center"
+              >
                 <Box>
                   <Typography variant="subtitle2" gutterBottom>
                     MocktailMusic
@@ -164,21 +185,21 @@ const PlaylistSidebar = () => {
                   </Typography>
                 </Box>
                 <Stack direction="row" spacing={1}>
-                  <Chip 
+                  <Chip
                     icon={<ThumbUp fontSize="small" />}
                     label="2.6K"
                     size="small"
                     variant="outlined"
                   />
-                  <Chip 
+                  <Chip
                     icon={<Share fontSize="small" />}
                     label="Share"
                     size="small"
                     variant="outlined"
                   />
-                  <Button 
-                    variant="contained" 
-                    color="error" 
+                  <Button
+                    variant="contained"
+                    color="error"
                     size="small"
                     sx={{ borderRadius: 20 }}
                   >

@@ -9,29 +9,54 @@ import "./Downloads.scss";
 const Downloads = () => {
   let nav = useNavigate();
   const [history, setHistory] = useState([
-    { id: 1, title: "Shin Chan:", date: "2025-02-24", thumbnail: "/Avatars/Shin-Chan-PNG.png" },
-    { id: 2, title: "Shiva", date: "2025-02-22", thumbnail: "/Avatars/Shiva.png" },
-    { id: 3, title: "The mefirst wizard", date: "2025-02-22", thumbnail: "/Avatars/Dargons.jpg" },
-    { id: 4, title: "Kid Vs Kat", date: "2025-02-20", thumbnail: "/Avatars/Kid.png" },
-    { id: 5, title: "Doraemon", date: "2025-02-18", thumbnail: "/Avatars/Doraemonc.jpg" },
-    { id: 6, title: "Tom And Jerry", date: "2025-02-16", thumbnail: "/Avatars/Tom.png" },
+    {
+      id: 1,
+      title: "Shin Chan:",
+      date: "2025-02-24",
+      thumbnail: "/Avatars/Shin-Chan-PNG.png",
+    },
+    {
+      id: 2,
+      title: "Shiva",
+      date: "2025-02-22",
+      thumbnail: "/Avatars/Shiva.png",
+    },
+    {
+      id: 3,
+      title: "The mefirst wizard",
+      date: "2025-02-22",
+      thumbnail: "/Avatars/Dargons.jpg",
+    },
+    {
+      id: 4,
+      title: "Kid Vs Kat",
+      date: "2025-02-20",
+      thumbnail: "/Avatars/Kid.png",
+    },
+    {
+      id: 5,
+      title: "Doraemon",
+      date: "2025-02-18",
+      thumbnail: "/Avatars/Doraemonc.jpg",
+    },
+    {
+      id: 6,
+      title: "Tom And Jerry",
+      date: "2025-02-16",
+      thumbnail: "/Avatars/Tom.png",
+    },
   ]);
-
   const handleDelete = (id) => {
     setHistory(history.filter((item) => item.id !== id));
     toast.error("Download deleted!");
   };
-
   const handleClearHistory = () => {
     setHistory([]);
     toast.warning("All downloads cleared!");
   };
-
   const navigate = useNavigate();
-
   return (
     <div className="download-page">
-      {/* Emoji floating background */}
       <div className="emoji-background">
         <span className="emoji">🤣</span>
         <span className="emoji">😜</span>
@@ -39,7 +64,6 @@ const Downloads = () => {
         <span className="emoji">🍥</span>
         <span className="emoji">🌀</span>
       </div>
-
       <Container fluid className="px-0">
         <div className="top-bar">
           <Button
@@ -52,7 +76,6 @@ const Downloads = () => {
           </Button>
           <h2 className="download-title">Downloads</h2>
         </div>
-
         <Row className="gx-0">
           {history.length > 0 ? (
             history.map((item) => (
@@ -73,7 +96,11 @@ const Downloads = () => {
                       >
                         <Delete />
                       </IconButton>
-                      <IconButton className="playing" color="primary" onClick={()=>nav('/WatchEpisode')}>
+                      <IconButton
+                        className="playing"
+                        color="primary"
+                        onClick={() => nav("/WatchEpisode")}
+                      >
                         <PlayArrow />
                       </IconButton>
                     </div>
@@ -85,7 +112,6 @@ const Downloads = () => {
             <p>Downloads are not available.</p>
           )}
         </Row>
-
         {history.length > 0 && (
           <div className="clear-button-wrapper">
             <Button variant="danger" onClick={handleClearHistory}>
@@ -93,11 +119,9 @@ const Downloads = () => {
             </Button>
           </div>
         )}
-
         <ToastContainer position="bottom-right" autoClose={3000} />
       </Container>
     </div>
   );
 };
-
 export default Downloads;

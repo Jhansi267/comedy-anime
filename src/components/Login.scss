@@ -1,241 +1,200 @@
-$page-bg: 'https://wallpapers.com/images/high/el-reino-infantil-sheep-in-the-room-8l6zhwed6ul5n2zm.webp';
-
-.page {
+.login-container {
   display: flex;
   height: 100vh;
-  font-family: 'Poppins', sans-serif;
-  
-  /* Background image with overlay */
-  background: 
-    linear-gradient(to right, rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.85)),
-    url(#{$page-bg}) no-repeat center center fixed;
-  background-size: cover;
+  font-family: sans-serif;
+  flex-direction: row;
+  background: #ffcc00;
 }
-
-.left-side {
+.image-section {
   flex: 1;
   position: relative;
-
-  /* Removed previous bg-image, using page background */
+  display: block;
 }
 
-.centered-quote {
+.laundry-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.image-text {
   position: absolute;
-  top: 20%;
+  top: 50%;
   left: 10%;
-  right: 30%;
-  text-align: center;
+  transform: translateY(-50%);
+  color: white;
+  text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5);
 }
-
-.quote {
-  font-size: 21px;
-  font-style: italic;
-  color: #ff69b4;
-  text-shadow: 1px 1px 4px rgba(26, 23, 23, 0.7);
-  margin: 0;
-}
-
-.right-side {
+.auth-section {
   flex: 1;
-  background-color: #f7f7f7cc; /* slight transparency to see background */
+  padding: 40px;
+    background: radial-gradient(circle at 20% 30%, #fff59d, transparent 30%),
+              radial-gradient(circle at 80% 40%, #ff80ab, transparent 40%),
+              radial-gradient(circle at 50% 80%, #81d4fa, transparent 50%),
+              linear-gradient(135deg, #ffe0b2 0%, #ffccbc 100%);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 40px;
 }
 
-.login-card {
-  background-color: #fff;
-  padding: 40px 35px;
-  border-radius: 20px;
+.form-wrapper {
   width: 100%;
   max-width: 400px;
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+}
+.toggle-buttons {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  margin-bottom: 20px;
 }
 
-.card-title {
-  margin-bottom: 30px;
-  font-weight: 700;
-  font-size: 28px;
-  text-align: center;
-  color: #ff69b4;
-}
-
-.form {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-}
-
-.input-group {
-  position: relative;
-  margin-bottom: 25px;
-  width: 100%;
-
-  &.otp-group {
-    display: flex;
-    justify-content: space-between;
-
-    input {
-      width: 45px;
-      font-size: 24px;
-      text-align: center;
-      padding: 10px;
-      border-radius: 8px;
-      border: 1.5px solid #ddd;
-      outline: none;
-      transition: border-color 0.3s;
-
-      &:focus {
-        border-color: #ff4c60;
-      }
-    }
-  }
-}
-
-.icon {
-  position: absolute;
-  top: 50%;
-  left: 15px;
-  transform: translateY(-50%);
-  font-size: 18px;
-  color: #888;
-}
-
-.input {
-  width: 100%;
-  padding: 12px 12px 12px 45px;
-  border-radius: 8px;
-  border: 1.5px solid #ddd;
-  font-size: 16px;
-  outline: none;
-  transition: border-color 0.3s;
-  box-sizing: border-box;
-  padding-right: 40px;
-
-  &:focus {
-    border-color: #ff4c60;
-  }
-}
-
-.eye-icon {
-  position: absolute;
-  top: 50%;
-  right: 12px;
-  transform: translateY(-50%);
+.toggle-btn {
+  flex: 1;
+  padding: 12px;
+  font-weight: bold;
+  border: none;
   cursor: pointer;
-  user-select: none;
-  width: 24px;
-  height: 24px;
+  background-color: #eee;
+  color: #333;
+  transition: 0.3s;
+}
+
+.toggle-btn.active {
+  background-color:#d6304d;
+  color: white;
+}
+
+.toggle-btn:first-child {
+  border-top-left-radius: 12px;
+  border-bottom-left-radius: 12px;
+}
+
+.toggle-btn:last-child {
+  border-top-right-radius: 12px;
+  border-bottom-right-radius: 12px;
+}
+.submit-btn {
+  padding: 10px;
+  background-color: #d6304d;
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  width: 100%;
+}
+.forgot-password-section {
   display: flex;
+  align-items: center;
+  margin-top: 12px;
+  font-size: 14px;
+}
+
+.forgot-password-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.forgot-password-label input {
+  margin-right: 6px;
+}
+.continue-and-forgot {
+  display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-}
-
-/* General button style */
-.button {
-  width: 100%;
-  padding: 14px 0;
-  background-color: #ff4c60;
-  color: #fff;
-  font-weight: 600;
-  font-size: 18px;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-
-  &:hover {
-    background-color: #e04356;
-  }
-}
-
-/* Specific smaller button for OTP section */
-/* Add this class to container wrapping OTP inputs and button */
-.otp-section {
-  .button {
-    padding: 10px 0;    /* decreased button height */
-    font-size: 16px;    /* smaller font size */
-  }
-}
-
-.error {
-  color: #e63946;
-  margin-bottom: 12px;
-  font-weight: 600;
+  margin-top: 16px;
   font-size: 14px;
+  gap: 6px;
   text-align: center;
 }
 
-.success {
-  color: #2a9d8f;
-  margin-bottom: 12px;
-  font-weight: 600;
-  font-size: 14px;
-  text-align: center;
+.continue-and-forgot a {
+  color: #6c63ff;
+  font-weight: 500;
+  text-decoration: none;
 }
 
-.extra-options {
+.continue-and-forgot p {
+  margin: 0;
+  color: #555;
+  font-weight: 500;
+}
+.social-login {
+  text-align: center;
   margin-top: 20px;
-  text-align: center;
-
-  .forgot {
-    background: none;
-    border: none;
-    color: #888;
-    font-size: 14px;
-    cursor: pointer;
-    text-decoration: underline;
-
-    &:hover {
-      color: #ff4c60;
-    }
-  }
-
-  .signup-text {
-    font-size: 14px;
-    color: #666;
-    margin-top: 10px;
-
-    a {
-      color: #ff4c60;
-      font-weight: 600;
-      text-decoration: none;
-
-      &:hover {
-        text-decoration: underline;
-      }
-    }
-  }
 }
 
-/* Specific styling for OTP input boxes container */
-.otp-inputs {
+.social-icons {
   display: flex;
-  justify-content: space-between;
-  gap: 10px;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 10px;
 }
 
-/* For smaller screens */
-@media (max-width: 480px) {
-  .login-card {
-    padding: 30px 25px;
-    max-width: 320px;
+.social-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 50%;
+  transition: transform 0.2s ease;
+}
+
+.social-btn:hover {
+  transform: scale(1.1);
+}
+
+.social-btn img {
+  width: 36px;
+  height: 36px;
+}
+.guest-login-btn {
+  display: block;
+  width: 100%;
+  margin-top: 25px;
+  padding: 12px;
+  background-color: #f5f5f5;
+  border: 2px dashed #aaa;
+  border-radius: 10px;
+  font-weight: bold;
+  color: #555;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.guest-login-btn:hover {
+  background-color: #e0e0e0;
+}
+
+@media screen and (max-width: 768px) {
+  .login-container {
+    flex-direction: column;
   }
 
-  .card-title {
-    font-size: 24px;
+  .image-section {
+    height: 150px;
+    flex: none;
+    position: relative;
   }
 
-  .input {
-    font-size: 14px;
+  .laundry-image {
+    height: 100%;
+    object-fit: cover;
   }
 
-  .button {
-    font-size: 16px;
-    padding: 12px 0;
+  .image-text {
+    position: absolute;
+    top: 50%;
+    left: 20px;
+    transform: translateY(-50%);
+    font-size: 1.2rem;
+  }
+
+  .form-section {
+    flex: none;
+    padding: 20px;
   }
 }

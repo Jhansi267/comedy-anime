@@ -2,32 +2,26 @@
   padding: 2rem 0;
   color: #fff;
   min-height: 100vh;
-  //background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
-
   .MuiPaper-root {
     background: rgba(26, 26, 46, 0.8);
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.1);
   }
-
   .MuiTabs-root {
     .MuiTab-root {
       color: rgba(255, 255, 255, 0.7);
       font-weight: 500;
       text-transform: none;
       font-size: 1rem;
-
       &.Mui-selected {
         color: #FF6B6B;
       }
     }
-
     .MuiTabs-indicator {
       background-color: #FF6B6B;
       height: 3px;
     }
   }
-
   .MuiTextField-root {
     .MuiOutlinedInput-root {
       fieldset {
@@ -38,26 +32,21 @@
         border-color: #FF6B6B;
       }
     }
-
     .Mui-focused .MuiOutlinedInput-notchedOutline {
       border-color: #FF6B6B !important;
     }
   }
-
   .MuiButton-contained {
     box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
     transition: all 0.3s ease;
-
     &:hover {
       transform: translateY(-2px);
       box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
     }
   }
-
   .MuiList-root {
     .MuiListItem-root {
       transition: background-color 0.2s ease;
-
       &:hover {
         background-color: rgba(255, 107, 107, 0.1);
       }
