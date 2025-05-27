@@ -19,3 +19,11 @@ input:-webkit-autofill:active {
   background-color: transparent !important;
   box-shadow: 0 0 0px 1000px transparent inset !important;
 }
+input[type="password"]::-webkit-credentials-auto-fill-button {
+  visibility: hidden;
+  display: none !important;
+}
+input[type="password"]::-ms-reveal,
+input[type="password"]::-ms-clear {
+  display: none;
+}
