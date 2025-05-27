@@ -214,17 +214,13 @@ const Accountsetting = () => {
         >
           Back
         </Button>
-        <Typography
-          variant="h4"
-          component="h1"
-          sx={{
-            fontWeight: "bold",
-            background: "linear-gradient(45deg, #FF6B6B 30%, #FF8E53 90%)",
-            WebkitBackgroundClip: "text",
-            WebkitTextFillColor: "transparent",
-          }}
-        >
-          Comedy OTT Account Settings
+        <Typography variant="h4" component="h1" sx={{ 
+          fontWeight: 'bold',
+          background: 'linear-gradient(45deg, #FF6B6B 30%, #FF8E53 90%)',
+          WebkitBackgroundClip: 'text',
+          WebkitTextFillColor: 'transparent'
+        }}>
+          LOL OTT Account Settings
         </Typography>
       </Box>
       <ToastContainer position="top-right" autoClose={3000} />
@@ -346,6 +342,7 @@ const Accountsetting = () => {
                 }}
               />
               <Button
+              onClick={() => navigate(-1)} 
                 type="submit"
                 variant="contained"
                 style={{
@@ -467,8 +464,10 @@ const Accountsetting = () => {
                 variant="contained"
                 color="secondary"
                 size="large"
-                sx={{ fontWeight: "bold" }}
+                sx={{ fontWeight: 'bold' }}
+                 style={{background: 'linear-gradient(to right, #ff758c, #ff7eb3, #ff8c7e, #ff9a5a)'}}
               >
+                    
                 Change Password
               </Button>
             </Box>

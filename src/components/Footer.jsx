@@ -39,42 +39,12 @@ const Footer = () => {
             </ul>
           </div>
           <div className="col-12 col-sm-12 col-md-4 col-lg-4">
-            <ul className="mt-2" style={{ listStyle: "none" }}>
-              <li
-                className="mb-3 home-ul"
-                onClick={() => nav("/home")}
-                style={{ cursor: "pointer" }}
-              >
-                Home
-              </li>
-              <li
-                className="mb-3 home-ul"
-                onClick={() => nav("/Subscription")}
-                style={{ cursor: "pointer" }}
-              >
-                LOL Pass
-              </li>
-              <li
-                className="mb-3 home-ul"
-                onClick={() => nav("/Wishlist")}
-                style={{ cursor: "pointer" }}
-              >
-                WhishList
-              </li>
-              <li
-                className="mb-3 home-ul"
-                onClick={() => nav("/FanRankings")}
-                style={{ cursor: "pointer" }}
-              >
-                Ranking
-              </li>
-              <li
-                className="home-ul"
-                onClick={() => nav("/Profile")}
-                style={{ cursor: "pointer" }}
-              >
-                Profile
-              </li>
+            <ul className="mt-2" style={{listStyle:"none"}}>
+              <li className='mb-3 home-ul' onClick={()=>nav('/home')} style={{cursor:'pointer'}}>Home</li>
+              <li className='mb-3 home-ul' onClick={()=>nav('/Subscription')} style={{cursor:'pointer'}}>LOL Pass</li>
+              <li className='mb-3 home-ul' onClick={()=>nav('/Wishlist')} style={{cursor:'pointer'}}>WhishList</li>
+              <li className='mb-3 home-ul' onClick={()=>nav('/FanRankings')} style={{cursor:'pointer'}}>Ranking</li>
+              <li className='home-ul' onClick={()=>nav('/Profile')} style={{cursor:'pointer'}}>Profile</li>
             </ul>
           </div>
           <div className="col-12 col-sm-12 col-md-4 col-lg-4">

@@ -3,7 +3,7 @@ import { FaStar, FaPlay } from "react-icons/fa";
 import DeleteIcon from '@mui/icons-material/Delete';
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import { FaFire,  FaRocket, FaHeart, FaRegLaughSquint } from "react-icons/fa";
+import { FaFire, FaRocket, FaHeart, FaRegLaughSquint } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { IconButton } from "@mui/material";
 
@@ -260,7 +260,7 @@ const WishList = () => {
       }
     `;
     document.head.appendChild(styleTag);
-    
+
     return () => {
       document.head.removeChild(styleTag);
     };
@@ -277,7 +277,7 @@ const WishList = () => {
 
   const handleMouseEnter = (id) => {
     setHoveredCard(id);
-    
+
     if (!canPlayAudio) return;
 
     const audio = audioRefs.current[id];
@@ -299,15 +299,15 @@ const WishList = () => {
 
   return (
     <>
-      <Navbar/>
-      <div className="container py-4" style={{marginTop:'97px'}}>
+      <Navbar />
+      <div className="container py-4" style={{ marginTop: '97px' }}>
         <h1 className="mb-4">WishList Items</h1>
         <div className="row g-4">
           {episodes.map((episode) => {
             const isHovered = hoveredCard === episode.id;
             const frontTransform = isHovered ? 'rotateY(180deg)' : 'rotateY(0deg)';
             const backTransform = isHovered ? 'rotateY(0deg)' : 'rotateY(180deg)';
-            
+
             return (
               <div
                 key={episode.id}
@@ -316,7 +316,6 @@ const WishList = () => {
                 onMouseLeave={handleMouseLeave}
               >
                 <div style={styles.episodeCard}>
-                  {/* Front Card */}
                   <div style={{
                     ...styles.card,
                     ...styles.front,
@@ -325,7 +324,7 @@ const WishList = () => {
                   }}>
                     <div style={styles.imageContainer}>
                       <div style={{ ...styles.badge, backgroundColor: badgeColors[episode.badgeText] }}>
-                        {episode.badgeText} 
+                        {episode.badgeText}
                         {badgeIcons[episode.badgeText]}
                       </div>
                       <img
@@ -340,8 +339,6 @@ const WishList = () => {
                       </p>
                     </div>
                   </div>
-
-                  {/* Back Card */}
                   <div style={{
                     ...styles.card,
                     ...styles.back,
@@ -375,8 +372,6 @@ const WishList = () => {
                       </div>
                     </div>
                   </div>
-
-                  {/* Audio element for this card */}
                   <audio
                     ref={(el) => (audioRefs.current[episode.id] = el)}
                     src="/assets/sounds/crazy.mp3"
@@ -388,9 +383,8 @@ const WishList = () => {
           })}
         </div>
       </div>
-      <Footer/>
+      <Footer />
     </>
   );
 };
-
-export default WishList
+export default WishList;

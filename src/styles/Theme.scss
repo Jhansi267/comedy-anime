@@ -1,30 +1,25 @@
-/* comedy-theme.css */
+
 body {
 font-family: 'Comic Neue', 'Patrick Hand', 'Caveat', cursive;
 background: linear-gradient(to right, #FF4E89, #6EC1E4);
   overflow-x: hidden;
   position: relative;
-  min-height: 400vh; /* ensure enough height for decorations */
+  min-height: 400vh; 
 }
-
-/* Wrapper to hold all decoration elements */
 .comedy-decor-wrapper {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
-  height: 400vh; /* tall enough for scrolling page decorations */
+  height: 400vh; 
   pointer-events: none;
   z-index: 0;
 }
-
-/* Background elements */
 .background-decor {
   position: absolute;
   opacity: 0.3;
   z-index: -1;
 }
-
 .banana-peel {
   background: url('../../public/assets/images/laugh.png') no-repeat center;
   background-size: contain;
@@ -32,7 +27,6 @@ background: linear-gradient(to right, #FF4E89, #6EC1E4);
   height: 60px;
   animation: spin 10s linear infinite;
 }
-
 .confetti {
   background: url('../../public/assets/images/chicken3.png') repeat;
   height: 100vh;
@@ -42,7 +36,6 @@ background: linear-gradient(to right, #FF4E89, #6EC1E4);
   pointer-events: none;
   z-index: 0;
 }
-
 .floating-icon {
   position: absolute;
   animation: float 6s ease-in-out infinite;
@@ -52,8 +45,6 @@ background: linear-gradient(to right, #FF4E89, #6EC1E4);
   height: 100px;
   opacity: 0.7;
 }
-
-/* Keyframes */
 @keyframes spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
@@ -64,8 +55,6 @@ background: linear-gradient(to right, #FF4E89, #6EC1E4);
   50% { transform: translateY(-20px); }
   100% { transform: translateY(0px); }
 }
-
-/* Speech bubble */
 .speech-bubble {
   position: relative;
   background: #fff;
@@ -75,7 +64,6 @@ background: linear-gradient(to right, #FF4E89, #6EC1E4);
   max-width: 300px;
   font-family: 'Patrick Hand', cursive;
 }
-
 .speech-bubble::after {
   content: '';
   position: absolute;
@@ -90,13 +78,9 @@ background: linear-gradient(to right, #FF4E89, #6EC1E4);
   margin-left: -5px;
   transform: rotate(-45deg);
 }
-
-/* Funny floating icons */
 .icon-laugh,
 .icon-banana,
 .icon-sweat,
 .icon-chicken {
-  /* width and height handled by .floating-icon */
-  /* background-size and repeat handled by .floating-icon */
   animation: float 4s ease-in-out infinite;
 }
